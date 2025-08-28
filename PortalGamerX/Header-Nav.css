@@ -1,0 +1,103 @@
+nav {
+  background-color: black;
+  height: 100px;
+  margin-top: -20px;
+}
+
+nav ul {
+  list-style: none;
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 50px;
+  position: relative;
+  margin-top: 10px;
+}
+
+nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
+  position: relative;
+}
+
+nav ul li a::after {
+  content: "";
+  width: 0;
+  height: 5px;
+  background: #6f40f0;
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  transition: 0.5s;
+}
+
+nav ul li a:hover::after {
+  width: 100%;
+}
+
+
+/* Logo PortalGamerX*/
+
+nav .Logo {
+  font-size: 28px;
+  color: #f1c40f; 
+  text-align: left;
+  margin-top: 20px;
+  transform: translate(-650px);
+}
+
+nav .Logo a {
+  color: #f1c40f; 
+  text-decoration: none; 
+  font-weight: bold; 
+}
+
+
+
+/* Estilo menu dropdown */
+h1.text {
+  color: rgb(255, 255, 255); 
+  cursor: pointer;
+  font-size: 18px;
+  font-family: Arial Black, sans-serif;
+}
+
+
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #6f40f0;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border-radius: 5px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: #ffffff;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  font-family: Arial;
+  font-weight: bold;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(32, 23, 23);
+}
