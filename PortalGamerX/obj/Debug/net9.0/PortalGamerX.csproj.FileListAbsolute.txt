@@ -22,9 +22,7 @@ C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\rjsmcshtml.d
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\scopedcss\bundle\PortalGamerX.styles.css
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\scopedcss\projectbundle\PortalGamerX.bundle.scp.css
-C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\sq6zmtca20-b9sayid5wm.gz
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\7fs5qjzn5l-61n19gt1b8.gz
-C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\7c8bgtg74j-xtxxf3hu2r.gz
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\2on9xmwyg2-bqjiyaj88i.gz
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\zhew0awe43-c2jlpeoesf.gz
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\e8tlvjm92u-erw9l3u2r3.gz
@@ -96,3 +94,8 @@ C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\refint\Porta
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\PortalGamerX.pdb
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\PortalGamerX.genruntimeconfig.cache
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\ref\PortalGamerX.dll
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\22kngwttal-52btqufmt0.gz
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\dabvpv0wmb-po80w3wl76.gz
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\jmr1a8xcjw-qxd6ey315w.gz
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\v0gcyjbjp5-n2yqbeq890.gz
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\lgc52355b4-vprdpkwzny.gz
