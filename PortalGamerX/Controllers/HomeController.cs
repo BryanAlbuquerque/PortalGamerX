@@ -18,7 +18,7 @@ namespace PortalGamerX.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult PortalGamerX()
         {
             return View();
         }
