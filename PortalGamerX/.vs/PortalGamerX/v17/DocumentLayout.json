@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\views\\home\\portalgamerx.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\home\\portalgamerx.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,35 +26,8 @@
       "DocumentGroups": [
         {
           "DockedHeight": 275,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ErrorViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Models\\ErrorViewModel.cs",
-              "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
-              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Models\\ErrorViewModel.cs",
-              "RelativeToolTip": "Models\\ErrorViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-09T15:01:12.215Z",
-              "IsPinned": true
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-13T14:23:37.483Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 3,
@@ -71,37 +36,51 @@
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
               "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Controllers\\HomeController.cs",
               "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-09T15:00:39.925Z",
+              "WhenOpened": "2025-10-21T15:31:06.454Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-09T15:00:58.78Z",
+              "WhenOpened": "2025-10-21T15:34:03.727Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T15:29:43.646Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "PortalGamerX.cshtml",
               "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Home\\PortalGamerX.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\PortalGamerX.cshtml",
               "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Home\\PortalGamerX.cshtml",
               "RelativeToolTip": "Views\\Home\\PortalGamerX.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAowHwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-15T14:35:55.59Z",
+              "WhenOpened": "2025-10-21T15:29:30.761Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
@@ -112,19 +91,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T15:36:58.71Z",
-              "EditorCaption": ""
             }
           ]
         }

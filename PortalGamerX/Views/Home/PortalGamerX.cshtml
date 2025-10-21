@@ -1,6 +1,17 @@
-@{
+﻿@{
     ViewData["Title"] = "PortalGamerX";
+    Layout = null; // Para não carregar o layout padrão
 }
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="icon" href="~/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
 
 <body>
     <header>
@@ -8,13 +19,14 @@
             <ul>
                 <li>
                     <div class="Logo">
-                        <a href="Index.html">PortalGamerX</a>
+                        <a asp-controller="Home" asp-action="Index">PortalGamerX</a>
                     </div>
                 </li>
-                <li><a href="PortalGamerX.com.html">Inicio</a></li>
+                <li><a asp-controller="Home" asp-action="PortalGamerX">Início</a></li>
                 <li><a href="#">Explorar</a></li>
+
                 <li class="dropdown">
-                    <h1 class="text">Categorias</h1>
+                    <span class="text">Categorias</span>
                     <div class="dropdown-content">
                         <a href="#">Ação</a>
                         <a href="#">Aventura</a>
@@ -32,6 +44,7 @@
                         <a href="#">Mundo Aberto</a>
                     </div>
                 </li>
+
                 <li><a href="#">Franquias</a></li>
             </ul>
         </nav>
@@ -39,46 +52,35 @@
 
     <div class="container">
         <input class="Pesquisar" type="text" placeholder="Pesquisar...">
-      </div>
-
+    </div>
 
     <ul class="image-list">
         <li class="img1">
             <div class="image-container">
-                <img src="halo.png" alt="Halo">
+                <img src="~/images/halo.png" alt="Halo">
             </div>
         </li>
         <li class="img2">
             <div class="image-container">
-                <img src="assasin.png" alt="Assassin">
+                <img src="~/images/assasin.png" alt="Assassin">
             </div>
         </li>
     </ul>
 
-   
     <main>
         <div class="slider">
             <div class="slides">
-                <div class="slide">
-                    <img src="DAYS.jpg" alt="Imagem do slide 1">
-                </div>
-                <div class="slide">
-                    <img src="GOD.jpg" alt="Imagem do slide 2">
-                </div>
-                <div class="slide">
-                    <img src="Horizon.jpg" alt="Imagem do slide 3">
-                </div>
-                <div class="slide">
-                    <img src="tlous.jpg" alt="Imagem do slide 4">
-                </div>
-                <!-- Adicionar mais slides -->
+                <div class="slide"><img src="~/images/DAYS.jpg" alt="Days Gone"></div>
+                <div class="slide"><img src="~/images/GOD.jpg" alt="God of War"></div>
+                <div class="slide"><img src="~/images/Horizon.jpg" alt="Horizon"></div>
+                <div class="slide"><img src="~/images/tlous.jpg" alt="The Last of Us"></div>
             </div>
+
             <div class="dots">
                 <span class="dot" data-slide="0"></span>
                 <span class="dot" data-slide="1"></span>
                 <span class="dot" data-slide="2"></span>
                 <span class="dot" data-slide="3"></span>
-                <!-- Adicionar mais bolinhas se houver mais slides -->
             </div>
         </div>
     </main>
@@ -98,12 +100,14 @@
                     <li class="Lista"><a href="#">Aventura</a></li>
                     <li class="Lista"><a href="#">Luta</a></li>
                 </ul>
+
                 <ul>
                     <li class="Lista">NOVIDADES</li>
                     <li class="Lista"><a href="#">Promoções</a></li>
                     <li class="Lista"><a href="#">Lançamentos</a></li>
                     <li class="Lista"><a href="#">Notícias</a></li>
                 </ul>
+
                 <ul>
                     <li class="Lista">RECOMENDAÇÕES</li>
                     <li class="Lista"><a href="#">Minecraft</a></li>
@@ -116,8 +120,9 @@
                     <li class="Lista"><a href="#">Disney Speedstorm</a></li>
                     <li class="Lista"><a href="#">GTA 5</a></li>
                     <li class="Lista"><a href="#">FIFA 23</a></li>
-                    <li class="Lista"><a href="#">Horizon Zero Down</a></li>
+                    <li class="Lista"><a href="#">Horizon Zero Dawn</a></li>
                 </ul>
+
                 <ul>
                     <li class="Lista">JOGOS POR CONSOLES</li>
                     <li class="Lista"><a href="#">PLAYSTATION</a></li>
@@ -131,8 +136,6 @@
         </article>
     </aside>
 
-    
-
-    <script src="script.js"></script>
+    <script src="~/js/script.js"></script>
 </body>
 </html>

@@ -1,14 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 
-public class HomeController : Controller
+namespace PortalGamerX.Controllers
 {
-    public IActionResult Index()
+    public class HomeController : Controller
     {
-        return View();
-    }
+        public IActionResult Index()
+        {
+            return View(); // Abre Views/Home/Index.cshtml
+        }
 
-    public IActionResult PortalGamerX()
-    {
-        return View();
+        public IActionResult PortalGamerX()
+        {
+            return View(); // Abre Views/Home/PortalGamerX.cshtml
+        }
     }
 }

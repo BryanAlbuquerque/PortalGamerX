@@ -6,14 +6,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Views\Home\Index.cshtml" />
-    <Content Remove="Views\Home\PortalGamerX.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Home\PortalGamerX.cshtml" />
-  </ItemGroup>
-
 </Project>
