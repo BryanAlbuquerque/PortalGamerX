@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj": {}
+    "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj": {
+    "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
+        "projectUniqueName": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
         "projectName": "PortalGamerX",
-        "projectPath": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
+        "projectPath": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
         "packagesPath": "C:\\Users\\bryan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\obj\\",
+        "outputPath": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

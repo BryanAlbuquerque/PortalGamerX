@@ -9,41 +9,41 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PortalGamerX
 build_property.RootNamespace = PortalGamerX
-build_property.ProjectDir = C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\
+build_property.ProjectDir = C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\bryan\Documents\PortalGamerX\PortalGamerX
+build_property.MSBuildProjectDirectory = C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/bryan/Documents/PortalGamerX/PortalGamerX/Views/Home/Index.cshtml]
+[C:/Users/bryan/OneDrive/Documentos/PortalGamerX/PortalGamerX/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/bryan/Documents/PortalGamerX/PortalGamerX/Views/Home/PortalGamerX.cshtml]
+[C:/Users/bryan/OneDrive/Documentos/PortalGamerX/PortalGamerX/Views/Home/PortalGamerX.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQb3J0YWxHYW1lclguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/bryan/Documents/PortalGamerX/PortalGamerX/Views/Shared/Error.cshtml]
+[C:/Users/bryan/OneDrive/Documentos/PortalGamerX/PortalGamerX/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/bryan/Documents/PortalGamerX/PortalGamerX/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/bryan/OneDrive/Documentos/PortalGamerX/PortalGamerX/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/bryan/Documents/PortalGamerX/PortalGamerX/Views/_ViewImports.cshtml]
+[C:/Users/bryan/OneDrive/Documentos/PortalGamerX/PortalGamerX/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/bryan/Documents/PortalGamerX/PortalGamerX/Views/_ViewStart.cshtml]
+[C:/Users/bryan/OneDrive/Documentos/PortalGamerX/PortalGamerX/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/bryan/Documents/PortalGamerX/PortalGamerX/Views/Shared/_Layout.cshtml]
+[C:/Users/bryan/OneDrive/Documentos/PortalGamerX/PortalGamerX/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-qq92ks6a61
