@@ -3,139 +3,50 @@
     Layout = "_Layout";
 }
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-    <link rel="icon" href="~/images/favicon.png" type="image/png">
-    <link rel="stylesheet" href="~/css/style.css">
-</head>
+<!-- BARRA DE PESQUISA -->
+<div class="search-section">
+    <input type="text" class="Pesquisar" placeholder="Pesquisar..." />
+</div>
 
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li>
-                    <div class="Logo">
-                        <a asp-controller="Home" asp-action="Index">PortalGamerX</a>
-                    </div>
-                </li>
-                <li><a asp-controller="Home" asp-action="PortalGamerX">Início</a></li>
-                <li><a href="#">Explorar</a></li>
-
-                <li class="dropdown">
-                    <span class="text">Categorias</span>
-                    <div class="dropdown-content">
-                        <a href="#">Ação</a>
-                        <a href="#">Aventura</a>
-                        <a href="#">RPG</a>
-                        <a href="#">FPS</a>
-                        <a href="#">Estratégia</a>
-                        <a href="#">Esportes</a>
-                        <a href="#">Corrida</a>
-                        <a href="#">Luta</a>
-                        <a href="#">Tiro</a>
-                        <a href="#">Simulação</a>
-                        <a href="#">Retro</a>
-                        <a href="#">Puzzle</a>
-                        <a href="#">Arcade</a>
-                        <a href="#">Mundo Aberto</a>
-                    </div>
-                </li>
-
-                <li><a href="#">Franquias</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="container">
-        <input class="Pesquisar" type="text" placeholder="Pesquisar...">
+<!-- SLIDER -->
+<section class="slide-section">
+    <div class="slide-container" id="slider">
+        <div class="slide"><img src="~/images/DAYS.jpg" alt="Days Gone" /></div>
+        <div class="slide"><img src="~/images/GOD.jpg" alt="God of War" /></div>
+        <div class="slide"><img src="~/images/Horizon.jpg" alt="Horizon" /></div>
+        <!-- dots -->
+        <div class="dots" id="dots-container"></div>
     </div>
+</section>
 
-    <ul class="image-list">
-        <li class="img1">
-            <div class="image-container">
-                <img src="~/images/halo.png" alt="Halo">
-            </div>
-        </li>
-        <li class="img2">
-            <div class="image-container">
-                <img src="~/images/assasin.png" alt="Assassin">
-            </div>
-        </li>
+<!-- ASIDE (abaixo do slide) -->
+<aside class="side-menu">
+    <h3>CATEGORIAS</h3>
+    <ul>
+        <li><a href="#">Ação</a></li>
+        <li><a href="#">RPG</a></li>
+        <li><a href="#">Tiro</a></li>
+        <li><a href="#">Estratégia</a></li>
+        <li><a href="#">Simulação</a></li>
     </ul>
 
-    <main>
-        <div class="slider">
-            <div class="slides">
-                <div class="slide"><img src="~/images/DAYS.jpg" alt="Days Gone"></div>
-                <div class="slide"><img src="~/images/GOD.jpg" alt="God of War"></div>
-                <div class="slide"><img src="~/images/Horizon.jpg" alt="Horizon"></div>
-                <div class="slide"><img src="~/images/tlous.jpg" alt="The Last of Us"></div>
-            </div>
+    <h3>FRANQUIAS</h3>
+    <ul>
+        <li><a href="#">God of War</a></li>
+        <li><a href="#">The Last of Us</a></li>
+        <li><a href="#">Horizon</a></li>
+        <li><a href="#">Call of Duty</a></li>
+    </ul>
 
-            <div class="dots">
-                <span class="dot" data-slide="0"></span>
-                <span class="dot" data-slide="1"></span>
-                <span class="dot" data-slide="2"></span>
-                <span class="dot" data-slide="3"></span>
-            </div>
-        </div>
-    </main>
+    <h3>PLATAFORMAS</h3>
+    <ul>
+        <li><a href="#">PlayStation</a></li>
+        <li><a href="#">Xbox</a></li>
+        <li><a href="#">PC</a></li>
+        <li><a href="#">Nintendo</a></li>
+    </ul>
+</aside>
 
-    <aside>
-        <article>
-            <div class="side-table">
-                <ul>
-                    <li class="Lista">CATEGORIAS</li>
-                    <li class="Lista"><a href="#">Ação</a></li>
-                    <li class="Lista"><a href="#">RPG</a></li>
-                    <li class="Lista"><a href="#">Tiro</a></li>
-                    <li class="Lista"><a href="#">Estratégia</a></li>
-                    <li class="Lista"><a href="#">Mundo Aberto</a></li>
-                    <li class="Lista"><a href="#">Simulação</a></li>
-                    <li class="Lista"><a href="#">Esportes</a></li>
-                    <li class="Lista"><a href="#">Aventura</a></li>
-                    <li class="Lista"><a href="#">Luta</a></li>
-                </ul>
-
-                <ul>
-                    <li class="Lista">NOVIDADES</li>
-                    <li class="Lista"><a href="#">Promoções</a></li>
-                    <li class="Lista"><a href="#">Lançamentos</a></li>
-                    <li class="Lista"><a href="#">Notícias</a></li>
-                </ul>
-
-                <ul>
-                    <li class="Lista">RECOMENDAÇÕES</li>
-                    <li class="Lista"><a href="#">Minecraft</a></li>
-                    <li class="Lista"><a href="#">Days Gone</a></li>
-                    <li class="Lista"><a href="#">Apex Legends</a></li>
-                    <li class="Lista"><a href="#">Fortnite</a></li>
-                    <li class="Lista"><a href="#">CS:GO</a></li>
-                    <li class="Lista"><a href="#">Assassin's Creed</a></li>
-                    <li class="Lista"><a href="#">Call of Duty Warzone</a></li>
-                    <li class="Lista"><a href="#">Disney Speedstorm</a></li>
-                    <li class="Lista"><a href="#">GTA 5</a></li>
-                    <li class="Lista"><a href="#">FIFA 23</a></li>
-                    <li class="Lista"><a href="#">Horizon Zero Dawn</a></li>
-                </ul>
-
-                <ul>
-                    <li class="Lista">JOGOS POR CONSOLES</li>
-                    <li class="Lista"><a href="#">PLAYSTATION</a></li>
-                    <li class="Lista"><a href="#">XBOX</a></li>
-                    <li class="Lista"><a href="#">PC</a></li>
-                    <li class="Lista"><a href="#">NINTENDO</a></li>
-                    <li class="Lista"><a href="#">CELULAR</a></li>
-                    <li class="Lista"><a href="#">PSP</a></li>
-                </ul>
-            </div>
-        </article>
-    </aside>
-
-    <script src="~/js/script.js"></script>
-</body>
-</html>
+@section Scripts {
+    <!-- Caso precise código adicional por view -->
+}

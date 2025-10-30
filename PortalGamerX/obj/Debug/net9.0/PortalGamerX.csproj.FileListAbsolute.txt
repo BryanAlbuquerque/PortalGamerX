@@ -123,12 +123,9 @@ C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\rj
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\scopedcss\bundle\PortalGamerX.styles.css
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\scopedcss\projectbundle\PortalGamerX.bundle.scp.css
-C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\22kngwttal-52btqufmt0.gz
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\dabvpv0wmb-po80w3wl76.gz
-C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\jmr1a8xcjw-qxd6ey315w.gz
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\v0gcyjbjp5-n2yqbeq890.gz
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\ssd7cw2cfu-61n19gt1b8.gz
-C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\lgc52355b4-vprdpkwzny.gz
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\2on9xmwyg2-bqjiyaj88i.gz
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\zhew0awe43-c2jlpeoesf.gz
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\e8tlvjm92u-erw9l3u2r3.gz
@@ -332,3 +329,7 @@ C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\bin\Debug\net9.0\ru
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\PortalGa.946C8EFD.Up2Date
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\22kngwttal-437o7ktv4f.gz
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\jmr1a8xcjw-ggqueuh4gv.gz
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\4g00czhhk5-7b3bdddjqx.gz
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\lgc52355b4-9arcea88se.gz

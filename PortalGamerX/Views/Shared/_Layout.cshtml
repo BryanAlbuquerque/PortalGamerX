@@ -1,51 +1,29 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portal GamerX - Seu portal para o universo dos games.">
-    <meta name="keywords" content="games, jogos, geek, portal gamer, PlayStation, Xbox, PC, Nintendo">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - PortalGamerX</title>
 
-    <link rel="icon" href="~/favicon.png" type="image/png">
     <link rel="stylesheet" href="~/css/Header-Nav.css" />
-    <link rel="stylesheet" href="~/css/Background.css" />
-    <link rel="stylesheet" href="~/css/Slide.css" />
-    <link rel="stylesheet" href="~/css/aside.css" />
+    <link rel="stylesheet" href="~/css/site.css" />    <!-- CSS global -->
+    <link rel="stylesheet" href="~/css/Slide.css" />   <!-- CSS do slide -->
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a asp-controller="Home" asp-action="Landing" class="Logo">PortalGamerX</a></li>
-                <li><a asp-controller="Home" asp-action="Index">Início</a></li>
-                <li><a href="#">Explorar</a></li>
-                <li><a href="#">Franquias</a></li>
-            </ul>
-        </nav>
-    </header>
+    <partial name="_Header" />
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <!-- Aqui vai o conteúdo específico de cada view -->
+    <main id="app-content">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted text-center">
-        <div class="container">
-            &copy; 2025 - PortalGamerX -
-            <a asp-area="" asp-controller="Home" asp-action="Privacy">Política de Privacidade</a>
-        </div>
-    </footer>
+    <partial name="_Footer" />
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script src="~/js/slide.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

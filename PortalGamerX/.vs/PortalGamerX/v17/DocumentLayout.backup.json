@@ -3,32 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Migrations\\20251030135954_InnitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20251030135954_InnitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\wwwroot\\js\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:wwwroot\\js\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\wwwroot\\css\\slide.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:wwwroot\\css\\slide.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\models\\jogo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:models\\jogo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\models\\produto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:models\\produto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\models\\categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:models\\categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\wwwroot\\css\\aside.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:wwwroot\\css\\aside.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\views\\home\\portalgamerx.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\home\\portalgamerx.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\wwwroot\\css\\header-nav.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:wwwroot\\css\\header-nav.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\views\\shared\\_header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\shared\\_header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\wwwroot\\css\\background.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:wwwroot\\css\\background.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\views\\shared\\_aside.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\shared\\_aside.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\onedrive\\documentos\\portalgamerx\\portalgamerx\\views\\shared\\_footer.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\shared\\_footer.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,87 +50,131 @@
       "DocumentGroups": [
         {
           "DockedHeight": 275,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "PortalGamerX.cshtml",
-              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Home\\PortalGamerX.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\PortalGamerX.cshtml",
-              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Home\\PortalGamerX.cshtml",
-              "RelativeToolTip": "Views\\Home\\PortalGamerX.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAlAAAAAAAAAA==",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAgwBEAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T15:29:30.761Z",
-              "IsPinned": true
+              "WhenOpened": "2025-10-30T17:55:57.168Z",
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Context\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Context\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Context\\AppDbContext.cs",
-              "RelativeToolTip": "Context\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T13:29:34.104Z",
-              "IsPinned": true
+              "Title": "_Header.cshtml",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Header.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Header.cshtml",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Header.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Header.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-30T18:00:04.792Z",
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Categoria.cs",
-              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Models\\Categoria.cs",
-              "RelativeDocumentMoniker": "Models\\Categoria.cs",
-              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Models\\Categoria.cs",
-              "RelativeToolTip": "Models\\Categoria.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T13:30:24.366Z",
+              "DocumentIndex": 8,
+              "Title": "_Aside.cshtml",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Aside.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Aside.cshtml",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Aside.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Aside.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAYAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-30T18:00:22.714Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "_Footer.cshtml",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Footer.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Footer.cshtml",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Footer.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Footer.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-30T18:00:58.198Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Produto.cs",
-              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Models\\Produto.cs",
-              "RelativeDocumentMoniker": "Models\\Produto.cs",
-              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Models\\Produto.cs",
-              "RelativeToolTip": "Models\\Produto.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAQwBUAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T13:30:45.597Z",
+              "Title": "PortalGamerX.cshtml",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Home\\PortalGamerX.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\PortalGamerX.cshtml",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Views\\Home\\PortalGamerX.cshtml",
+              "RelativeToolTip": "Views\\Home\\PortalGamerX.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-30T17:50:54.73Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Header-Nav.css",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\Header-Nav.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\Header-Nav.css",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\Header-Nav.css",
+              "RelativeToolTip": "wwwroot\\css\\Header-Nav.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-30T17:51:03.979Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Jogo.cs",
-              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Models\\Jogo.cs",
-              "RelativeDocumentMoniker": "Models\\Jogo.cs",
-              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Models\\Jogo.cs",
-              "RelativeToolTip": "Models\\Jogo.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T13:30:33.916Z",
+              "Title": "aside.css",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\aside.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\aside.css",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\aside.css",
+              "RelativeToolTip": "wwwroot\\css\\aside.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-30T17:51:00.277Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Background.css",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\Background.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\Background.css",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\Background.css",
+              "RelativeToolTip": "wwwroot\\css\\Background.css",
+              "ViewState": "AgIAADUAAAAAAAAAAAAgwEcAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-30T17:51:02.536Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "20251030135954_InnitialCreate.cs",
-              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Migrations\\20251030135954_InnitialCreate.cs",
-              "RelativeDocumentMoniker": "Migrations\\20251030135954_InnitialCreate.cs",
-              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\Migrations\\20251030135954_InnitialCreate.cs",
-              "RelativeToolTip": "Migrations\\20251030135954_InnitialCreate.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T13:59:54.297Z",
+              "Title": "script.js",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\js\\script.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\script.js",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\js\\script.js",
+              "RelativeToolTip": "wwwroot\\js\\script.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-30T18:11:39.901Z",
               "EditorCaption": ""
             },
             {
@@ -132,14 +188,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-30T13:58:49.686Z",
+              "Title": "Slide.css",
+              "DocumentMoniker": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\Slide.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\Slide.css",
+              "ToolTip": "C:\\Users\\bryan\\OneDrive\\Documentos\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\Slide.css",
+              "RelativeToolTip": "wwwroot\\css\\Slide.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-30T18:07:47.683Z",
               "EditorCaption": ""
             }
           ]

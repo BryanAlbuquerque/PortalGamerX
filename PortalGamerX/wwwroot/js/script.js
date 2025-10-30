@@ -1,31 +1,36 @@
-let slideIndex = 0;
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.dot');
-const slideInterval = 3000;
+document.addEventListener("DOMContentLoaded", function () {
+    const slides = document.querySelectorAll(".slide");
+    const dotsContainer = document.getElementById("dots-container");
+    let index = 0;
 
-function showSlide(index) {
-    slides.forEach((slide, i) => {
-        slide.style.transform = `translateX(-${index * 100}%)`;
+    if (!slides || slides.length === 0) return;
+
+    // criar dots dinamicamente conforme número de slides
+    slides.forEach((_, i) => {
+        const dot = document.createElement("span");
+        dot.classList.add("dot");
+        dot.addEventListener("click", () => { showSlide(i); });
+        dotsContainer.appendChild(dot);
     });
-    dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-    });
-}
 
-function nextSlide() {
-    slideIndex = (slideIndex + 1) % slides.length;
-    showSlide(slideIndex);
-}
+    const dots = dotsContainer.querySelectorAll(".dot");
 
-function goToSlide(index) {
-    slideIndex = index;
-    showSlide(slideIndex);
-}
+    function showSlide(n) {
+        slides.forEach(s => { s.style.display = "none"; s.classList.remove("fade"); });
+        dots.forEach(d => d.classList.remove("active"));
 
-dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => goToSlide(index));
+        slides[n].style.display = "block";
+        slides[n].classList.add("fade");
+        dots[n].classList.add("active");
+        index = n;
+    }
+
+    function nextSlide() {
+        index = (index + 1) % slides.length;
+        showSlide(index);
+    }
+
+    // inicia
+    showSlide(0);
+    setInterval(nextSlide, 4000);
 });
-
-showSlide(slideIndex);
-setInterval(nextSlide, slideInterval);
-
