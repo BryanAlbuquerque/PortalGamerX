@@ -1,29 +1,45 @@
+﻿using PortalGamerX.Context;
+using Microsoft.EntityFrameworkCore;
+//using PortalGamerX.Repository;
+//using PortalGamerX.Repository.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Serviços MVC
 builder.Services.AddControllersWithViews();
+
+// Autorização
+builder.Services.AddAuthorization();
+
+// Banco de Dados
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
+
+// 💡 Injeção de dependência dos repositórios
+//builder.Services.AddTransient<ILanchesRepository, LanchesRepository>();
+//builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware de exceções e segurança
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+// Pipeline de requisição HTTP
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
+// Rotas
 app.MapControllerRoute(
     name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
