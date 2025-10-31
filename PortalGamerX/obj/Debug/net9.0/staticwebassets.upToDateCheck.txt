@@ -73,14 +73,9 @@ wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\Videos\VG.mp4
-C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\css\aside.css
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\css\Background.css
-C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\css\Header-Nav.css
-C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\css\Slide.css
-C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\css\style.css
-C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\Images\favicon.ico
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\js\script.js
-C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\css\aside.css
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
@@ -138,4 +133,9 @@ C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\dist\jquery.slim.js
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\dist\jquery.slim.min.js
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\dist\jquery.slim.min.map
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\css\Slide.css
 C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\LICENSE.txt
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\css\style.css
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\Images\favicon.ico
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+C:\Users\bryan\OneDrive\Documentos\PortalGamerX\PortalGamerX\wwwroot\css\Header-Nav.css
