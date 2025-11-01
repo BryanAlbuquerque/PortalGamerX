@@ -3,50 +3,54 @@
     Layout = "_Layout";
 }
 
-<!-- BARRA DE PESQUISA -->
-<div class="search-section">
-    <input type="text" class="Pesquisar" placeholder="Pesquisar..." />
+<div class="main-container">
+    <!-- Lado esquerdo -->
+    <div class="side-image left">
+        <img src="~/Images/halo.png" alt="Halo">
+    </div>
+
+    <!-- Centro (barra + slides) -->
+    <div class="center-content">
+        <!-- Barra de pesquisa -->
+        <div class="search-bar">
+            <input type="text" placeholder="Pesquisar..." />
+        </div>
+
+        <!-- Área de slides -->
+        <div class="slider-container">
+            <div class="slides fade">
+                <img src="~/Images/DAYS.jpg" alt="Slide 1" />
+            </div>
+            <div class="slides fade">
+                <img src="~/Images/GOD.jpg" alt="Slide 2" />
+            </div>
+            <div class="slides fade">
+                <img src="~/Images/Horizon.jpg" alt="Slide 3" />
+            </div>
+            <div class="slides fade">
+                <img src="~/Images/tlous.jpg" alt="Slide 3" />
+            </div>
+
+            <!-- Botões -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+            <!-- Pontos -->
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lado direito -->
+    <div class="side-image right">
+        <img src="~/Images/assasin.png" alt="Assassin">
+    </div>
 </div>
 
-<!-- SLIDER -->
-<section class="slide-section">
-    <div class="slide-container" id="slider">
-        <div class="slide"><img src="~/images/DAYS.jpg" alt="Days Gone" /></div>
-        <div class="slide"><img src="~/images/GOD.jpg" alt="God of War" /></div>
-        <div class="slide"><img src="~/images/Horizon.jpg" alt="Horizon" /></div>
-        <!-- dots -->
-        <div class="dots" id="dots-container"></div>
-    </div>
-</section>
-
-<!-- ASIDE (abaixo do slide) -->
-<aside class="side-menu">
-    <h3>CATEGORIAS</h3>
-    <ul>
-        <li><a href="#">Ação</a></li>
-        <li><a href="#">RPG</a></li>
-        <li><a href="#">Tiro</a></li>
-        <li><a href="#">Estratégia</a></li>
-        <li><a href="#">Simulação</a></li>
-    </ul>
-
-    <h3>FRANQUIAS</h3>
-    <ul>
-        <li><a href="#">God of War</a></li>
-        <li><a href="#">The Last of Us</a></li>
-        <li><a href="#">Horizon</a></li>
-        <li><a href="#">Call of Duty</a></li>
-    </ul>
-
-    <h3>PLATAFORMAS</h3>
-    <ul>
-        <li><a href="#">PlayStation</a></li>
-        <li><a href="#">Xbox</a></li>
-        <li><a href="#">PC</a></li>
-        <li><a href="#">Nintendo</a></li>
-    </ul>
-</aside>
-
 @section Scripts {
-    <!-- Caso precise código adicional por view -->
+    <script src="~/js/slide.js"></script>
 }

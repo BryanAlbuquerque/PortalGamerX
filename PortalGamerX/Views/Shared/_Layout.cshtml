@@ -8,23 +8,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - PortalGamerX</title>
 
-    <link rel="stylesheet" href="~/css/Header-Nav.css" />
-    <link rel="stylesheet" href="~/css/Background.css" />   
-    <link rel="stylesheet" href="~/css/Slide.css" />  
-    <link rel="stylesheet" href="~/css/aside.css" />  
+    <link rel="stylesheet" href="~/css/PortalGamerX.css" />
+    <link rel="stylesheet" href="~/css/Header.css" />
 </head>
 <body>
-    <partial name="_Header" />
+    <header class="header">
+        <div class="logo"><h1>PortalGamerX</h1></div>
+        <nav class="navbar">
+            <ul class="menu">
+                <li><a asp-controller="Home" asp-action="Explorar">Explorar</a></li>
+                <li><a asp-controller="Home" asp-action="Jogos">Jogos</a></li>
+                <li><a asp-controller="Home" asp-action="Produtos">Produtos Geeks</a></li>
+                <li><a asp-controller="Home" asp-action="Franquias">Franquias</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- Aqui vai o conteúdo específico de cada view -->
-    <main id="app-content">
+    <main>
         @RenderBody()
     </main>
 
-    <partial name="_Footer" />
-
+    <!-- scripts globais -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/slide.js"></script>
+    <script src="~/js/site.js"></script>
+
+    <!-- Aqui o layout aceita que views adicionem suas próprias scripts -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
