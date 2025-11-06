@@ -7,16 +7,16 @@
       "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:wwwroot\\css\\portalgamerx.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\wwwroot\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:wwwroot\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\views\\home\\portalgamerx.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\home\\portalgamerx.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\wwwroot\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:wwwroot\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\wwwroot\\js\\slider.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -34,20 +34,21 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-10-30T22:22:28.718Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Layout.css",
               "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\Layout.css",
               "RelativeDocumentMoniker": "wwwroot\\css\\Layout.css",
@@ -61,13 +62,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "PortalGamerX.cshtml",
               "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Home\\PortalGamerX.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\PortalGamerX.cshtml",
               "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Views\\Home\\PortalGamerX.cshtml",
               "RelativeToolTip": "Views\\Home\\PortalGamerX.cshtml",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAgwAsAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-11-05T14:03:37.99Z",
               "IsPinned": true,
@@ -81,7 +82,7 @@
               "RelativeDocumentMoniker": "wwwroot\\css\\PortalGamerX.css",
               "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\wwwroot\\css\\PortalGamerX.css",
               "RelativeToolTip": "wwwroot\\css\\PortalGamerX.css",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAAAG4AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2025-11-01T15:47:56.158Z",
               "IsPinned": true,

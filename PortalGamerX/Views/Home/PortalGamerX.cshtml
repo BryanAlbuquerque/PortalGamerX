@@ -4,36 +4,30 @@
 }
 
 <div class="page-area">
-    <!-- Imagem lateral esquerda -->
-    <div class="side-fixed left" aria-hidden="true">
+    <!-- Lateral esquerda -->
+    <div class="side left">
         <img src="~/images/SideImageHalo.png" alt="Halo" />
     </div>
 
-    <!-- Imagem lateral direita -->
-    <div class="side-fixed right" aria-hidden="true">
-        <img src="~/images/SideImageAssassin.png" alt="Assassin" />
+    <!-- Conteúdo central -->
+    <div class="main-content">
+        <div class="slider">
+            <div class="slides">
+                <div class="slide active"><img src="~/images/SlideDaysGone.jpg" alt="Days Gone" /></div>
+                <div class="slide"><img src="~/images/SlideGow.jpg" alt="God of War" /></div>
+                <div class="slide"><img src="~/images/SlideHorizon.jpg" alt="Horizon" /></div>
+                <div class="slide"><img src="~/images/SlideTlous.jpg" alt="The Last of Us" /></div>
+            </div>
+
+            <button class="nav prev">&#10094;</button>
+            <button class="nav next">&#10095;</button>
+
+            <div class="dots"></div>
+        </div>
     </div>
 
-    <div class="content-wrapper">
-        <div class="center-col">
-            <div class="search-row">
-                <input class="search-input" type="text" placeholder="Buscar jogos ou produtos..." />
-                <button class="btn-search" aria-label="Buscar">🔍</button>
-            </div>
-
-            <div class="slider-wrap" id="sliderBox">
-                <div class="slides">
-                    <div class="slide active"><img src="~/images/SlideDaysGone.jpg" alt="Days Gone" /></div>
-                    <div class="slide"><img src="~/images/SlideGow.jpg" alt="God of War" /></div>
-                    <div class="slide"><img src="~/images/SlideHorizon.jpg" alt="Horizon" /></div>
-                    <div class="slide"><img src="~/images/SlideTlous.jpg" alt="The Last of Us" /></div>
-                </div>
-
-                <button class="nav prev" aria-label="Anterior">&#10094;</button>
-                <button class="nav next" aria-label="Próximo">&#10095;</button>
-
-                <div class="dots" aria-hidden="false"></div>
-            </div>
-        </div>
+    <!-- Lateral direita -->
+    <div class="side right">
+        <img src="~/images/SideImageAssassin.png" alt="Assassin" />
     </div>
 </div>

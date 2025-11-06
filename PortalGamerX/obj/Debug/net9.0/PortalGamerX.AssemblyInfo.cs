@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PortalGamerX")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc12c3c9c9137578717a3fa1e6969d788a8f8869")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2175dff387c600581dce98c21161b14b84197c1")]
 [assembly: System.Reflection.AssemblyProductAttribute("PortalGamerX")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PortalGamerX")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
