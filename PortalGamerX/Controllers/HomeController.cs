@@ -6,12 +6,12 @@ namespace PortalGamerX.Controllers
     {
         public IActionResult Index()
         {
-            return View(); // Abre Views/Home/Index.cshtml
+            return View(); 
         }
 
         public IActionResult PortalGamerX()
         {
-            return View(); // Abre Views/Home/PortalGamerX.cshtml
+            return View(); 
         }
     }
 }

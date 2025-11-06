@@ -8,31 +8,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - PortalGamerX</title>
 
+    <link rel="stylesheet" href="~/css/Layout.css" />
     <link rel="stylesheet" href="~/css/PortalGamerX.css" />
-    <link rel="stylesheet" href="~/css/Header.css" />
 </head>
 <body>
-    <header class="header">
-        <div class="logo"><h1>PortalGamerX</h1></div>
-        <nav class="navbar">
-            <ul class="menu">
-                <li><a asp-controller="Home" asp-action="Explorar">Explorar</a></li>
-                <li><a asp-controller="Home" asp-action="Jogos">Jogos</a></li>
-                <li><a asp-controller="Home" asp-action="Produtos">Produtos Geeks</a></li>
-                <li><a asp-controller="Home" asp-action="Franquias">Franquias</a></li>
-            </ul>
-        </nav>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="logo"><a asp-controller="Home" asp-action="Index">PortalGamerX</a></div>
+
+            <nav class="menu">
+                <a asp-controller="Home" asp-action="Explorar">Explorar</a>
+                <a asp-controller="Home" asp-action="Jogos">Jogos</a>
+                <a asp-controller="Home" asp-action="Produtos">Produtos Geeks</a>
+                <a asp-controller="Home" asp-action="Franquias">Franquias</a>
+            </nav>
+        </div>
     </header>
 
     <main>
         @RenderBody()
     </main>
 
-    <!-- scripts globais -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js"></script>
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p>© 2025 PortalGamerX — Todos os direitos reservados.</p>
+            <p><a href="#">Política de Privacidade</a></p>
+        </div>
+    </footer>
 
-    <!-- Aqui o layout aceita que views adicionem suas próprias scripts -->
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/js/slider.js"></script>
 </body>
 </html>

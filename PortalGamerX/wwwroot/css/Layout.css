@@ -1,0 +1,91 @@
+
+/* Reset e base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    overflow-x: hidden;
+    font-family: "Segoe UI";
+    height: 100vh;
+}
+
+/* Header */
+.site-header {
+    background: #000;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.header-inner {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo a {
+    color: #f1c40f;
+    font-weight: 800;
+    font-size: 25px;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.menu {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+}
+
+    .menu a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        position: relative;
+        padding: 4px 0;
+        transition: color .18s ease;
+    }
+
+        .menu a:hover {
+            color: #f1c40f;
+        }
+
+        .menu a::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: #0066ff;
+            transition: width .18s ease;
+        }
+
+        .menu a:hover::after {
+            width: 100%;
+        }
+
+/* Footer */
+.site-footer {
+    background: #000;
+    color: #fff;
+    height: 60px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+    .site-footer a {
+        color: #00aaff;
+        text-decoration: none;
+    }

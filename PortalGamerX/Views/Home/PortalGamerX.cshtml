@@ -3,54 +3,37 @@
     Layout = "_Layout";
 }
 
-<div class="main-container">
-    <!-- Lado esquerdo -->
-    <div class="side-image left">
-        <img src="~/Images/halo.png" alt="Halo">
+<div class="page-area">
+    <!-- Imagem lateral esquerda -->
+    <div class="side-fixed left" aria-hidden="true">
+        <img src="~/images/SideImageHalo.png" alt="Halo" />
     </div>
 
-    <!-- Centro (barra + slides) -->
-    <div class="center-content">
-        <!-- Barra de pesquisa -->
-        <div class="search-bar">
-            <input type="text" placeholder="Pesquisar..." />
-        </div>
-
-        <!-- Área de slides -->
-        <div class="slider-container">
-            <div class="slides fade">
-                <img src="~/Images/DAYS.jpg" alt="Slide 1" />
-            </div>
-            <div class="slides fade">
-                <img src="~/Images/GOD.jpg" alt="Slide 2" />
-            </div>
-            <div class="slides fade">
-                <img src="~/Images/Horizon.jpg" alt="Slide 3" />
-            </div>
-            <div class="slides fade">
-                <img src="~/Images/tlous.jpg" alt="Slide 3" />
-            </div>
-
-            <!-- Botões -->
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-            <!-- Pontos -->
-            <div class="dots-container">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
-                <span class="dot" onclick="currentSlide(4)"></span>
-            </div>
-        </div>
+    <!-- Imagem lateral direita -->
+    <div class="side-fixed right" aria-hidden="true">
+        <img src="~/images/SideImageAssassin.png" alt="Assassin" />
     </div>
 
-    <!-- Lado direito -->
-    <div class="side-image right">
-        <img src="~/Images/assasin.png" alt="Assassin">
+    <div class="content-wrapper">
+        <div class="center-col">
+            <div class="search-row">
+                <input class="search-input" type="text" placeholder="Buscar jogos ou produtos..." />
+                <button class="btn-search" aria-label="Buscar">🔍</button>
+            </div>
+
+            <div class="slider-wrap" id="sliderBox">
+                <div class="slides">
+                    <div class="slide active"><img src="~/images/SlideDaysGone.jpg" alt="Days Gone" /></div>
+                    <div class="slide"><img src="~/images/SlideGow.jpg" alt="God of War" /></div>
+                    <div class="slide"><img src="~/images/SlideHorizon.jpg" alt="Horizon" /></div>
+                    <div class="slide"><img src="~/images/SlideTlous.jpg" alt="The Last of Us" /></div>
+                </div>
+
+                <button class="nav prev" aria-label="Anterior">&#10094;</button>
+                <button class="nav next" aria-label="Próximo">&#10095;</button>
+
+                <div class="dots" aria-hidden="false"></div>
+            </div>
+        </div>
     </div>
 </div>
-
-@section Scripts {
-    <script src="~/js/slide.js"></script>
-}
