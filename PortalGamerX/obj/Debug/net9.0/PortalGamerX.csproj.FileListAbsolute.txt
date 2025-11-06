@@ -798,5 +798,5 @@ C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\refint\Porta
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\PortalGamerX.pdb
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\PortalGamerX.genruntimeconfig.cache
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\ref\PortalGamerX.dll
-C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\s45v44oop9-hvsuvskz4o.gz
-C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\lxcoj3c8gu-5zjt1zl1np.gz
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\lxcoj3c8gu-sbtcsmfv3p.gz
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\s45v44oop9-32kkl4wvic.gz

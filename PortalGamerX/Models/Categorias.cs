@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PortalGamerX.Models
 {
-    [Table("Categoria")]
-    public class Categoria
+    [Table("Categorias")]
+    public class Categorias
     {
         [Key]
         public int CategoriaId { get; set; }
@@ -19,7 +19,12 @@ namespace PortalGamerX.Models
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
-        public List<Produto> Produtos { get; set; }
+        [Required(ErrorMessage = "Informe o tipo da categoria")]
+        [StringLength(50, ErrorMessage = "Tamanho maximo permitido é 50 Caracteres!")]
+        [Display(Name = "Tipo da Categoria")]
+        public string TipoCategoria { get; set; }
+
         public List<Jogo> Jogos { get; set; }
+        public List<Produto> Produtos { get; set; }
     }
 }

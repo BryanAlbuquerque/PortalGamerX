@@ -1,5 +1,3 @@
-
-/* Reset e base */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -48,7 +46,7 @@ html, body {
         color: #fff;
         text-decoration: none;
         font-weight: 600;
-        font-size: 16px;
+        font-size: 18px;
         position: relative;
         padding: 4px 0;
         transition: color .18s ease;

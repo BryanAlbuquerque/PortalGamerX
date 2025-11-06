@@ -34,12 +34,8 @@ namespace PortalGamerX.Models
         [Display(Name = "Caminho da Imagem")]
         public string ImagemUrl { get; set; }
 
-        [Display(Name = "Estoque")]
-        public bool EmEstoque { get; set; }
-
-
         // foreign Key e relacionamentos
         public int CategoriaId { get; set; }
-        public virtual Categoria Categoria { get; set; }
+        public virtual Categorias Categoria { get; set; }
     }
 }

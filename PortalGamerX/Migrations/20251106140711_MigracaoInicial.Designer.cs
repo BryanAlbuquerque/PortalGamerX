@@ -12,8 +12,8 @@ using PortalGamerX.Context;
 namespace PortalGamerX.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251030135954_InnitialCreate")]
-    partial class InnitialCreate
+    [Migration("20251106140711_MigracaoInicial")]
+    partial class MigracaoInicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace PortalGamerX.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PortalGamerX.Models.Categoria", b =>
+            modelBuilder.Entity("PortalGamerX.Models.Categorias", b =>
                 {
                     b.Property<int>("CategoriaId")
                         .ValueGeneratedOnAdd()
@@ -43,9 +43,14 @@ namespace PortalGamerX.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("TipoCategoria")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.HasKey("CategoriaId");
 
-                    b.ToTable("Categoria");
+                    b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("PortalGamerX.Models.Jogo", b =>
@@ -66,9 +71,6 @@ namespace PortalGamerX.Migrations
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
-
-                    b.Property<bool>("EmEstoque")
-                        .HasColumnType("bit");
 
                     b.Property<string>("ImagemUrl")
                         .IsRequired()
@@ -105,9 +107,6 @@ namespace PortalGamerX.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<bool>("EmEstoque")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ImagemUrl")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -121,6 +120,9 @@ namespace PortalGamerX.Migrations
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(10,2)");
 
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
                     b.HasKey("ProdutoId");
 
                     b.HasIndex("CategoriaId");
@@ -130,7 +132,7 @@ namespace PortalGamerX.Migrations
 
             modelBuilder.Entity("PortalGamerX.Models.Jogo", b =>
                 {
-                    b.HasOne("PortalGamerX.Models.Categoria", "Categoria")
+                    b.HasOne("PortalGamerX.Models.Categorias", "Categoria")
                         .WithMany("Jogos")
                         .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -141,7 +143,7 @@ namespace PortalGamerX.Migrations
 
             modelBuilder.Entity("PortalGamerX.Models.Produto", b =>
                 {
-                    b.HasOne("PortalGamerX.Models.Categoria", "Categoria")
+                    b.HasOne("PortalGamerX.Models.Categorias", "Categoria")
                         .WithMany("Produtos")
                         .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -150,7 +152,7 @@ namespace PortalGamerX.Migrations
                     b.Navigation("Categoria");
                 });
 
-            modelBuilder.Entity("PortalGamerX.Models.Categoria", b =>
+            modelBuilder.Entity("PortalGamerX.Models.Categorias", b =>
                 {
                     b.Navigation("Jogos");
 

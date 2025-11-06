@@ -4,7 +4,6 @@
     --header-height: 84px;
 }
 
-/* ======= ESTRUTURA PRINCIPAL ======= */
 body, html {
     margin: 0;
     padding: 0;
@@ -21,7 +20,6 @@ body, html {
     position: relative;
 }
 
-/* ======= LATERAIS ======= */
 .side {
     flex: 0 0 var(--side-width);
     display: flex;
@@ -39,7 +37,6 @@ body, html {
         -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
     }
 
-/* ======= CONTEÚDO CENTRAL ======= */
 .main-content {
     flex: 1;
     max-width: 960px;
@@ -48,7 +45,6 @@ body, html {
     justify-content: center;
 }
 
-/* ======= SLIDER ======= */
 .slider {
     position: relative;
     width: 100%;
@@ -81,7 +77,6 @@ body, html {
         object-fit: cover;
     }
 
-/* ======= BOTÕES ======= */
 .nav {
     position: absolute;
     top: 50%;
@@ -109,7 +104,6 @@ body, html {
         right: 15px;
     }
 
-/* ======= INDICADORES ======= */
 .dots {
     position: absolute;
     bottom: 10px;
@@ -132,7 +126,7 @@ body, html {
             background: #f1c40f;
         }
 
-/* ======= RESPONSIVO ======= */
+/* Responsividade */
 @media (max-width: 900px) {
     .side {
         display: none;

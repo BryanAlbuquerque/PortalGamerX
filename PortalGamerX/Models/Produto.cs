@@ -25,16 +25,16 @@ namespace PortalGamerX.Models
         [Range(1, 999.99, ErrorMessage = "O preço deve estar entre 1 e 999,99")]
         public decimal Preco { get; set; }
 
+        [Required(ErrorMessage = "Informe a Quantidade do Produto")]
+        [Display(Name = "Quantidade em Estoque")]
+        public int Quantidade { get; set; }
+
         [Display(Name = "Caminho da Imagem")]
         [StringLength(200, ErrorMessage = "O {0} deve ter o maximo de {1} Caracteres!")]
         public string ImagemUrl { get; set; }
 
-        [Display(Name = "Estoque")]
-        public bool EmEstoque { get; set; }
-
-
         // foreign Key e relacionamentos
         public int CategoriaId { get; set; }
-        public virtual Categoria Categoria { get; set; }
+        public virtual Categorias Categoria { get; set; }
     }
 }
