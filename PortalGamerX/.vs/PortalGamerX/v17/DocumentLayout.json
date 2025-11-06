@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Migrations\\20251106144212_PopularJogos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20251106144212_PopularJogos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\migrations\\20251106144212_popularjogos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:migrations\\20251106144212_popularjogos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\models\\jogo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:models\\jogo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\migrations\\20251106171841_popularprodutos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:migrations\\20251106171841_popularprodutos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\models\\produto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -22,22 +22,8 @@
       "DocumentGroups": [
         {
           "DockedHeight": 275,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Jogo.cs",
-              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Models\\Jogo.cs",
-              "RelativeDocumentMoniker": "Models\\Jogo.cs",
-              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Models\\Jogo.cs",
-              "RelativeToolTip": "Models\\Jogo.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T13:49:28.335Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -46,7 +32,7 @@
               "RelativeDocumentMoniker": "Models\\Produto.cs",
               "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Models\\Produto.cs",
               "RelativeToolTip": "Models\\Produto.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAowB0AAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwCEAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-06T13:49:29.67Z",
               "IsPinned": true,
@@ -60,9 +46,24 @@
               "RelativeDocumentMoniker": "Migrations\\20251106144212_PopularJogos.cs",
               "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Migrations\\20251106144212_PopularJogos.cs",
               "RelativeToolTip": "Migrations\\20251106144212_PopularJogos.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAiwAwAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-06T14:42:13.113Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "20251106171841_PopularProdutos.cs",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Migrations\\20251106171841_PopularProdutos.cs",
+              "RelativeDocumentMoniker": "Migrations\\20251106171841_PopularProdutos.cs",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Migrations\\20251106171841_PopularProdutos.cs",
+              "RelativeToolTip": "Migrations\\20251106171841_PopularProdutos.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-06T17:19:45.018Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {

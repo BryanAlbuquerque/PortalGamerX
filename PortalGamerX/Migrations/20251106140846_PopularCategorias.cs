@@ -10,100 +10,44 @@ namespace PortalGamerX.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql
-                ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-                "VALUES " +
-                "('Ação', 'Jogos com foco em combate e reflexos rápidos', 'Jogo')");
+            migrationBuilder.Sql(@"
+                INSERT INTO Categorias 
+                (Nome, Descricao, TipoCategoria)
+                VALUES
+                    ('Ação', 'Jogos com foco em combate e reflexos rápidos', 'Jogo'),
+                    ('RPG', 'Jogos com progressão de personagem e história', 'Jogo'),
+                    ('Aventura', 'Jogos que envolvem exploração, narrativa e descobertas.', 'Jogo'),
+                    ('Estratégia', 'Jogos que exigem planejamento e raciocínio tático.', 'Jogo'),
+                    ('Mundo Aberto', 'Jogos com liberdade de exploração e missões não lineares.', 'Jogo'),
+                    ('Simulação', 'Jogos que reproduzem atividades da vida real ou sistemas complexos.', 'Jogo'),
+                    ('Terror', 'Experiências focadas em suspense, medo e sobrevivência.', 'Jogo'),
+                    ('Esporte', 'Simulações e competições de esportes reais ou fictícios.', 'Jogo'),
+                    ('Corrida', 'Jogos de velocidade com carros, motos ou veículos futuristas.', 'Jogo'),
+                    ('Luta', 'Confrontos diretos entre personagens com golpes e combos.', 'Jogo'),
 
-            migrationBuilder.Sql
-                ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-                "VALUES " +
-                "('RPG', 'Jogos com progressão de personagem e história', 'Jogo')");
-
-            migrationBuilder.Sql
-               ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-               "VALUES " +
-               "('Aventura', 'Jogos que envolvem exploração, narrativa e descobertas.', 'Jogo')");
-
-            migrationBuilder.Sql
-               ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-               "VALUES " +
-               "('Estratégia', 'Jogos que exigem planejamento e raciocínio tático.', 'Jogo')");
-
-
-            migrationBuilder.Sql
-               ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-               "VALUES " +
-               "('Mundo Aberto', 'Jogos com liberdade de exploração e missões não lineares.', 'Jogo')");
-
-            migrationBuilder.Sql
-               ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-               "VALUES " +
-               "('Simulação', 'Jogos que reproduzem atividades da vida real ou sistemas complexos.', 'Jogo')");
-
-            migrationBuilder.Sql
-              ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-              "VALUES " +
-              "('Terror', 'Experiências focadas em suspense, medo e sobrevivência.', 'Jogo')");
-
-            migrationBuilder.Sql
-              ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-              "VALUES " +
-              "('Esporte', 'Simulações e competições de esportes reais ou fictícios.', 'Jogo')");
-
-            migrationBuilder.Sql
-              ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-              "VALUES " +
-              "('Corrida', 'Jogos de velocidade com carros, motos ou veículos futuristas', 'Jogo')");
-
-            migrationBuilder.Sql
-              ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-              "VALUES " +
-              "('Luta', 'Confrontos diretos entre personagens com golpes e combos.', 'Jogo')");
-
-
-            // Categorias de Produtos
-
-            migrationBuilder.Sql
-                ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-                "VALUES " +
-                "('Roupas', 'Roupas temáticas inspiradas em games, séries e filmes.', 'ProdutoGeek')");
-
-            migrationBuilder.Sql
-                ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-                "VALUES " +
-                "('Bonés', 'Acessórios de cabeça com logos e personagens famosos.', 'ProdutoGeek')");
-
-            migrationBuilder.Sql
-                ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-                "VALUES " +
-                "('Action Figures', 'Bonecos e estátuas detalhadas de personagens icônicos.', 'ProdutoGeek')");
-
-            migrationBuilder.Sql
-                ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-                "VALUES " +
-                "('Canecas', 'Itens personalizados para fãs de franquias famosas.', 'ProdutoGeek')");
-
-            migrationBuilder.Sql
-                ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-                "VALUES " +
-                "('Posters', 'Pôsteres e quadros decorativos de jogos, séries e animes.', 'ProdutoGeek')");
-
-            migrationBuilder.Sql
-                ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-                "VALUES " +
-                "('Mousepads', 'Mousepads personalizados com arte gamer e personagens.', 'ProdutoGeek')");
-
-            migrationBuilder.Sql
-                ("INSERT INTO Categorias (Nome, Descricao, TipoCategoria) " +
-                "VALUES " +
-                "('Funko Pop', 'Miniaturas estilizadas de personagens famosos.', 'ProdutoGeek')");
+                    -- Categorias de Produtos Geek
+                    ('Roupas', 'Roupas temáticas inspiradas em games, séries e filmes.', 'ProdutoGeek'),
+                    ('Bonés', 'Acessórios de cabeça com logos e personagens famosos.', 'ProdutoGeek'),
+                    ('Action Figures', 'Bonecos e estátuas detalhadas de personagens icônicos.', 'ProdutoGeek'),
+                    ('Canecas', 'Itens personalizados para fãs de franquias famosas.', 'ProdutoGeek'),
+                    ('Posters', 'Pôsteres e quadros decorativos de jogos, séries e animes.', 'ProdutoGeek'),
+                    ('Mousepads', 'Mousepads personalizados com arte gamer e personagens.', 'ProdutoGeek'),
+                    ('Funko Pop', 'Miniaturas estilizadas de personagens famosos.', 'ProdutoGeek');
+            ");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DELETE FROM Categorias");
+            migrationBuilder.Sql(@"
+                DELETE FROM Categorias
+                WHERE Nome IN (
+                    'Ação', 'RPG', 'Aventura', 'Estratégia', 'Mundo Aberto',
+                    'Simulação', 'Terror', 'Esporte', 'Corrida', 'Luta',
+                    'Roupas', 'Bonés', 'Action Figures', 'Canecas', 
+                    'Posters', 'Mousepads', 'Funko Pop'
+                );
+            ");
         }
     }
 }
