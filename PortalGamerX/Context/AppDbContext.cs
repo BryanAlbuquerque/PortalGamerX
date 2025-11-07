@@ -9,7 +9,7 @@ namespace PortalGamerX.Context
         {
         }
 
-        public DbSet<Categorias> Categorias { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Jogo> Jogos { get; set; }
         public DbSet<Produto> Produtos { get; set; }
     }

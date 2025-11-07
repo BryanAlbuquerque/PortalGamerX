@@ -1,7 +1,40 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\repository\\interfaces\\iprodutorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:repository\\interfaces\\iprodutorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\repository\\produtorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:repository\\produtorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\repository\\jogorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:repository\\jogorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\repository\\interfaces\\ijogorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:repository\\interfaces\\ijogorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\repository\\categoriarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:repository\\categoriarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|c:\\users\\bryan\\documents\\portalgamerx\\portalgamerx\\repository\\interfaces\\icategoriarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:repository\\interfaces\\icategoriarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
@@ -9,8 +42,113 @@
       "DocumentGroups": [
         {
           "DockedHeight": 275,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 6,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ICategoriaRepository.cs",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\Interfaces\\ICategoriaRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\Interfaces\\ICategoriaRepository.cs",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\Interfaces\\ICategoriaRepository.cs",
+              "RelativeToolTip": "Repository\\Interfaces\\ICategoriaRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T12:31:22.703Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CategoriaRepository.cs",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\CategoriaRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\CategoriaRepository.cs",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\CategoriaRepository.cs",
+              "RelativeToolTip": "Repository\\CategoriaRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T12:34:14.566Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IJogoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\Interfaces\\IJogoRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\Interfaces\\IJogoRepository.cs",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\Interfaces\\IJogoRepository.cs",
+              "RelativeToolTip": "Repository\\Interfaces\\IJogoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T12:39:45.972Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "JogoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\JogoRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\JogoRepository.cs",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\JogoRepository.cs",
+              "RelativeToolTip": "Repository\\JogoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T12:40:30.033Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IProdutoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\Interfaces\\IProdutoRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\Interfaces\\IProdutoRepository.cs",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\Interfaces\\IProdutoRepository.cs",
+              "RelativeToolTip": "Repository\\Interfaces\\IProdutoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T13:34:30.243Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProdutoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\ProdutoRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\ProdutoRepository.cs",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Repository\\ProdutoRepository.cs",
+              "RelativeToolTip": "Repository\\ProdutoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T13:35:20.871Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Context\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Context\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Context\\AppDbContext.cs",
+              "RelativeToolTip": "Context\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T13:47:34.508Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\bryan\\Documents\\PortalGamerX\\PortalGamerX\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-07T13:45:35.135Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
