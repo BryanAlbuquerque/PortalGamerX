@@ -36,6 +36,6 @@ namespace PortalGamerX.Models
 
         // foreign Key e relacionamentos
         public int CategoriaId { get; set; }
-        public virtual Categorias Categoria { get; set; }
+        public virtual Categoria Categoria { get; set; }
     }
 }

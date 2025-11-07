@@ -31,12 +31,12 @@ C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\
 C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\bootstrap.rtl.min.css
 C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\bootstrap.rtl.min.css.map
 wwwroot\css\Layout.css
-wwwroot\css\PortalGamerX.css
+wwwroot\Images\SideImageHalo.png
 wwwroot\css\style.css
 wwwroot\Images\favicon.ico
 wwwroot\Images\favicon.png
 wwwroot\Images\SideImageAssassin.png
-wwwroot\Images\SideImageHalo.png
+wwwroot\css\PortalGamerX.css
 wwwroot\Images\SlideDaysGone.jpg
 wwwroot\Images\SlideGow.jpg
 wwwroot\Images\SlideHorizon.jpg

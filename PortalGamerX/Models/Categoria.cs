@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace PortalGamerX.Models
 {
     [Table("Categorias")]
-    public class Categorias
+    public class Categoria
     {
         [Key]
         public int CategoriaId { get; set; }
