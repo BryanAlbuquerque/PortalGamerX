@@ -1,0 +1,15 @@
+﻿@model IEnumerable<PortalGamerX.Models.Jogo>
+
+<div><h1>Todos os Jogos</h1> </div>
+
+@foreach(var Jogo in Model)
+{
+    <div>
+        <h2>@Jogo.Nome</h2>
+        <h3>Preço: R$ @Jogo.Preco</h3>
+        <p><img src="@Jogo.ImagemUrl"></p>
+        <h4>@Jogo.Descricao</h4>
+
+        <br/>
+    </div>
+}
