@@ -1,16 +1,25 @@
-﻿@model IEnumerable<PortalGamerX.Models.Produto>
+﻿
 
-<div><h1>Todos os Jogos</h1> </div>
+@model IEnumerable<PortalGamerX.Models.Produto>
 
-@foreach (var Produto in Model)
-{
-    <div>
-        <h2>@Produto.Nome</h2>
-        <h3>Preço: R$ @Produto.Preco</h3>
-        <p><img src="@Produto.ImagemUrl"></p>
-        <h4>Quantidade em estoque: @Produto.Quantidade</h4>
-        <h4>@Produto.Descricao</h4>
+<div class="Titulo"><h1>Todos os Produtos</h1> </div>
 
-        <br />
+
+<div class="Conteiner">
+    <div class="row">
+        @foreach (var Produto in Model)
+        {
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <h2>@Produto.Nome</h2>
+                <h3>Preço: R$ @Produto.Preco</h3>
+                <p class="Image"><img src="@Produto.ImagemUrl"></p>
+                <h4>Em estoque: @Produto.Quantidade Unidades</h4>
+                <h4>@Produto.Descricao</h4>
+                <a asp-controller="Home" asp-action="index">Comprar</a>
+            </div>
+
+            <br>
+        }
     </div>
-}
+</div>
+

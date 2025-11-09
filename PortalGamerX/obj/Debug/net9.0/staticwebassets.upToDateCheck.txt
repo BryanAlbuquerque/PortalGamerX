@@ -31,6 +31,7 @@ C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\
 C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\bootstrap.rtl.min.css
 C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\bootstrap.rtl.min.css.map
 wwwroot\css\Layout.css
+wwwroot\css\Listas.css
 wwwroot\css\PortalGamerX.css
 wwwroot\css\style.css
 wwwroot\Images\favicon.ico
@@ -104,10 +105,9 @@ wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\Videos\VG.mp4
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\css\Layout.css
-C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\Images\favicon.ico
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\css\PortalGamerX.css
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\css\style.css
-C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\LICENSE.txt
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\Images\favicon.ico
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\js\slider.js
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
@@ -167,3 +167,5 @@ C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\dist\jquer
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\dist\jquery.slim.js
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\dist\jquery.slim.min.js
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\dist\jquery.slim.min.map
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\lib\jquery\LICENSE.txt
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\wwwroot\css\Listas.css

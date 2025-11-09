@@ -908,3 +908,4 @@ C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\bin\Debug\net9.0\tr\Microsoft
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
 C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\lxcoj3c8gu-xwio2y5cma.gz
+C:\Users\bryan\Documents\PortalGamerX\PortalGamerX\obj\Debug\net9.0\compressed\c79097l55m-ml6f35n1a6.gz

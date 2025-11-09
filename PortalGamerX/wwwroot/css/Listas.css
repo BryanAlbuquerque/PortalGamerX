@@ -1,0 +1,11 @@
+﻿.Titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Image p{
+    width: 200px;
+    height: auto;
+    border-radius: 20px;
+}
