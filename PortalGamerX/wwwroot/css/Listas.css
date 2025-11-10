@@ -1,11 +1,81 @@
-﻿.Titulo {
+﻿.card {
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+    transition: 0.3s ease-in-out;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    height: 100%;
 }
 
-.Image p{
-    width: 200px;
-    height: auto;
-    border-radius: 20px;
+    /* Hover moderno */
+    .produto-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 34px rgba(0,0,0,0.16);
+    }
+
+.img {
+    width: 100%;
+    height: 220px; 
+    overflow: hidden;
 }
+
+    .produto-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+    }
+
+.body {
+    padding: 16px 18px;
+    flex-grow: 1;
+}
+
+    .body h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+/* Descrição restrita */
+.descricao {
+    font-size: 0.9rem;
+    color: #666;
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Preço */
+.preco {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1a73e8;
+    margin-top: 10px;
+}
+
+/* Estoque */
+.estoque {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+/* Botão */
+.btn-comprar {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 14px;
+    background: #1a73e8;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+    .btn-comprar:hover {
+        background: #0056d6;
+    }
