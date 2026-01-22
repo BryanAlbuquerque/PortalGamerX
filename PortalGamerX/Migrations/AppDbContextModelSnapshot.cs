@@ -22,7 +22,7 @@ namespace PortalGamerX.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PortalGamerX.Models.Categorias", b =>
+            modelBuilder.Entity("PortalGamerX.Models.Categoria", b =>
                 {
                     b.Property<int>("CategoriaId")
                         .ValueGeneratedOnAdd()
@@ -129,7 +129,7 @@ namespace PortalGamerX.Migrations
 
             modelBuilder.Entity("PortalGamerX.Models.Jogo", b =>
                 {
-                    b.HasOne("PortalGamerX.Models.Categorias", "Categoria")
+                    b.HasOne("PortalGamerX.Models.Categoria", "Categoria")
                         .WithMany("Jogos")
                         .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -140,7 +140,7 @@ namespace PortalGamerX.Migrations
 
             modelBuilder.Entity("PortalGamerX.Models.Produto", b =>
                 {
-                    b.HasOne("PortalGamerX.Models.Categorias", "Categoria")
+                    b.HasOne("PortalGamerX.Models.Categoria", "Categoria")
                         .WithMany("Produtos")
                         .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -149,7 +149,7 @@ namespace PortalGamerX.Migrations
                     b.Navigation("Categoria");
                 });
 
-            modelBuilder.Entity("PortalGamerX.Models.Categorias", b =>
+            modelBuilder.Entity("PortalGamerX.Models.Categoria", b =>
                 {
                     b.Navigation("Jogos");
 
