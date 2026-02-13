@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|d:\\projetos\\portalgamerx\\portalgamerx\\migrations\\20260122230148_popularcategorias.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:migrations\\20260122230148_popularcategorias.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|d:\\projetos\\portalgamerx\\portalgamerx\\migrations\\20260122230100_popularprodutos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:migrations\\20260122230100_popularprodutos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|d:\\projetos\\portalgamerx\\portalgamerx\\migrations\\20260213214721_popularjogos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F41C00-D4C2-44AA-A380-6479B6BEF73F}|PortalGamerX.csproj|solutionrelative:migrations\\20260213214721_popularjogos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,27 +35,15 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "20260122230148_PopularCategorias.cs",
-              "DocumentMoniker": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Migrations\\20260122230148_PopularCategorias.cs",
-              "RelativeDocumentMoniker": "Migrations\\20260122230148_PopularCategorias.cs",
-              "ToolTip": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Migrations\\20260122230148_PopularCategorias.cs",
-              "RelativeToolTip": "Migrations\\20260122230148_PopularCategorias.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAWAAAAAAAAAA==",
+              "Title": "20260213214721_PopularJogos.cs",
+              "DocumentMoniker": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Migrations\\20260213214721_PopularJogos.cs",
+              "RelativeDocumentMoniker": "Migrations\\20260213214721_PopularJogos.cs",
+              "ToolTip": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Migrations\\20260213214721_PopularJogos.cs",
+              "RelativeToolTip": "Migrations\\20260213214721_PopularJogos.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAcwBEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T23:01:48.734Z",
+              "WhenOpened": "2026-02-13T21:56:16.144Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "20260122230100_PopularProdutos.cs",
-              "DocumentMoniker": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Migrations\\20260122230100_PopularProdutos.cs",
-              "RelativeDocumentMoniker": "Migrations\\20260122230100_PopularProdutos.cs",
-              "ToolTip": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Migrations\\20260122230100_PopularProdutos.cs",
-              "RelativeToolTip": "Migrations\\20260122230100_PopularProdutos.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAUwCEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T23:01:00.832Z"
             }
           ]
         }

@@ -12,8 +12,8 @@ using PortalGamerX.Context;
 namespace PortalGamerX.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260122230148_PopularCategorias")]
-    partial class PopularCategorias
+    [Migration("20260213214721_PopularJogos")]
+    partial class PopularJogos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
