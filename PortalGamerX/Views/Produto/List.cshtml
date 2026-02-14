@@ -1,30 +1,40 @@
 ﻿@model IEnumerable<PortalGamerX.Models.Produto>
 
-<div class="Titulo"><h1>Todos os Produtos</h1> </div>
-
-
-<div class="row g-4">
-    @foreach (var Produto in Model)
-    {
-        <div class="col-md-4 col-lg-3">
-            <div class="produto-card">
-                <div class="produto-img">
-                    <img src="@Produto.ImagemUrl" alt="@Produto.Nome">
-                </div>
-
-                <div class="produto-body">
-                    <h3>@Produto.Nome</h3>
-                    <p class="descricao">@Produto.Descricao</p>
-
-                    <p class="preco">R$ @Produto.Preco</p>
-                    <p class="estoque">Estoque: @Produto.Quantidade</p>
-
-                    <a asp-controller="Home" asp-action="index" class="btn-comprar">
-                        Comprar
-                    </a>
-                </div>
-            </div>
-        </div>
-    }
+<div class="Titulo">
+    <h1>Todos os Produtos</h1>
 </div>
 
+<div class="row g-4">
+    @foreach (var produto in Model)
+    {
+        <div class="col-md-4 col-lg-3">
+            <div class="card h-100">
+
+                <div class="img">
+                    <img src="@produto.ImagemUrl" alt="@produto.Nome">
+                </div>
+
+                <div class="body">
+                    <h3>@produto.Nome</h3>
+
+                    <p class="descricao">
+                        @produto.Descricao
+                    </p>
+
+                    <p class="preco">
+                        @produto.Preco.ToString("C",
+                        new System.Globalization.CultureInfo("pt-BR"))
+                </p>
+
+                <a asp-controller="Compra"
+                   asp-action="Adicionar"
+                   asp-route-id="@produto.ProdutoId"
+                   class="btn-comprar">
+                    Comprar
+                </a>
+
+            </div>
+        </div>
+    </div>
+        }
+</div>

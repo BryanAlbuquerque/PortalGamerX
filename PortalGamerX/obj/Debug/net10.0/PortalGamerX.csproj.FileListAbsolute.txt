@@ -395,7 +395,6 @@ D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\o2ladsn54b-{0
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\yaszb9e3gv-{0}-fijaqoo955-fijaqoo955.gz
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\4iwzf6hnb3-{0}-ys2tyb6s49-ys2tyb6s49.gz
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\2dpih07k5h-{0}-32kkl4wvic-32kkl4wvic.gz
-D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\urz516mu0j-{0}-l745xndwb0-l745xndwb0.gz
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\8t229xstcs-{0}-xwio2y5cma-xwio2y5cma.gz
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\8gzhvs44tf-{0}-n2yqbeq890-n2yqbeq890.gz
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\h2vl9xp7gg-{0}-61n19gt1b8-61n19gt1b8.gz
@@ -473,3 +472,4 @@ D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\refint\PortalGamerX.dll
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\PortalGamerX.pdb
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\PortalGamerX.genruntimeconfig.cache
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\ref\PortalGamerX.dll
+D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\urz516mu0j-{0}-173d05udkr-173d05udkr.gz

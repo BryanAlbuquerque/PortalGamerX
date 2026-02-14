@@ -1,81 +1,109 @@
-﻿.card {
+﻿/* ============================= */
+/* TÍTULO */
+.Titulo {
+    margin: 30px 0;
+    text-align: center;
+}
+
+    .Titulo h1 {
+        font-weight: 800;
+        font-size: 2rem;
+        color: #1a1a1a;
+    }
+
+/* ============================= */
+/* CARD */
+.card {
     background: #ffffff;
-    border-radius: 14px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.1);
-    transition: 0.3s ease-in-out;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     height: 100%;
+    border: none;
 }
 
     /* Hover moderno */
-    .produto-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 34px rgba(0,0,0,0.16);
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 38px rgba(0, 0, 0, 0.15);
     }
 
+/* ============================= */
+/* IMAGEM */
 .img {
     width: 100%;
-    height: 220px; 
+    height: 220px;
     overflow: hidden;
+    background-color: #f5f5f5;
 }
 
-    .produto-img img {
+    .img img {
         width: 100%;
         height: 100%;
-        object-fit: cover; 
+        object-fit: cover;
+        transition: transform 0.4s ease;
     }
 
+.card:hover .img img {
+    transform: scale(1.05);
+}
+
+/* ============================= */
+/* BODY */
 .body {
-    padding: 16px 18px;
+    padding: 18px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
     .body h3 {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
         font-weight: 700;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
+        color: #222;
     }
 
-/* Descrição restrita */
+/* ============================= */
+/* DESCRIÇÃO */
 .descricao {
     font-size: 0.9rem;
     color: #666;
-    height: 50px;
+    height: 48px;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-bottom: 10px;
 }
 
-/* Preço */
+/* ============================= */
+/* PREÇO */
 .preco {
     font-size: 1.3rem;
     font-weight: 800;
     color: #1a73e8;
-    margin-top: 10px;
+    margin-bottom: 8px;
 }
 
-/* Estoque */
-.estoque {
-    font-size: 0.9rem;
-    color: #444;
-}
-
-/* Botão */
+/* ============================= */
+/* BOTÃO */
 .btn-comprar {
+    margin-top: auto;
     display: block;
     width: 100%;
     padding: 10px;
-    margin-top: 14px;
-    background: #1a73e8;
+    background: linear-gradient(135deg, #1a73e8, #0056d6);
     color: white;
     text-align: center;
     border-radius: 10px;
     font-weight: 600;
-    transition: 0.2s;
     text-decoration: none;
+    transition: all 0.2s ease-in-out;
 }
 
     .btn-comprar:hover {
-        background: #0056d6;
+        background: linear-gradient(135deg, #0056d6, #003e9f);
+        transform: scale(1.02);
     }

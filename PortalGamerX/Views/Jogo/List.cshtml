@@ -1,27 +1,40 @@
 ﻿@model IEnumerable<PortalGamerX.Models.Jogo>
 
-<div class="Titulo"><h1>Todos os Jogos</h1> </div>
+<div class="Titulo">
+    <h1>Todos os Jogos</h1>
+</div>
 
 <div class="row g-4">
-    @foreach (var Jogo in Model)
+    @foreach (var jogo in Model)
     {
         <div class="col-md-4 col-lg-3">
-            <div class="card">
+            <div class="card h-100">
+
                 <div class="img">
-                    <img src="@Jogo.ImagemUrl" alt="@Jogo.Nome">
+                    <img src="@jogo.ImagemUrl" alt="@jogo.Nome">
                 </div>
 
                 <div class="body">
-                    <h3>@Jogo.Nome</h3>
-                    <p class="descricao">@Jogo.Descricao</p>
+                    <h3>@jogo.Nome</h3>
 
-                    <p class="preco">R$ @Jogo.Preco</p>
+                    <p class="descricao">
+                        @jogo.Descricao
+                    </p>
 
-                    <a asp-controller="Home" asp-action="index" class="btn-comprar">
-                        Comprar
-                    </a>
-                </div>
+                    <p class="preco">
+                        @jogo.Preco.ToString("C",
+                        new System.Globalization.CultureInfo("pt-BR"))
+                </p>
+
+                <a asp-controller="Compra"
+                   asp-action="Adicionar"
+                   asp-route-id="@jogo.JogoId"
+                   class="btn-comprar">
+                    Comprar
+                </a>
+
             </div>
         </div>
-    }
+    </div>
+        }
 </div>
