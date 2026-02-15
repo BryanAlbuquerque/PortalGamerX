@@ -26,4 +26,35 @@
     <div class="side right">
         <img src="~/images/SideImageAssassin.png" alt="Assassin" />
     </div>
+
+    <div class="explorar">
+        <h2 >Bem-vindo ao Portal GamerX!</h2>
+
+        <h6>
+            Prepare-se para entrar no próximo nível! Descubra as novidades mais insanas,
+            análises completas e os lançamentos que estão dominando o universo gamer.
+            Aqui a ação nunca para.
+        </h6>
+
+        <h6>
+            Monte seu arsenal, garanta seus jogos favoritos e encontre os produtos mais
+            épicos do mundo nerd para elevar sua experiência ao máximo.
+        </h6>
+
+        @{
+
+            foreach (var jogo in ViewBag.Jogos)
+            {
+                <div class="jogo">
+                    <img src="@jogo.ImagemUrl" alt="@jogo.Nome" />
+                    <h4>@jogo.Nome</h4>
+                    <p>@jogo.Descricao</p>
+                    <span class="preco">R$ @jogo.Preco.ToString("F2")</span>
+                </div>
+            }
+        }
+        
+
+
+    </div>
 </div>

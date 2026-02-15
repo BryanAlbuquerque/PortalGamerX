@@ -473,3 +473,4 @@ D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\PortalGamerX.pdb
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\PortalGamerX.genruntimeconfig.cache
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\ref\PortalGamerX.dll
 D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\urz516mu0j-{0}-173d05udkr-173d05udkr.gz
+D:\Projetos\PortalGamerX\PortalGamerX\obj\Debug\net10.0\compressed\t13fzdjhuw-{0}-tuajcvi3lx-tuajcvi3lx.gz
