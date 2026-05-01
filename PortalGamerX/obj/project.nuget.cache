@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NDOrzzBquFQ=",
+  "dgSpecHash": "mP2tE1/EMh0=",
   "success": true,
   "projectFilePath": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
   "expectedPackageFiles": [
@@ -141,6 +141,30 @@
       "warningLevel": 1,
       "filePath": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
       "libraryId": "Microsoft.Build",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1901",
+      "level": "Warning",
+      "message": "O pacote 'NuGet.Packaging' 6.11.0 tem uma baixa vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-g4vj-cjjj-v7hg",
+      "projectPath": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
+      "libraryId": "NuGet.Packaging",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1901",
+      "level": "Warning",
+      "message": "O pacote 'NuGet.Protocol' 6.11.0 tem uma baixa vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-g4vj-cjjj-v7hg",
+      "projectPath": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\PortalGamerX.csproj",
+      "libraryId": "NuGet.Protocol",
       "targetGraphs": [
         "net10.0"
       ]
