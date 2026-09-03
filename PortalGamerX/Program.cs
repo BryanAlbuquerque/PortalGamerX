@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PortalGamerX.Context;
-using PortalGamerX.Repository;
-using PortalGamerX.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +12,6 @@ builder.Services.AddAuthorization();
 // Banco de Dados
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
-
-// Injeção de dependência dos repositórios
-builder.Services.AddTransient<IJogoRepository, JogoRepository>();
-builder.Services.AddTransient<IProdutoRepository, ProdutoRepository>();
-builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 
 var app = builder.Build();
 

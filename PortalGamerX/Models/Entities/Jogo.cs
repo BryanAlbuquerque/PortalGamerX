@@ -1,22 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace PortalGamerX.Models
+namespace PortalGamerX.Models.Entities
 {
-    [Table("Produtos")]
-    public class Produto
+    [Table("Jogos")]
+    public class Jogo
     {
         [Key]
-        public int ProdutoId { get; set; }
+        public int JogoId { get; set; }
 
-        [Required(ErrorMessage = "Informe o nome do Produto")]
+        [Required(ErrorMessage = "Informe o nome do Jogo")]
+        [Display(Name = "Nome do Jogo")]
         [StringLength(80, MinimumLength = 5, ErrorMessage = "O {0} Deve ter o minimo {1} e no maximo {2} Caracteres")]
-        [Display(Name = "Nome do Produto")]
         public string Nome { get; set; }
 
-        [Required(ErrorMessage = "Informe a Descrição do Produto")]
+        [Required(ErrorMessage = "Informe a data")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Data do Lançamento")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime DataLancamento { get; set; }
+
+        [Required(ErrorMessage = "Informe a Descrição do Jogo")]
+        [Display(Name = "Descrição do Jogo")]
         [StringLength(300, MinimumLength = 10, ErrorMessage = "A {0} Deve ter o minimo {1} e no maximo {2} Caracteres")]
-        [Display(Name = "Descrição do Produto")]
         public string Descricao { get; set; }
 
         [Required(ErrorMessage = "Informe o Preço do Produto")]
@@ -25,16 +31,21 @@ namespace PortalGamerX.Models
         [Range(1, 999.99, ErrorMessage = "O preço deve estar entre 1 e 999,99")]
         public decimal Preco { get; set; }
 
-        [Required(ErrorMessage = "Informe a Quantidade do Produto")]
-        [Display(Name = "Quantidade em Estoque")]
-        public int Quantidade { get; set; }
-
         [Display(Name = "Caminho da Imagem")]
-        [StringLength(200, ErrorMessage = "O {0} deve ter o maximo de {1} Caracteres!")]
         public string ImagemUrl { get; set; }
+
+        public int Key { get; set; }
+
+        public bool EmPromocao { get; set; }
 
         // foreign Key e relacionamentos
         public int CategoriaId { get; set; }
         public virtual Categoria Categoria { get; set; }
+
+        public ICollection<Favorito> Favoritos { get; set; } = new List<Favorito>();
+
+        public ICollection<ItemPedido> ItensPedido { get; set; } = new List<ItemPedido>();
+
+        public ICollection<Imagem> Imagens { get; set; } = new List<Imagem>();
     }
 }

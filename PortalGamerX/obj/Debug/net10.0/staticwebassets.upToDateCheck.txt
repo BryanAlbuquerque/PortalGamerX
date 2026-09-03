@@ -30,7 +30,6 @@ C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\
 C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\bootstrap.rtl.css.map
 C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\bootstrap.rtl.min.css
 C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\bootstrap.rtl.min.css.map
-wwwroot\css\explorar.css
 wwwroot\css\Layout.css
 wwwroot\css\Listas.css
 wwwroot\css\PortalGamerX.css
@@ -105,6 +104,7 @@ wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\Videos\VG.mp4
+wwwroot\css\explorar.css
 D:\Projetos\PortalGamerX\PortalGamerX\wwwroot\css\Layout.css
 D:\Projetos\PortalGamerX\PortalGamerX\wwwroot\css\Listas.css
 D:\Projetos\PortalGamerX\PortalGamerX\wwwroot\css\PortalGamerX.css

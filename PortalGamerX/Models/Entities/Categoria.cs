@@ -1,13 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace PortalGamerX.Models
+namespace PortalGamerX.Models.Entities
 {
     [Table("Categorias")]
     public class Categoria
     {
         [Key]
         public int CategoriaId { get; set; }
+
+        public int JogoId { get; set; }
+
 
         [StringLength(100, ErrorMessage = "Tamanho maximo permitido é 100 Caracteres!")]
         [Required(ErrorMessage = "Informe o nome da categoria")]
@@ -25,6 +28,5 @@ namespace PortalGamerX.Models
         public string TipoCategoria { get; set; }
 
         public List<Jogo> Jogos { get; set; }
-        public List<Produto> Produtos { get; set; }
     }
 }

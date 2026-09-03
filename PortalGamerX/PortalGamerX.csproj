@@ -33,4 +33,12 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Repository\Interfaces\" />
+    <Folder Include="Views\Explorar\" />
+    <Folder Include="Views\Jogo\" />
+    <Folder Include="Views\Produto\" />
+  </ItemGroup>
+
 </Project>
