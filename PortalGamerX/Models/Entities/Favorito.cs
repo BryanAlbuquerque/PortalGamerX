@@ -2,7 +2,7 @@
 {
     public class Favorito
     {
-        public string UsuarioId { get; set; } = string.Empty;
+        public int? UsuarioId { get; set; }
 
         public Cliente Usuario { get; set; } = null!;
 

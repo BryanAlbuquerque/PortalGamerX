@@ -2,12 +2,11 @@
 {
     public class Pagamento
     {
-
         public Guid Id { get; set; }
 
         public Guid PedidoId { get; set; }
 
-        public string? UsuarioId { get; set; }
+        public int? UsuarioId { get; set; }
 
         public Cliente? Usuario { get; set; }
 
@@ -18,7 +17,6 @@
             = string.Empty;
 
         // Pendente, Pago, Cancelado...
-
         public string StatusPagamento { get; set; }
             = string.Empty;
 
@@ -39,6 +37,5 @@
         public string? BandeiraCartao { get; set; }
 
         public int? Parcelas { get; set; }
-
     }
 }

@@ -32,7 +32,7 @@ namespace PortalGamerX.Models.Entities
         public decimal Preco { get; set; }
 
         [Display(Name = "Caminho da Imagem")]
-        public string ImagemUrl { get; set; }
+        public string? ImagemUrl { get; set; }
 
         public int Key { get; set; }
 

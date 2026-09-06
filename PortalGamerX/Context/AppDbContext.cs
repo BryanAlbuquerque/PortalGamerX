@@ -34,9 +34,7 @@ namespace PortalGamerX.Context
 
         private static void ConfigurarEntidades(ModelBuilder builder)
         {
-            // =========================
             // CLIENTE
-            // =========================
 
             builder.Entity<Cliente>()
                 .ToTable("Clientes");
@@ -67,9 +65,7 @@ namespace PortalGamerX.Context
                 .Property(c => c.Telefone)
                 .HasMaxLength(20);
 
-            // =========================
             // JOGO
-            // =========================
 
             builder.Entity<Jogo>()
                 .ToTable("Jogos");
@@ -89,11 +85,10 @@ namespace PortalGamerX.Context
 
             builder.Entity<Jogo>()
                 .Property(j => j.ImagemUrl)
-                .HasMaxLength(500);
+                .HasMaxLength(500)
+                .IsRequired(false);
 
-            // =========================
             // CATEGORIA
-            // =========================
 
             builder.Entity<Categoria>()
                 .ToTable("Categorias");
@@ -116,9 +111,7 @@ namespace PortalGamerX.Context
                 .IsRequired()
                 .HasMaxLength(50);
 
-            // =========================
             // PEDIDO
-            // =========================
 
             builder.Entity<Pedido>()
                 .ToTable("Pedidos");
@@ -152,9 +145,7 @@ namespace PortalGamerX.Context
                 .Property(p => p.MotivoReembolso)
                 .HasMaxLength(500);
 
-            // =========================
             // PAGAMENTO
-            // =========================
 
             builder.Entity<Pagamento>()
                 .ToTable("Pagamentos");
@@ -196,9 +187,7 @@ namespace PortalGamerX.Context
                 .Property(p => p.BandeiraCartao)
                 .HasMaxLength(30);
 
-            // =========================
             // ITEM PEDIDO
-            // =========================
 
             builder.Entity<ItemPedido>()
                 .ToTable("ItensPedidos");
@@ -206,9 +195,7 @@ namespace PortalGamerX.Context
             builder.Entity<ItemPedido>()
                 .HasKey(i => i.Id);
 
-            // =========================
             // CARRINHO
-            // =========================
 
             builder.Entity<Carrinho>()
                 .ToTable("Carrinhos");
@@ -221,9 +208,7 @@ namespace PortalGamerX.Context
                 .IsRequired()
                 .HasMaxLength(450);
 
-            // =========================
             // ITEM CARRINHO
-            // =========================
 
             builder.Entity<ItemCarrinho>()
                 .ToTable("ItensCarrinhos");
@@ -231,9 +216,7 @@ namespace PortalGamerX.Context
             builder.Entity<ItemCarrinho>()
                 .HasKey(i => i.Id);
 
-            // =========================
             // FAVORITO
-            // =========================
 
             builder.Entity<Favorito>()
                 .ToTable("Favoritos");
@@ -246,9 +229,7 @@ namespace PortalGamerX.Context
                 .IsRequired()
                 .HasMaxLength(450);
 
-            // =========================
             // IMAGEM
-            // =========================
 
             builder.Entity<Imagem>()
                 .ToTable("Imagens");
@@ -261,9 +242,7 @@ namespace PortalGamerX.Context
                 .IsRequired()
                 .HasMaxLength(500);
 
-            // =========================
             // HISTÓRICO DE COMPRA
-            // =========================
 
             builder.Entity<HistoricoCompra>()
                 .ToTable("HistoricoCompras");
@@ -284,9 +263,7 @@ namespace PortalGamerX.Context
                 .Property(h => h.UsuarioId)
                 .HasMaxLength(450);
 
-            // =========================
             // BANNER
-            // =========================
 
             builder.Entity<Banner>()
                 .ToTable("Banners");

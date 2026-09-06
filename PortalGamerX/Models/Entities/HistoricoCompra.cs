@@ -16,7 +16,7 @@ namespace PortalGamerX.Models.Entities
 
         public string? Descricao { get; set; }
 
-        public string? UsuarioId { get; set; }
+        public int? UsuarioId { get; set; }
 
         public Cliente? Usuario { get; set; }
 
