@@ -1,0 +1,13 @@
+﻿@model IEnumerable<PortalGamerX.Models.Entities.Categoria>
+
+@foreach (var categoria in Model)
+{
+    <a asp-controller="Produtos"
+       asp-action="Categoria"
+       asp-route-id="@categoria.CategoriaId"
+       class="category-link">
+
+        @categoria.Nome
+
+    </a>
+}

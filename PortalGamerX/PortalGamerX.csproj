@@ -35,9 +35,12 @@
 
   <ItemGroup>
     <Folder Include="Repository\Interfaces\" />
-    <Folder Include="Views\Explorar\" />
     <Folder Include="Views\Jogo\" />
     <Folder Include="Views\Produto\" />
+    <Folder Include="wwwroot\css\Layout\" />
+    <Folder Include="wwwroot\css\Admin\" />
+    <Folder Include="wwwroot\css\Jogos\" />
+    <Folder Include="wwwroot\css\Responsive\" />
   </ItemGroup>
 
 </Project>

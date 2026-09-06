@@ -1,0 +1,27 @@
+﻿<nav class="category-nav">
+
+    <div class="container">
+
+        <div class="category-wrapper">
+
+            <a asp-controller="Produtos"
+               asp-action="Index"
+               class="explore-link">
+
+                <i class="bi bi-grid"></i>
+
+                <span>Explorar</span>
+
+            </a>
+
+            <div class="categories-scroll">
+
+                @await Component.InvokeAsync("CategoriasMenu")
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>

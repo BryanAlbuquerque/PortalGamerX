@@ -1,45 +1,118 @@
-﻿@{
-    Layout = null;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+
 <html lang="pt-BR">
+
 <head>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"] PortalGamerX</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/css/Layout.css" />
-    <link rel="stylesheet" href="~/css/PortalGamerX.css"/>
-    <link rel="stylesheet" href="~/css/Listas.css"/>
-    <link rel="stylesheet" href="~/css/explorar.css" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
 
+    <!-- SEO -->
+
+    <title>
+        @(ViewData["Title"] ?? "Porta GamerX")
+    </title>
+
+    <meta name="description"
+          content="@(ViewData["Description"] ?? "Porta GamerX - Loja Online de Jogos.")" />
+
+    <meta name="keywords"
+          content="@(ViewData["Keywords"] ?? "jogos, video games, portagamerx")" />
+
+    <meta name="author"
+          content="Pimenta Selvagem" />
+
+    <meta name="robots"
+          content="index,follow" />
+
+    <meta name="theme-color"
+          content="#d63384" />
+
+    <!-- Canonical -->
+    @if (ViewData["Canonical"] != null)
+    {
+        <link rel="canonical"
+              href="@ViewData["Canonical"]" />
+    }
+
+    <!-- Open Graph -->
+
+    <meta property="og:type"
+          content="website" />
+
+    <meta property="og:site_name"
+          content="Pimenta Selvagem" />
+
+    <meta property="og:title"
+          content="@(ViewData["Title"] ?? "Porta GamerX")" />
+
+    <meta property="og:description"
+          content="@(ViewData["Description"] ?? "Porta GamerX - Loja Online de Jogos")" />
+
+    <meta property="og:url"
+          content="@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
+
+    <meta property="og:image"
+          content="@(ViewData["OgImage"] ?? Url.Content("~/images/logo-og.jpg"))" />
+
+    <!-- Twitter -->
+
+    <meta name="twitter:card"
+          content="summary_large_image" />
+
+    <meta name="twitter:title"
+          content="@(ViewData["Title"] ?? "Porta GamerX")" />
+
+    <meta name="twitter:description"
+          content="@(ViewData["Description"] ?? "Porta GamerX - Loja Online de Jogos")" />
+
+    <meta name="twitter:image"
+          content="@(ViewData["OgImage"] ?? Url.Content("~/images/logo-og.jpg"))" />
+
+    <!-- Favicon -->
+
+    <link rel="icon"
+          type="image/png"
+          href="~/Logo.png" />
+
+
+    @await Html.PartialAsync("Layout/_Styles")
+    @await RenderSectionAsync("Head", required: false)
 </head>
 <body>
-    <header class="site-header">
-        <div class="header-inner">
-            <div class="logo"><a asp-controller="Home" asp-action="Index">PortalGamerX</a></div>
 
-            <nav class="menu">
-                <a asp-controller="Home" asp-action="Explorar">Explorar</a>
-                <a asp-controller="Jogo" asp-action="List">Jogos</a>
-                <a asp-controller="Produto" asp-action="List">Produtos Geeks</a>
-                <a asp-controller="Home" asp-action="Franquias">Franquias</a>
-            </nav>
-        </div>
-    </header>
+    <!-- HEADER -->
+    @await Html.PartialAsync("Layout/_Header")
 
-    <main>
+    <!-- MENU CATEGORIAS -->
+    @await Html.PartialAsync("Layout/_CategoryNav")
+
+    <!-- MENU MOBILE -->
+    @await Html.PartialAsync("Layout/_MobileMenu")
+
+    <!-- CONTEÚDO -->
+
+    <main role="main">
+
         @RenderBody()
+
     </main>
 
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <p>© 2025 PortalGamerX — Todos os direitos reservados.</p>
-            <p><a href="#">Política de Privacidade</a></p>
-        </div>
-    </footer>
+    <!-- FOOTER -->
+    @await Html.PartialAsync("Layout/_Footer")
 
-    <script src="~/js/slider.js"></script>
+    <!-- SCRIPTS -->
+    @await Html.PartialAsync("Layout/_Scripts")
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <div id="toastContainer"
+         class="toast-container position-fixed bottom-0 end-0 p-3"
+         style="z-index:99999">
+    </div>
+
 </body>
+
 </html>

@@ -1,0 +1,177 @@
+﻿<header class="main-header">
+
+    <div class="container">
+
+        <div class="header-wrapper">
+
+            <!-- LOGO -->
+
+            <div class="header-logo">
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="logo-link">
+
+                    <img src="~/images/logo.png"
+                         class="logo"
+                         alt="Pimenta Selvagem" />
+
+                </a>
+
+            </div>
+
+            <!-- PESQUISA -->
+
+            <div class="header-search">
+
+                <form asp-controller="Home"
+                      asp-action="Pesquisa"
+                      method="get">
+
+                    <div class="search-box">
+
+                        <input type="text"
+                               name="Texto"
+                               class="search-input"
+                               placeholder="O que você procura hoje?"
+                               autocomplete="off" />
+
+                        <button type="submit"
+                                class="search-button">
+
+                            <i class="bi bi-search"></i>
+
+                            <span>
+
+                                Pesquisar
+
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- DESKTOP -->
+
+            <div class="header-actions desktop-actions">
+
+                <a asp-controller="Favoritos"
+                   asp-action="Index"
+                   class="btn btn-light">
+
+                    <i class="bi bi-heart"></i>
+
+                    <span>Favoritos</span>
+
+                </a>
+
+
+                <a asp-controller="Carrinho"
+                   asp-action="Index"
+                   class="btn btn-light">
+
+                    <i class="bi bi-cart3"></i>
+
+                    <span>Carrinho</span>
+
+                </a>
+
+                <a asp-controller="PedidosHome"
+                   asp-action="Index"
+                   class="btn btn-light">
+
+                    <i class="bi bi-card-checklist"></i>
+
+                    <span>Pedidos</span>
+
+                </a>
+
+                
+                @* @if (SignInManager.IsSignedIn(User) && !User.IsInRole("Admin"))
+                {
+                    <partial name="Layout/Notificacoes/_HeaderNotifications" />
+                } *@
+
+                @if (0 > 0)
+                {
+                    <a asp-area="Identity"
+                       asp-page="/Account/Manage/Index"
+                       class="btn btn-outline-dark">
+
+                        <i class="bi bi-person-circle"></i>
+
+                        <span>Minha Conta</span>
+
+                    </a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Dashboard"
+                           asp-action="Index"
+                           class="btn btn-danger">
+
+                            <i class="bi bi-speedometer2"></i>
+
+                            <span>Painel Admin</span>
+
+                        </a>
+                    }
+
+                    <form asp-area="Identity"
+                          asp-page="/Account/Logout"
+                          asp-route-returnUrl="@Url.Action("Index", "Home")">
+
+                        <button type="submit"
+                                class="btn btn-outline-danger">
+
+                            <i class="bi bi-box-arrow-right"></i>
+
+                            <span>Sair</span>
+
+                        </button>
+
+                    </form>
+                }
+                else
+                {
+                    <a asp-area="Identity"
+                       asp-page="/Account/Login"
+                       class="btn btn-outline-dark">
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                        <span>Entrar</span>
+
+                    </a>
+
+                    <a asp-area="Identity"
+                       asp-page="/Account/Register"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-person-plus"></i>
+
+                        <span>Criar Conta</span>
+
+                    </a>
+                }
+
+            </div>
+
+            <!-- BOTÃO MOBILE -->
+
+            <button id="menuToggle"
+                    class="mobile-toggle">
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
