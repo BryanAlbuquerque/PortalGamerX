@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Administração</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/admin.css" />
+</head>
+<body>
+    <header>
+        <nav>
+            <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="Index">
+                Painel administrativo
+            </a>
+
+            <a asp-area="Admin"
+               asp-controller="Jogos"
+               asp-action="Index">
+                Jogos
+            </a>
+
+            <a asp-area="Admin"
+               asp-controller="Categorias"
+               asp-action="Index">
+                Categorias
+            </a>
+
+            <a asp-area="Admin"
+               asp-controller="Pedidos"
+               asp-action="Index">
+                Pedidos
+            </a>
+
+            <a asp-area=""
+               asp-controller="Home"
+               asp-action="Index">
+                Voltar para a loja
+            </a>
+        </nav>
+    </header>
+
+    <main class="container-fluid">
+        @RenderBody()
+    </main>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

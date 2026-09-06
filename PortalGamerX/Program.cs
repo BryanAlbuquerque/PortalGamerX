@@ -1,17 +1,37 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PortalGamerX.Context;
+using Microsoft.AspNetCore.Identity;
+using PortalGamerX.Models.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region Services
 
 // Serviços MVC
 builder.Services.AddControllersWithViews();
 
+// Banco de Dados
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("default")));
+
+// Identity
+builder.Services
+    .AddIdentity<Cliente, IdentityRole<int>>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Cliente/Conta/Login";
+    options.AccessDeniedPath = "/Cliente/Conta/AcessoNegado";
+});
+
+
 // Autorização
 builder.Services.AddAuthorization();
 
-// Banco de Dados
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
+#endregion
 
 var app = builder.Build();
 
@@ -22,6 +42,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+# region PIPELINE
 // Pipeline de requisição HTTP
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -31,9 +53,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Rotas
+#endregion
+
+#region ROTAS
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+#endregion
 
 app.Run();

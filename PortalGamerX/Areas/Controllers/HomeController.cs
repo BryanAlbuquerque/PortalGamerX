@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace PortalGamerX.Controllers
+namespace PortalGamerX.Areas.Controllers
 {
     public class HomeController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult PortalGamer()
         {
             return View();
         }

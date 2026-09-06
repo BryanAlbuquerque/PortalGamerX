@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PortalGamerX.Models.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace PortalGamerX.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<Cliente, IdentityRole<int>, int>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options)
-        {
-        }
+       public AppDbContext(
+            DbContextOptions<AppDbContext> options)
+            : base(options){ }
 
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Jogo> Jogos { get; set; }
@@ -57,12 +58,8 @@ namespace PortalGamerX.Context
                 .HasMaxLength(14);
 
             builder.Entity<Cliente>()
-                .Property(c => c.Email)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            builder.Entity<Cliente>()
                 .Property(c => c.Telefone)
+                .IsRequired()
                 .HasMaxLength(20);
 
             // JOGO
@@ -164,10 +161,6 @@ namespace PortalGamerX.Context
                 .HasMaxLength(30);
 
             builder.Entity<Pagamento>()
-                .Property(p => p.UsuarioId)
-                .HasMaxLength(450);
-
-            builder.Entity<Pagamento>()
                 .Property(p => p.ChavePix)
                 .HasMaxLength(200);
 
@@ -203,11 +196,6 @@ namespace PortalGamerX.Context
             builder.Entity<Carrinho>()
                 .HasKey(c => c.Id);
 
-            builder.Entity<Carrinho>()
-                .Property(c => c.UsuarioId)
-                .IsRequired()
-                .HasMaxLength(450);
-
             // ITEM CARRINHO
 
             builder.Entity<ItemCarrinho>()
@@ -223,11 +211,6 @@ namespace PortalGamerX.Context
 
             builder.Entity<Favorito>()
                 .HasKey(f => new { f.UsuarioId, f.JogoId });
-
-            builder.Entity<Favorito>()
-                .Property(f => f.UsuarioId)
-                .IsRequired()
-                .HasMaxLength(450);
 
             // IMAGEM
 
@@ -258,10 +241,6 @@ namespace PortalGamerX.Context
             builder.Entity<HistoricoCompra>()
                 .Property(h => h.Descricao)
                 .HasMaxLength(500);
-
-            builder.Entity<HistoricoCompra>()
-                .Property(h => h.UsuarioId)
-                .HasMaxLength(450);
 
             // BANNER
 
