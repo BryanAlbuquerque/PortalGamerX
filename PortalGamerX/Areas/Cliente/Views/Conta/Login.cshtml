@@ -1,7 +1,122 @@
-﻿@{
+﻿@model PortalGamerX.ViewModels.Conta.LoginViewModel
+
+@{
     ViewData["Title"] = "Login";
 }
 
-<h1>Entrar</h1>
+<div class="login-page">
 
-<p>Página de login em construção.</p>
+    <div class="login-card">
+
+        <!-- Logo / Título -->
+        <div class="text-center mb-4">
+            <div class="login-icon">
+                <i class="bi bi-controller"></i>
+            </div>
+
+            <h1 class="login-title">PortalGamerX</h1>
+            <p class="login-subtitle">
+                Entre na sua conta
+            </p>
+        </div>
+
+        <form asp-area="Cliente"
+              asp-controller="Conta"
+              asp-action="Login"
+              method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <!-- E-mail -->
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">
+                    E-mail
+                </label>
+
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+
+                    <input asp-for="Email"
+                           class="form-control"
+                           placeholder="Digite seu e-mail"
+                           autocomplete="email" />
+                </div>
+
+                <span asp-validation-for="Email"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <!-- Senha -->
+            <div class="mb-3">
+                <label asp-for="Senha" class="form-label">
+                    Senha
+                </label>
+
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-lock"></i>
+                    </span>
+
+                    <input asp-for="Senha"
+                           type="password"
+                           class="form-control"
+                           placeholder="Digite sua senha"
+                           autocomplete="current-password" />
+                </div>
+
+                <span asp-validation-for="Senha"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <!-- Lembrar -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div class="form-check">
+                    <input asp-for="LembrarMe"
+                           class="form-check-input" />
+
+                    <label asp-for="LembrarMe"
+                           class="form-check-label">
+                    </label>
+                </div>
+
+                <a href="#" class="forgot-password">
+                    Esqueceu a senha?
+                </a>
+
+            </div>
+
+            <!-- Botão -->
+            <button type="submit"
+                    class="btn btn-login w-100">
+
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+                Entrar
+
+            </button>
+
+        </form>
+
+        <!-- Cadastro -->
+        <div class="register-area text-center">
+
+            <span>Não possui uma conta?</span>
+
+            <a asp-area="Cliente"
+               asp-controller="Conta"
+               asp-action="Cadastro">
+                Cadastre-se
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+

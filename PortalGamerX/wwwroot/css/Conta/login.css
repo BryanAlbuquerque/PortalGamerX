@@ -1,0 +1,167 @@
+﻿<style >
+/* Fundo da página */
+.login-page {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 15px;
+    background: radial-gradient( circle at top, rgba(13, 110, 253, 0.18), transparent 45% ), #0f1117;
+}
+
+
+/* Card */
+
+.login-card {
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    background: #181b23;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    color: #fff;
+}
+
+
+/* Ícone */
+
+.login-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #0d6efd;
+    color: white;
+    font-size: 30px;
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.35);
+}
+
+
+/* Título */
+
+.login-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.login-subtitle {
+    color: #9ca3af;
+    margin-bottom: 0;
+}
+
+
+/* Labels */
+
+.form-label {
+    font-weight: 500;
+    color: #e5e7eb;
+}
+
+
+/* Inputs */
+
+.input-group-text {
+    background: #222630;
+    border-color: #343945;
+    color: #8b93a7;
+}
+
+.form-control {
+    height: 48px;
+    background: #222630;
+    border-color: #343945;
+    color: #fff;
+}
+
+    .form-control::placeholder {
+        color: #737b8d;
+    }
+
+    .form-control:focus {
+        background: #222630;
+        color: #fff;
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    }
+
+
+/* Checkbox */
+
+.form-check-input {
+    background-color: #222630;
+    border-color: #454b59;
+}
+
+.form-check-label {
+    color: #b5bbc8;
+    cursor: pointer;
+}
+
+
+/* Esqueci senha */
+
+.forgot-password {
+    color: #6ea8fe;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+    .forgot-password:hover {
+        text-decoration: underline;
+    }
+
+
+/* Botão */
+
+.btn-login {
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background: #0d6efd;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+    .btn-login:hover {
+        background: #0b5ed7;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(13, 110, 253, 0.25);
+    }
+
+
+/* Cadastro */
+
+.register-area {
+    margin-top: 25px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: #9ca3af;
+}
+
+    .register-area a {
+        margin-left: 5px;
+        color: #6ea8fe;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .register-area a:hover {
+            text-decoration: underline;
+        }
+
+
+/* Mensagens de validação */
+
+.text-danger {
+    font-size: 13px;
+}
+
+</style >
