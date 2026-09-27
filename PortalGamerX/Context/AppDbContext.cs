@@ -59,7 +59,6 @@ namespace PortalGamerX.Context
 
             builder.Entity<Cliente>()
                 .Property(c => c.Telefone)
-                .IsRequired()
                 .HasMaxLength(20);
 
             // JOGO

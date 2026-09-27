@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PortalGamerX.Context;
-using Microsoft.AspNetCore.Identity;
+using PortalGamerX.Data.Seed;
 using PortalGamerX.Models.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,13 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    await SeedData.InicializarAsync(services);
 }
 
 

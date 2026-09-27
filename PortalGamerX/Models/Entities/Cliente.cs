@@ -14,7 +14,8 @@ namespace PortalGamerX.Models.Entities
         [MaxLength(14)]
         public string? CPF { get; set; }
 
-        public int Telefone { get; set; }
+        [MaxLength(20)]
+        public string? Telefone { get; set; }
 
         public DateTime? DataNascimento { get; set; }
 

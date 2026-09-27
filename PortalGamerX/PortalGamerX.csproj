@@ -7,6 +7,25 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Views\Jogo\**" />
+	  <Compile Remove="wwwroot\css\Admin\**" />
+	  <Compile Remove="wwwroot\css\Jogos\**" />
+	  <Compile Remove="wwwroot\css\Responsive\**" />
+	  <Content Remove="Views\Jogo\**" />
+	  <Content Remove="wwwroot\css\Admin\**" />
+	  <Content Remove="wwwroot\css\Jogos\**" />
+	  <Content Remove="wwwroot\css\Responsive\**" />
+	  <EmbeddedResource Remove="Views\Jogo\**" />
+	  <EmbeddedResource Remove="wwwroot\css\Admin\**" />
+	  <EmbeddedResource Remove="wwwroot\css\Jogos\**" />
+	  <EmbeddedResource Remove="wwwroot\css\Responsive\**" />
+	  <None Remove="Views\Jogo\**" />
+	  <None Remove="wwwroot\css\Admin\**" />
+	  <None Remove="wwwroot\css\Jogos\**" />
+	  <None Remove="wwwroot\css\Responsive\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.bundle.js" />
 		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.bundle.js.map" />
 		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.bundle.min.js" />
@@ -41,11 +60,6 @@
 		<Folder Include="Areas\Admin\Views\Clientes\" />
 		<Folder Include="Areas\Admin\Views\Banners\" />
 		<Folder Include="Areas\Admin\Views\Pedidos\" />
-		<Folder Include="Views\Jogo\" />
-		<Folder Include="wwwroot\css\Layout\" />
-		<Folder Include="wwwroot\css\Admin\" />
-		<Folder Include="wwwroot\css\Jogos\" />
-		<Folder Include="wwwroot\css\Responsive\" />
 	</ItemGroup>
 
 	<PropertyGroup>
