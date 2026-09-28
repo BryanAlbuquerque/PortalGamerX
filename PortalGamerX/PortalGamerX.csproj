@@ -1,72 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-PortalGamerX-92a80e76-11d6-411e-9ed6-822f0a4f5215</UserSecretsId>
+  </PropertyGroup>
 
-	<ItemGroup>
-	  <Compile Remove="Views\Jogo\**" />
-	  <Compile Remove="wwwroot\css\Admin\**" />
-	  <Compile Remove="wwwroot\css\Jogos\**" />
-	  <Compile Remove="wwwroot\css\Responsive\**" />
-	  <Content Remove="Views\Jogo\**" />
-	  <Content Remove="wwwroot\css\Admin\**" />
-	  <Content Remove="wwwroot\css\Jogos\**" />
-	  <Content Remove="wwwroot\css\Responsive\**" />
-	  <EmbeddedResource Remove="Views\Jogo\**" />
-	  <EmbeddedResource Remove="wwwroot\css\Admin\**" />
-	  <EmbeddedResource Remove="wwwroot\css\Jogos\**" />
-	  <EmbeddedResource Remove="wwwroot\css\Responsive\**" />
-	  <None Remove="Views\Jogo\**" />
-	  <None Remove="wwwroot\css\Admin\**" />
-	  <None Remove="wwwroot\css\Jogos\**" />
-	  <None Remove="wwwroot\css\Responsive\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.bundle.js" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.bundle.js.map" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.bundle.min.js" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.bundle.min.js.map" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.esm.js" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.esm.js.map" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.esm.min.js" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.esm.min.js.map" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.js" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.js.map" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.min.js" />
-		<Content Remove="C:\Users\bryan\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.min.js.map" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="bootstrap" Version="5.3.8" />
-		<PackageReference Include="BootstrapBlazor" Version="10.10.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.11">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Migrations\" />
-		<Folder Include="Areas\Admin\Views\Jogos\" />
-		<Folder Include="Areas\Admin\Views\Categorias\" />
-		<Folder Include="Areas\Admin\Views\Clientes\" />
-		<Folder Include="Areas\Admin\Views\Banners\" />
-		<Folder Include="Areas\Admin\Views\Pedidos\" />
-	</ItemGroup>
-
-	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<NoWarn>$(NoWarn);NU1901</NoWarn>
-	</PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.12" />
+  </ItemGroup>
 
 </Project>

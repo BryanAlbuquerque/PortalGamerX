@@ -1,118 +1,51 @@
 ﻿<!DOCTYPE html>
-
-<html lang="pt-BR">
-
+<html lang="en">
 <head>
-
     <meta charset="utf-8" />
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1" />
-
-    <!-- SEO -->
-
-    <title>
-        @(ViewData["Title"] ?? "Porta GamerX")
-    </title>
-
-    <meta name="description"
-          content="@(ViewData["Description"] ?? "Porta GamerX - Loja Online de Jogos.")" />
-
-    <meta name="keywords"
-          content="@(ViewData["Keywords"] ?? "jogos, video games, portagamerx")" />
-
-    <meta name="author"
-          content="Pimenta Selvagem" />
-
-    <meta name="robots"
-          content="index,follow" />
-
-    <meta name="theme-color"
-          content="#d63384" />
-
-    <!-- Canonical -->
-    @if (ViewData["Canonical"] != null)
-    {
-        <link rel="canonical"
-              href="@ViewData["Canonical"]" />
-    }
-
-    <!-- Open Graph -->
-
-    <meta property="og:type"
-          content="website" />
-
-    <meta property="og:site_name"
-          content="Pimenta Selvagem" />
-
-    <meta property="og:title"
-          content="@(ViewData["Title"] ?? "Porta GamerX")" />
-
-    <meta property="og:description"
-          content="@(ViewData["Description"] ?? "Porta GamerX - Loja Online de Jogos")" />
-
-    <meta property="og:url"
-          content="@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
-
-    <meta property="og:image"
-          content="@(ViewData["OgImage"] ?? Url.Content("~/images/logo-og.jpg"))" />
-
-    <!-- Twitter -->
-
-    <meta name="twitter:card"
-          content="summary_large_image" />
-
-    <meta name="twitter:title"
-          content="@(ViewData["Title"] ?? "Porta GamerX")" />
-
-    <meta name="twitter:description"
-          content="@(ViewData["Description"] ?? "Porta GamerX - Loja Online de Jogos")" />
-
-    <meta name="twitter:image"
-          content="@(ViewData["OgImage"] ?? Url.Content("~/images/logo-og.jpg"))" />
-
-    <!-- Favicon -->
-
-    <link rel="icon"
-          type="image/png"
-          href="~/Logo.png" />
-
-
-    @await Html.PartialAsync("Layout/_Styles")
-    @await RenderSectionAsync("Head", required: false)
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PortalGamerX</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PortalGamerX.styles.css" asp-append-version="true" />
 </head>
 <body>
-
-    <!-- HEADER -->
-    @await Html.PartialAsync("Layout/_Header")
-
-    <!-- MENU CATEGORIAS -->
-    @await Html.PartialAsync("Layout/_CategoryNav")
-
-    <!-- MENU MOBILE -->
-    @await Html.PartialAsync("Layout/_MobileMenu")
-
-    <!-- CONTEÚDO -->
-
-    <main role="main">
-
-        @RenderBody()
-
-    </main>
-
-    <!-- FOOTER -->
-    @await Html.PartialAsync("Layout/_Footer")
-
-    <!-- SCRIPTS -->
-    @await Html.PartialAsync("Layout/_Scripts")
-
-    @await RenderSectionAsync("Scripts", required: false)
-
-    <div id="toastContainer"
-         class="toast-container position-fixed bottom-0 end-0 p-3"
-         style="z-index:99999">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PortalGamerX</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
 
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - PortalGamerX - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>

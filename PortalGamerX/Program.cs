@@ -1,76 +1,46 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PortalGamerX.Context;
-using PortalGamerX.Data.Seed;
-using PortalGamerX.Models.Entities;
+using PortalGamerX.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region Services
+// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-// Serviços MVC
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-
-// Banco de Dados
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("default")));
-
-// Identity
-builder.Services
-    .AddIdentity<Cliente, IdentityRole<int>>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/Cliente/Conta/Login";
-    options.AccessDeniedPath = "/Cliente/Conta/AcessoNegado";
-});
-
-
-// Autorização
-builder.Services.AddAuthorization();
-
-#endregion
 
 var app = builder.Build();
 
-// Middleware de exceções e segurança
-if (!app.Environment.IsDevelopment())
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseMigrationsEndPoint();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    await SeedData.InicializarAsync(services);
-}
-
-
-# region PIPELINE
-// Pipeline de requisição HTTP
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-
 app.UseRouting();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
-#endregion
-
-#region ROTAS
-app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-#endregion
+    pattern: "{controller=Home}/{action=Index}/{id?}")
+    .WithStaticAssets();
+
+app.MapRazorPages()
+   .WithStaticAssets();
 
 app.Run();
