@@ -1,6 +1,4 @@
-﻿using PortalGamerX.Enums;
-
-namespace PortalGamerX.Models.Entities
+﻿namespace PortalGamerX.Models.Entities
 {
     public class HistoricoCompra
     {
@@ -9,10 +7,6 @@ namespace PortalGamerX.Models.Entities
         public Guid PedidoId { get; set; }
 
         public Pedido Pedido { get; set; } = null!;
-
-        public StatusPedido StatusPedido { get; set; }
-
-        public string Acao { get; set; } = string.Empty;
 
         public string? Descricao { get; set; }
 
