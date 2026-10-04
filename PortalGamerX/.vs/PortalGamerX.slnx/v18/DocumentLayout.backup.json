@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|d:\\projetos\\portalgamerx\\portalgamerx\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|d:\\projetos\\portalgamerx\\portalgamerx\\areas\\identity\\pages\\account\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|solutionrelative:areas\\identity\\pages\\account\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|d:\\projetos\\portalgamerx\\portalgamerx\\models\\entities\\favorito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|solutionrelative:models\\entities\\favorito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|d:\\projetos\\portalgamerx\\portalgamerx\\areas\\identity\\pages\\account\\manage\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|solutionrelative:areas\\identity\\pages\\account\\manage\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|d:\\projetos\\portalgamerx\\portalgamerx\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|d:\\projetos\\portalgamerx\\portalgamerx\\areas\\identity\\pages\\account\\manage\\email.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F83EC69D-33D2-CDB7-F022-2893F6F0A70F}|PortalGamerX.csproj|solutionrelative:areas\\identity\\pages\\account\\manage\\email.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,28 +31,54 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
-              "ToolTip": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAmwHEAAAAlAAAAAAAAAA==",
+              "Title": "Login.cshtml.cs",
+              "DocumentMoniker": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "ToolTip": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAIwBwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T23:01:37.683Z",
-              "IsPinned": true,
+              "WhenOpened": "2026-10-04T14:40:12.832Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Favorito.cs",
-              "DocumentMoniker": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Models\\Entities\\Favorito.cs",
-              "RelativeDocumentMoniker": "Models\\Entities\\Favorito.cs",
-              "ToolTip": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Models\\Entities\\Favorito.cs",
-              "RelativeToolTip": "Models\\Entities\\Favorito.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAjAAAAAAAAAA==",
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "ToolTip": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAADgv0UAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-04T00:20:35.005Z"
+              "WhenOpened": "2026-10-04T14:39:18.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-04T14:39:04.838Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Email.cshtml.cs",
+              "DocumentMoniker": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Areas\\Identity\\Pages\\Account\\Manage\\Email.cshtml.cs",
+              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Manage\\Email.cshtml.cs",
+              "ToolTip": "D:\\Projetos\\PortalGamerX\\PortalGamerX\\Areas\\Identity\\Pages\\Account\\Manage\\Email.cshtml.cs",
+              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Manage\\Email.cshtml.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAgwD8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-04T14:36:58.262Z",
+              "EditorCaption": ""
             }
           ]
         }

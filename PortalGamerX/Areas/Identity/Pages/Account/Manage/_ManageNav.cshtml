@@ -1,4 +1,8 @@
-@inject SignInManager<IdentityUser> SignInManager
+@using Microsoft.AspNetCore.Identity
+@using PortalGamerX.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
