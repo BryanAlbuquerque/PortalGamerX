@@ -2,6 +2,8 @@
 {
     public class Favorito
     {
+
+        public int Id { get; set; }
         public string UsuarioId { get; set; } = string.Empty;
 
         public ApplicationUser Usuario { get; set; } = null!;
