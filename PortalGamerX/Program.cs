@@ -5,14 +5,17 @@ using PortalGamerX.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region Banco de Dados
+#region BANCO DE DADOS
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException(
         "Connection string 'DefaultConnection' não foi encontrada.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 #endregion
+
 
 #region IDENTITY
 
@@ -31,18 +34,47 @@ builder.Services
         // Configurações de usuário
         options.User.RequireUniqueEmail = true;
     })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 #endregion
+
 
 #region MVC / RAZOR
 
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
+
 #endregion
+
 
 // Build the app
 var app = builder.Build();
+
+
+#region SEED DATA
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    try
+    {
+        await SeedData.Initialize(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+
+        logger.LogError(
+            ex,
+            "Erro ao executar o SeedData."
+        );
+    }
+}
+
+#endregion
 
 
 #region PIPELINE
@@ -70,6 +102,7 @@ app.UseAuthorization();
 
 #endregion
 
+
 #region ROUTES
 
 app.MapControllerRoute(
@@ -79,5 +112,6 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 #endregion
+
 
 app.Run();
