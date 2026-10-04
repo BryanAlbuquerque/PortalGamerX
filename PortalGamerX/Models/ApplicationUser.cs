@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using PortalGamerX.Models.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace PortalGamerX.Models.Entities
+namespace PortalGamerX.Models
 {
-    public class Cliente : IdentityUser<int>
+    public class ApplicationUser : IdentityUser
     {
         [Required]
         [MaxLength(100)]
@@ -28,13 +29,13 @@ namespace PortalGamerX.Models.Entities
         public ICollection<Pedido> Pedidos { get; set; }
             = new List<Pedido>();
 
-        public ICollection<Carrinho> Carrinho { get; set; }
+        public ICollection<Carrinho> Carrinhos { get; set; }
             = new List<Carrinho>();
 
         public ICollection<Favorito> Favoritos { get; set; }
             = new List<Favorito>();
 
-        public ICollection<HistoricoCompra> HistoricoCompras { get; set; }
+        public ICollection<HistoricoCompra> HistoricosCompras { get; set; }
             = new List<HistoricoCompra>();
     }
 }

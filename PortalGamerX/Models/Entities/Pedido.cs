@@ -4,8 +4,9 @@
     {
         public Guid Id { get; set; }
 
-        public Cliente Usuario { get; set; } = null!;
+        public string UsuarioId { get; set; } = string.Empty;
 
+        public ApplicationUser Usuario { get; set; } = null!;
         public string NumeroPedido { get; set; } = string.Empty;
 
         public DateTime DataPedido { get; set; }

@@ -45,6 +45,7 @@ namespace PortalGamerX.Models.Entities
         public ICollection<Favorito> Favoritos { get; set; } = new List<Favorito>();
 
         public ICollection<ItemPedido> ItensPedido { get; set; } = new List<ItemPedido>();
+        public ICollection<ItemCarrinho> ItensCarrinho { get; set; } = new List<ItemCarrinho>();
 
         public ICollection<Imagem> Imagens { get; set; } = new List<Imagem>();
     }

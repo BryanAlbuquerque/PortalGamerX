@@ -10,9 +10,9 @@
 
         public string? Descricao { get; set; }
 
-        public int? UsuarioId { get; set; }
+        public string UsuarioId { get; set; } = string.Empty;
 
-        public Cliente? Usuario { get; set; }
+        public ApplicationUser Usuario { get; set; } = null!;
 
         public DateTime DataRegistro { get; set; }
             = DateTime.Now;

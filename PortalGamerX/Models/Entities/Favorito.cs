@@ -2,9 +2,9 @@
 {
     public class Favorito
     {
-        public int? UsuarioId { get; set; }
+        public string UsuarioId { get; set; } = string.Empty;
 
-        public Cliente Usuario { get; set; } = null!;
+        public ApplicationUser Usuario { get; set; } = null!;
 
         public int JogoId { get; set; }
 

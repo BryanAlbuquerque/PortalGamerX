@@ -4,9 +4,9 @@
     {
         public Guid Id { get; set; }
 
-        public int? UsuarioId { get; set; }
+        public string UsuarioId { get; set; } = string.Empty;
 
-        public Cliente Usuario { get; set; } = null!;
+        public ApplicationUser Usuario { get; set; } = null!;
 
         public DateTime DataCriacao { get; set; }
             = DateTime.Now;
