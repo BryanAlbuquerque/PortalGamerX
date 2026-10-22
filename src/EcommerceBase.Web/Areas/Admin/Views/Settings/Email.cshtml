@@ -1,0 +1,58 @@
+@model EmailSettingsForm
+@{ ViewData["Title"] = "Configurações - E-mail"; }
+<h1 class="h3 mb-3">Configurações</h1>
+<partial name="_SettingsNav" />
+<div class="row g-3">
+<div class="col-lg-9">
+<form method="post"><div class="card stat-card mb-3"><div class="card-body">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <h2 class="h5">Servidor SMTP</h2>
+    <div class="row g-3">
+        <div class="col-md-6"><label asp-for="Host" class="form-label"></label><input asp-for="Host" class="form-control" /></div>
+        <div class="col-md-3"><label asp-for="Port" class="form-label"></label><input asp-for="Port" type="number" class="form-control" /></div>
+        <div class="col-md-3"><label asp-for="Security" class="form-label"></label>
+            <select asp-for="Security" class="form-select"><option value="StartTls">STARTTLS (587)</option><option value="SslOnConnect">SSL/TLS (465)</option><option value="None">Nenhuma (não recomendado)</option></select></div>
+        <div class="col-md-6"><label asp-for="User" class="form-label"></label><input asp-for="User" class="form-control" autocomplete="off" /></div>
+        <div class="col-md-6"><label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" type="password" class="form-control" autocomplete="new-password" placeholder="@(Model.HasPassword ? "•••••••• (já configurada)" : "")" value="" /></div>
+        <div class="col-md-6"><label asp-for="FromAddress" class="form-label"></label><input asp-for="FromAddress" type="email" class="form-control" /></div>
+        <div class="col-md-6"><label asp-for="FromName" class="form-label"></label><input asp-for="FromName" class="form-control" /></div>
+    </div>
+</div></div>
+
+<div class="card stat-card mb-3"><div class="card-body">
+    <h2 class="h5">Modelos de mensagem</h2>
+    <p class="small text-muted">Variáveis disponíveis: <code>{{StoreName}}</code>, <code>{{CustomerName}}</code>, <code>{{OrderNumber}}</code>, <code>{{Total}}</code>, <code>{{Link}}</code>, <code>{{Status}}</code>, <code>{{Tracking}}</code>, <code>{{Message}}</code>, <code>{{Chave}}</code> (nem todas se aplicam a todos os modelos). Os valores são inseridos com escape de HTML.</p>
+    @for (var i = 0; i < Model.Templates.Count; i++)
+    {
+        <div class="border rounded p-3 mb-3">
+            <input type="hidden" asp-for="Templates[i].Kind" />
+            <input type="hidden" asp-for="Templates[i].Label" />
+            <input type="hidden" asp-for="Templates[i].Optional" />
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <strong>@Model.Templates[i].Label</strong>
+                @if (Model.Templates[i].Optional)
+                {
+                    <div class="form-check form-switch"><input asp-for="Templates[i].Notify" class="form-check-input" /><label asp-for="Templates[i].Notify" class="form-check-label">Enviar</label></div>
+                }
+                else { <span class="badge text-bg-secondary">sempre enviado</span> }
+            </div>
+            <div class="mb-2"><label asp-for="Templates[i].Subject" class="form-label small">Assunto</label><input asp-for="Templates[i].Subject" class="form-control" /></div>
+            <div><label asp-for="Templates[i].Body" class="form-label small">Corpo (HTML simples)</label><textarea asp-for="Templates[i].Body" class="form-control font-monospace small" rows="5"></textarea></div>
+        </div>
+    }
+    <button class="btn btn-primary">Salvar</button>
+</div></div>
+</form>
+</div>
+<div class="col-lg-3">
+    <div class="card stat-card"><div class="card-body">
+        <h2 class="h6">E-mail de teste</h2>
+        <form asp-action="TestEmail" method="post">
+            <input type="email" name="to" class="form-control mb-2" placeholder="destino@exemplo.com" required maxlength="200" />
+            <button class="btn btn-outline-primary btn-sm">Enviar teste</button>
+        </form>
+        <div class="form-text">Salve as configurações antes de testar. O envio de teste é imediato e informa o resultado real.</div>
+    </div></div>
+</div>
+</div>

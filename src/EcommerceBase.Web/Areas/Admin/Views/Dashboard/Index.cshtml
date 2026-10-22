@@ -1,0 +1,83 @@
+@model DashboardVm
+@{
+    ViewData["Title"] = "Dashboard";
+    var st = await Store.GetAsync();
+    var max = Model.Daily.Count == 0 ? 0m : Model.Daily.Max(d => d.Total);
+}
+<h1 class="h3 mb-4">Dashboard</h1>
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3"><div class="card stat-card"><div class="card-body"><div class="text-muted small">Vendas (30 dias)</div><div class="fs-4 fw-bold">@Model.SalesLast30Days.ToBrl()</div><div class="small text-muted">@Model.OrdersLast30Days pedido(s) pago(s)</div></div></div></div>
+    <div class="col-6 col-lg-3"><div class="card stat-card"><div class="card-body"><div class="text-muted small">Aguardando pagamento</div><div class="fs-4 fw-bold">@Model.PendingOrders</div><a class="small" asp-controller="Orders" asp-action="Index" asp-route-status="PendingPayment">Ver pedidos</a></div></div></div>
+    <div class="col-6 col-lg-3"><div class="card stat-card"><div class="card-body"><div class="text-muted small">Pagos a processar</div><div class="fs-4 fw-bold">@Model.PaidOrders</div><a class="small" asp-controller="Orders" asp-action="Index" asp-route-status="Paid">Ver pedidos</a></div></div></div>
+    <div class="col-6 col-lg-3"><div class="card stat-card @(Model.CancellationRequests > 0 ? "border border-danger" : "")"><div class="card-body"><div class="text-muted small">Solicitações de cancelamento</div><div class="fs-4 fw-bold">@Model.CancellationRequests</div></div></div></div>
+    <div class="col-6 col-lg-3"><div class="card stat-card"><div class="card-body"><div class="text-muted small">Total de pedidos</div><div class="fs-4 fw-bold">@Model.TotalOrders</div></div></div></div>
+    <div class="col-6 col-lg-3"><div class="card stat-card"><div class="card-body"><div class="text-muted small">Produtos</div><div class="fs-4 fw-bold">@Model.ProductCount</div></div></div></div>
+    <div class="col-6 col-lg-3"><div class="card stat-card"><div class="card-body"><div class="text-muted small">Clientes</div><div class="fs-4 fw-bold">@Model.CustomerCount</div></div></div></div>
+</div>
+
+<div class="card stat-card mb-4">
+    <div class="card-body">
+        <h2 class="h6">Vendas pagas por dia (últimos 14 dias)</h2>
+        @if (Model.Daily.Count == 0 || max <= 0)
+        {
+            <p class="text-muted mb-0">Ainda não há vendas pagas no período.</p>
+        }
+        else
+        {
+            <div class="bar-chart mt-3">
+                @foreach (var d in Model.Daily)
+                {
+                    var pct = max <= 0 ? 0 : (int)Math.Round((double)(d.Total / max) * 100);
+                    <div class="bar-col" title="@d.Label: @d.Total.ToBrl() (@d.Orders pedido(s))">
+                        <div class="bar" style="height:@(pct)%"></div>
+                        <div class="bar-label">@d.Label</div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-7">
+        <div class="card stat-card h-100"><div class="card-body">
+            <h2 class="h6">Pedidos recentes</h2>
+            @if (Model.RecentOrders.Count == 0) { <p class="text-muted mb-0">Nenhum pedido ainda.</p> }
+            else
+            {
+                <div class="table-responsive"><table class="table table-sm align-middle mb-0">
+                    <thead><tr><th>Pedido</th><th>Cliente</th><th>Status</th><th class="text-end">Total</th><th>Data</th></tr></thead>
+                    <tbody>
+                    @foreach (var o in Model.RecentOrders)
+                    {
+                        <tr>
+                            <td><a asp-controller="Orders" asp-action="Details" asp-route-id="@o.Id">@o.Number</a></td>
+                            <td>@o.CustomerName</td>
+                            <td><span class="badge text-bg-@o.Status.Badge()">@o.Status.Label()</span></td>
+                            <td class="text-end">@o.Total.ToBrl()</td>
+                            <td class="small">@Store.Fmt(o.CreatedAtUtc, st)</td>
+                        </tr>
+                    }
+                    </tbody></table></div>
+            }
+        </div></div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card stat-card h-100"><div class="card-body">
+            <h2 class="h6">Estoque baixo (até @Model.LowStockThreshold un.)</h2>
+            @if (Model.LowStock.Count == 0) { <p class="text-muted mb-0">Nenhum produto com estoque baixo.</p> }
+            else
+            {
+                <ul class="list-group list-group-flush">
+                @foreach (var p in Model.LowStock)
+                {
+                    <li class="list-group-item d-flex justify-content-between px-0">
+                        <a asp-controller="Stock" asp-action="Move" asp-route-id="@p.Id">@p.Name</a>
+                        <span class="badge text-bg-@(p.StockQuantity <= 0 ? "danger" : "warning")">@p.StockQuantity</span>
+                    </li>
+                }
+                </ul>
+            }
+        </div></div>
+    </div>
+</div>

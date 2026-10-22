@@ -1,0 +1,87 @@
+@model CartView
+@{
+    ViewData["Title"] = "Carrinho";
+}
+<h1 class="h3 mb-3">Carrinho de compras</h1>
+@if (Model.IsEmpty)
+{
+    <div class="text-center py-5">
+        <p class="lead">Seu carrinho está vazio.</p>
+        <a href="/produtos" class="btn btn-brand">Continuar comprando</a>
+    </div>
+}
+else
+{
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="bg-white rounded shadow-sm">
+                @foreach (var l in Model.Lines)
+                {
+                    <div class="d-flex gap-3 p-3 border-bottom align-items-center flex-wrap">
+                        @if (!string.IsNullOrEmpty(l.ImagePath)) { <img class="cart-thumb" src="@l.ImagePath" alt="@l.Name" /> } else { <div class="cart-thumb"></div> }
+                        <div class="flex-grow-1">
+                            <a href="/produto/@l.Slug" class="fw-semibold text-decoration-none">@l.Name</a>
+                            <div class="small text-muted">SKU @l.Sku · @l.UnitPrice.ToBrl() cada</div>
+                            @if (l.Issue != null) { <div class="small text-danger">@l.Issue</div> }
+                        </div>
+                        <form asp-antiforgery="true" method="post" action="/carrinho/atualizar" class="d-flex gap-1">
+                            <input type="hidden" name="productId" value="@l.ProductId" />
+                            <input type="number" name="quantity" value="@l.Quantity" min="0" max="99" class="form-control form-control-sm" style="width:80px" aria-label="Quantidade de @l.Name" />
+                            <button class="btn btn-outline-secondary btn-sm" type="submit">Atualizar</button>
+                        </form>
+                        <div class="fw-bold" style="min-width:100px;text-align:right">@l.LineTotal.ToBrl()</div>
+                        <form asp-antiforgery="true" method="post" action="/carrinho/remover">
+                            <input type="hidden" name="productId" value="@l.ProductId" />
+                            <button class="btn btn-outline-danger btn-sm" type="submit">Remover</button>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="bg-white rounded shadow-sm p-3 summary-card">
+                <h5>Resumo</h5>
+                <div class="d-flex justify-content-between"><span>Subtotal (@Model.ItemCount item(ns))</span><span>@Model.Subtotal.ToBrl()</span></div>
+                @if (Model.Discount > 0)
+                {
+                    <div class="d-flex justify-content-between text-success"><span>Desconto (@Model.CouponCode)</span><span>- @Model.Discount.ToBrl()</span></div>
+                }
+                <div class="d-flex justify-content-between fw-bold fs-5 mt-2"><span>Total</span><span>@Model.Total.ToBrl()</span></div>
+                <div class="small text-muted">Frete calculado no checkout.</div>
+                <hr />
+                @if (!string.IsNullOrEmpty(Model.CouponError)) { <div class="alert alert-warning py-1 small">@Model.CouponError</div> }
+                @if (!string.IsNullOrEmpty(Model.CouponCode))
+                {
+                    <form asp-antiforgery="true" method="post" action="/carrinho/cupom/remover" class="mb-2">
+                        <button class="btn btn-link btn-sm p-0" type="submit">Remover cupom @Model.CouponCode</button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-antiforgery="true" method="post" action="/carrinho/cupom" class="input-group input-group-sm mb-3">
+                        <input name="code" class="form-control" placeholder="Cupom de desconto" maxlength="50" aria-label="Cupom" />
+                        <button class="btn btn-outline-secondary" type="submit">Aplicar</button>
+                    </form>
+                }
+                <form asp-antiforgery="true" method="post" action="/carrinho/frete" data-shipping-estimate class="mb-3">
+                    <label class="form-label small" for="postalCode">Estimar frete</label>
+                    <div class="input-group input-group-sm">
+                        <input id="postalCode" name="postalCode" data-mask="cep" class="form-control" placeholder="CEP" maxlength="9" inputmode="numeric" />
+                        <button class="btn btn-outline-secondary" type="submit">Calcular</button>
+                    </div>
+                    <div data-shipping-result class="mt-2"></div>
+                </form>
+                @if (Model.HasIssues)
+                {
+                    <div class="alert alert-danger small">Corrija os itens com problema para continuar.</div>
+                    <button class="btn btn-brand w-100" disabled>Finalizar compra</button>
+                }
+                else
+                {
+                    <a href="/checkout" class="btn btn-brand w-100">Finalizar compra</a>
+                }
+                <a href="/produtos" class="btn btn-link w-100 mt-1">Continuar comprando</a>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,34 @@
+@model AddressInput
+@{
+    ViewData["Title"] = Model.Id.HasValue ? "Editar endereço" : "Novo endereço";
+}
+<div class="row">
+    <div class="col-md-3"><partial name="_Nav" /></div>
+    <div class="col-md-9">
+        <h1 class="h4 mb-3">@ViewData["Title"]</h1>
+        <form asp-antiforgery="true" method="post" action="/conta/enderecos/salvar" class="bg-white p-3 rounded shadow-sm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div class="row">
+                <div class="col-md-4 mb-3"><label asp-for="Label" class="form-label"></label><input asp-for="Label" class="form-control" /><span asp-validation-for="Label" class="text-danger small"></span></div>
+                <div class="col-md-5 mb-3"><label asp-for="RecipientName" class="form-label"></label><input asp-for="RecipientName" class="form-control" /><span asp-validation-for="RecipientName" class="text-danger small"></span></div>
+                <div class="col-md-3 mb-3"><label asp-for="Phone" class="form-label"></label><input asp-for="Phone" class="form-control" /><span asp-validation-for="Phone" class="text-danger small"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3"><label asp-for="PostalCode" class="form-label"></label><input asp-for="PostalCode" data-mask="cep" class="form-control" inputmode="numeric" maxlength="9" /><span asp-validation-for="PostalCode" class="text-danger small"></span></div>
+                <div class="col-md-6 mb-3"><label asp-for="Street" class="form-label"></label><input asp-for="Street" class="form-control" /><span asp-validation-for="Street" class="text-danger small"></span></div>
+                <div class="col-md-3 mb-3"><label asp-for="Number" class="form-label"></label><input asp-for="Number" class="form-control" /><span asp-validation-for="Number" class="text-danger small"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3"><label asp-for="Complement" class="form-label"></label><input asp-for="Complement" class="form-control" /><span asp-validation-for="Complement" class="text-danger small"></span></div>
+                <div class="col-md-4 mb-3"><label asp-for="District" class="form-label"></label><input asp-for="District" class="form-control" /><span asp-validation-for="District" class="text-danger small"></span></div>
+                <div class="col-md-3 mb-3"><label asp-for="City" class="form-label"></label><input asp-for="City" class="form-control" /><span asp-validation-for="City" class="text-danger small"></span></div>
+                <div class="col-md-1 mb-3"><label asp-for="State" class="form-label"></label><input asp-for="State" class="form-control" maxlength="2" style="text-transform:uppercase" /><span asp-validation-for="State" class="text-danger small"></span></div>
+            </div>
+            <div class="form-check mb-3"><input asp-for="IsDefault" class="form-check-input" /><label asp-for="IsDefault" class="form-check-label"></label></div>
+            <button class="btn btn-brand" type="submit">Salvar</button>
+            <a class="btn btn-link" href="/conta/enderecos">Cancelar</a>
+        </form>
+    </div>
+</div>

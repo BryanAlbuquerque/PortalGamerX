@@ -1,0 +1,29 @@
+@model StockHistoryVm
+@{
+    ViewData["Title"] = "Histórico de estoque";
+    var st = await Store.GetAsync();
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Histórico: @Model.Product.Name</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
+</div>
+<p class="text-muted">Saldo atual: <strong>@Model.Product.StockQuantity</strong> (últimas 200 movimentações)</p>
+<div class="table-responsive bg-white rounded shadow-sm">
+    <table class="table table-sm align-middle mb-0">
+        <thead><tr><th>Data</th><th>Tipo</th><th class="text-end">Variação</th><th class="text-end">Saldo</th><th>Motivo</th><th>Usuário</th></tr></thead>
+        <tbody>
+        @foreach (var m in Model.Movements)
+        {
+            <tr>
+                <td class="small">@Store.Fmt(m.CreatedAtUtc, st)</td>
+                <td>@m.Type.Label()</td>
+                <td class="text-end @(m.Quantity < 0 ? "text-danger" : "text-success")">@(m.Quantity > 0 ? "+" : "")@m.Quantity</td>
+                <td class="text-end">@m.BalanceAfter</td>
+                <td class="small">@m.Reason @if (m.OrderId.HasValue) { <a asp-controller="Orders" asp-action="Details" asp-route-id="@m.OrderId">(pedido)</a> }</td>
+                <td class="small">@m.UserName</td>
+            </tr>
+        }
+        @if (Model.Movements.Count == 0) { <tr><td colspan="6" class="text-center text-muted py-4">Sem movimentações.</td></tr> }
+        </tbody>
+    </table>
+</div>

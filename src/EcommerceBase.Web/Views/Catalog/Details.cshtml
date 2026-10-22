@@ -1,0 +1,75 @@
+@model ProductDetailsVm
+@{
+    var p = Model.Product;
+    ViewData["Title"] = p.Name;
+    var images = p.Images.OrderByDescending(i => i.IsPrimary).ThenBy(i => i.SortOrder).ToList();
+    var maxQty = Math.Min(p.StockQuantity, 20);
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Início</a></li>
+        @if (p.Category != null) { <li class="breadcrumb-item"><a href="/categoria/@p.Category.Slug">@p.Category.Name</a></li> }
+        <li class="breadcrumb-item active" aria-current="page">@p.Name</li>
+    </ol>
+</nav>
+<div class="row g-4">
+    <div class="col-md-6" data-gallery>
+        <div class="gallery-main mb-2">
+            @if (images.Count > 0) { <img data-gallery-main src="@images[0].Path" alt="@(images[0].AltText ?? p.Name)" /> }
+            else { <div class="no-image h-100">Sem imagem</div> }
+        </div>
+        @if (images.Count > 1)
+        {
+            <div class="d-flex gap-2 gallery-thumbs flex-wrap">
+                @for (var i = 0; i < images.Count; i++)
+                {
+                    <img data-gallery-thumb data-full="@images[i].Path" src="@images[i].Path" alt="@(images[i].AltText ?? p.Name)" class="@(i == 0 ? "active" : "")" />
+                }
+            </div>
+        }
+    </div>
+    <div class="col-md-6">
+        <h1 class="h3">@p.Name</h1>
+        <div class="text-muted small mb-2">
+            SKU: @p.Sku
+            @if (p.Brand != null) { <text> · Marca: @p.Brand.Name</text> }
+        </div>
+        @if (p.IsOnSale)
+        {
+            <div class="text-muted text-decoration-line-through">@p.Price.ToBrl()</div>
+        }
+        <div class="display-6 fw-bold price">@p.EffectivePrice.ToBrl()</div>
+        @if (!string.IsNullOrWhiteSpace(p.ShortDescription)) { <p class="mt-3">@p.ShortDescription</p> }
+
+        @if (p.IsPurchasable)
+        {
+            <p class="text-success small mb-2">@(p.StockQuantity <= 5 ? $"Últimas {p.StockQuantity} unidade(s)!" : "Em estoque")</p>
+            <form asp-antiforgery="true" method="post" action="/carrinho/adicionar" class="d-flex gap-2 align-items-end">
+                <input type="hidden" name="productId" value="@p.Id" />
+                <input type="hidden" name="returnUrl" value="/produto/@p.Slug" />
+                <div>
+                    <label for="quantity" class="form-label small">Quantidade</label>
+                    <input id="quantity" type="number" name="quantity" value="1" min="1" max="@maxQty" class="form-control" style="width:90px" />
+                </div>
+                <button type="submit" class="btn btn-brand btn-lg">Adicionar ao carrinho</button>
+            </form>
+        }
+        else
+        {
+            <div class="alert alert-secondary mt-3">Produto indisponível no momento.</div>
+        }
+    </div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(p.Description))
+{
+    <h4 class="section-title">Descrição</h4>
+    <div class="bg-white p-3 rounded shadow-sm text-pre">@p.Description</div>
+}
+@if (Model.Related.Count > 0)
+{
+    <h4 class="section-title">Produtos relacionados</h4>
+    <div class="row row-cols-2 row-cols-md-4 g-3">
+        @foreach (var r in Model.Related) { <div class="col"><partial name="_ProductCard" model="r" /></div> }
+    </div>
+}

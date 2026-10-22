@@ -1,0 +1,31 @@
+# Blueprint do Render para UMA instalação (um cliente). Ajuste nomes/planos.
+databases:
+  - name: ecommercebase-db
+    databaseName: ecommercebase
+    plan: basic-256mb
+
+services:
+  - type: web
+    name: ecommercebase-web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    disk:
+      name: storage
+      mountPath: /var/data
+      sizeGB: 5
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ecommercebase-db
+          property: connectionString
+      - key: Storage__RootPath
+        value: /var/data/storage
+      - key: App__PublicBaseUrl
+        sync: false
+      - key: Bootstrap__AdminEmail
+        sync: false
+      - key: Bootstrap__AdminPassword
+        sync: false
+      - key: Database__MigrateOnStartup
+        value: "false"

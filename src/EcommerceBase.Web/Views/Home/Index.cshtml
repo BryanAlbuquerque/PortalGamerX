@@ -1,0 +1,84 @@
+@model HomeVm
+@{
+    ViewData["Title"] = "Início";
+    var showcases = new List<(string Title, List<ProductCardVm> Items, string Link)>
+    {
+        ("Destaques", Model.Featured, "/produtos"),
+        ("Mais vendidos", Model.BestSellers, "/produtos"),
+        ("Lançamentos", Model.Newest, "/produtos?sort=newest"),
+        ("Ofertas", Model.Offers, "/produtos?sort=price_asc")
+    };
+}
+
+@if (Model.Banners.Count > 0)
+{
+    <div id="homeBanners" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-inner rounded">
+            @for (var i = 0; i < Model.Banners.Count; i++)
+            {
+                var b = Model.Banners[i];
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <div class="hero-banner">
+                        @if (!string.IsNullOrWhiteSpace(b.LinkUrl) && (b.LinkUrl.StartsWith("/") || b.LinkUrl.StartsWith("https://")))
+                        {
+                            <a href="@b.LinkUrl"><img src="@b.ImagePath" alt="@b.Title" /></a>
+                        }
+                        else
+                        {
+                            <img src="@b.ImagePath" alt="@b.Title" />
+                        }
+                        <div class="hero-caption">
+                            <h2 class="fw-bold">@b.Title</h2>
+                            @if (!string.IsNullOrWhiteSpace(b.Subtitle)) { <p class="lead">@b.Subtitle</p> }
+                            @if (!string.IsNullOrWhiteSpace(b.LinkUrl) && !string.IsNullOrWhiteSpace(b.ButtonText) && (b.LinkUrl.StartsWith("/") || b.LinkUrl.StartsWith("https://")))
+                            {
+                                <a class="btn btn-accent" href="@b.LinkUrl">@b.ButtonText</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        @if (Model.Banners.Count > 1)
+        {
+            <button class="carousel-control-prev" type="button" data-bs-target="#homeBanners" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Anterior</span></button>
+            <button class="carousel-control-next" type="button" data-bs-target="#homeBanners" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Próximo</span></button>
+        }
+    </div>
+}
+
+@if (Model.Categories.Count > 0)
+{
+    <div class="row g-2 mb-3">
+        @foreach (var c in Model.Categories)
+        {
+            <div class="col-6 col-md-3 col-lg-2"><a class="category-chip" href="/categoria/@c.Slug">@c.Name</a></div>
+        }
+    </div>
+}
+
+@if (Model.IsEmpty)
+{
+    <div class="text-center py-5">
+        <h2>Nossa loja está sendo preparada</h2>
+        <p class="text-muted">Em breve teremos produtos disponíveis por aqui.</p>
+    </div>
+}
+
+@foreach (var showcase in showcases)
+{
+    var title = showcase.Title;
+    var items = showcase.Items;
+    var link = showcase.Link;
+    if (items.Count == 0) { continue; }
+    <div class="d-flex justify-content-between align-items-end">
+        <h3 class="section-title">@title</h3>
+        <a href="@link" class="small">Ver todos</a>
+    </div>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+        @foreach (var p in items)
+        {
+            <div class="col"><partial name="_ProductCard" model="p" /></div>
+        }
+    </div>
+}

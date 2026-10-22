@@ -1,0 +1,21 @@
+@model BannerForm
+@{ ViewData["Title"] = Model.Id.HasValue ? "Editar banner" : "Novo banner"; }
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+<form method="post" enctype="multipart/form-data" class="card stat-card" style="max-width:640px"><div class="card-body">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CurrentImage" />
+    <div class="mb-3"><label asp-for="Title" class="form-label"></label><input asp-for="Title" class="form-control" maxlength="150" /></div>
+    <div class="mb-3"><label asp-for="Subtitle" class="form-label"></label><input asp-for="Subtitle" class="form-control" maxlength="250" /></div>
+    <div class="mb-3"><label asp-for="LinkUrl" class="form-label"></label><input asp-for="LinkUrl" class="form-control" maxlength="300" /></div>
+    <div class="mb-3"><label asp-for="ButtonText" class="form-label"></label><input asp-for="ButtonText" class="form-control" maxlength="50" /></div>
+    <div class="mb-3">
+        <label class="form-label" for="image">Imagem @(Model.Id.HasValue ? "(envie para substituir)" : "")</label>
+        @if (!string.IsNullOrEmpty(Model.CurrentImage)) { <div class="mb-2"><img src="@Model.CurrentImage" alt="" class="rounded" style="max-width:100%;max-height:140px" /></div> }
+        <input type="file" name="image" id="image" class="form-control" accept="image/jpeg,image/png,image/webp,image/gif" />
+        <div class="form-text">Sugestão: 1600×500 px. JPG, PNG, WEBP ou GIF.</div>
+    </div>
+    <div class="mb-3"><label asp-for="SortOrder" class="form-label"></label><input asp-for="SortOrder" type="number" class="form-control" /></div>
+    <div class="form-check mb-3"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label"></label></div>
+    <button class="btn btn-primary">Salvar</button> <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</div></form>

@@ -1,0 +1,56 @@
+@model CustomerDetailsVm
+@{
+    ViewData["Title"] = Model.User.FullName;
+    var st = await Store.GetAsync();
+    var u = Model.User;
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">@u.FullName</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
+</div>
+<div class="row g-3">
+    <div class="col-lg-4">
+        <div class="card stat-card mb-3"><div class="card-body">
+            <div>@u.Email @if (u.EmailConfirmed) { <span class="badge text-bg-success">confirmado</span> } else { <span class="badge text-bg-warning">não confirmado</span> }</div>
+            @if (!string.IsNullOrEmpty(u.PhoneNumber)) { <div class="small">Telefone: @u.PhoneNumber</div> }
+            @if (!string.IsNullOrEmpty(u.Document)) { <div class="small">Documento: @u.Document</div> }
+            <div class="small text-muted">Cadastro: @Store.Fmt(u.CreatedAtUtc, st)</div>
+            <div class="small text-muted">Último acesso: @Store.Fmt(u.LastLoginAtUtc, st)</div>
+            <div class="mt-2">@if (u.IsActive) { <span class="badge text-bg-success">Ativo</span> } else { <span class="badge text-bg-secondary">Bloqueado</span> }</div>
+            <div class="mt-3 d-flex gap-2">
+                <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@u.Id">Editar dados</a>
+                @if (!Model.IsAdmin)
+                {
+                    <form asp-action="SetActive" asp-route-id="@u.Id" asp-route-active="@(!u.IsActive)" method="post" data-confirm="@(u.IsActive ? "Bloquear este cliente? Ele não conseguirá entrar." : "Reativar este cliente?")">
+                        <button class="btn btn-sm btn-outline-@(u.IsActive ? "danger" : "success")">@(u.IsActive ? "Bloquear" : "Reativar")</button>
+                    </form>
+                }
+            </div>
+        </div></div>
+        <div class="card stat-card"><div class="card-body">
+            <h2 class="h6">Endereços</h2>
+            @if (Model.Addresses.Count == 0) { <p class="text-muted small mb-0">Nenhum endereço.</p> }
+            @foreach (var a in Model.Addresses)
+            {
+                <div class="small mb-2"><strong>@a.Label</strong> @if (a.IsDefault) { <span class="badge text-bg-info">padrão</span> }<br />@a.RecipientName<br />@a.Street, @a.Number @a.Complement<br />@a.District - @a.City/@a.State, CEP @Documents.FormatPostalCode(a.PostalCode)</div>
+            }
+        </div></div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card stat-card"><div class="card-body">
+            <h2 class="h6">Pedidos (últimos 50)</h2>
+            @if (Model.Orders.Count == 0) { <p class="text-muted mb-0">Sem pedidos.</p> }
+            else
+            {
+                <div class="table-responsive"><table class="table table-sm align-middle mb-0">
+                    <thead><tr><th>Pedido</th><th>Data</th><th>Status</th><th class="text-end">Total</th></tr></thead>
+                    <tbody>
+                    @foreach (var o in Model.Orders)
+                    {
+                        <tr><td><a asp-controller="Orders" asp-action="Details" asp-route-id="@o.Id">@o.Number</a></td><td class="small">@Store.Fmt(o.CreatedAtUtc, st)</td><td><span class="badge text-bg-@o.Status.Badge()">@o.Status.Label()</span></td><td class="text-end">@o.Total.ToBrl()</td></tr>
+                    }
+                    </tbody></table></div>
+            }
+        </div></div>
+    </div>
+</div>

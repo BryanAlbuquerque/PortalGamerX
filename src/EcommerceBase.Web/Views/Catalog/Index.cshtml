@@ -1,0 +1,72 @@
+@using System.Globalization
+@model ProductListVm
+@{
+    var q = Model.Query;
+    ViewData["Title"] = Model.CurrentCategory?.Name ?? (string.IsNullOrWhiteSpace(q.Q) ? "Produtos" : "Busca: " + q.Q);
+    var basePath = Model.CurrentCategory != null ? "/categoria/" + Model.CurrentCategory.Slug : "/produtos";
+    var parts = new List<string>();
+    if (!string.IsNullOrWhiteSpace(q.Q)) parts.Add("q=" + Uri.EscapeDataString(q.Q));
+    if (q.MinPrice.HasValue) parts.Add("minPrice=" + q.MinPrice.Value.ToString("0.##", CultureInfo.InvariantCulture));
+    if (q.MaxPrice.HasValue) parts.Add("maxPrice=" + q.MaxPrice.Value.ToString("0.##", CultureInfo.InvariantCulture));
+    if (!string.IsNullOrWhiteSpace(q.Sort)) parts.Add("sort=" + Uri.EscapeDataString(q.Sort));
+    var baseUrl = basePath + "?" + string.Concat(parts.Select(x => x + "&"));
+}
+<div class="row">
+    <aside class="col-lg-3 mb-3">
+        <form method="get" action="@basePath" class="bg-white p-3 rounded shadow-sm">
+            <h6>Filtrar</h6>
+            <div class="mb-2">
+                <label class="form-label small" for="q">Busca</label>
+                <input id="q" name="q" value="@q.Q" class="form-control form-control-sm" maxlength="100" />
+            </div>
+            <div class="row g-2 mb-2">
+                <div class="col"><label class="form-label small" for="minPrice">Preço mín.</label>
+                    <input id="minPrice" name="minPrice" inputmode="decimal" value="@(q.MinPrice?.ToString("0.##", CultureInfo.InvariantCulture))" class="form-control form-control-sm" /></div>
+                <div class="col"><label class="form-label small" for="maxPrice">Preço máx.</label>
+                    <input id="maxPrice" name="maxPrice" inputmode="decimal" value="@(q.MaxPrice?.ToString("0.##", CultureInfo.InvariantCulture))" class="form-control form-control-sm" /></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label small" for="sort">Ordenar por</label>
+                <select id="sort" name="sort" class="form-select form-select-sm">
+                    <option value="" selected="@string.IsNullOrEmpty(q.Sort)">Nome (A-Z)</option>
+                    <option value="name_desc" selected="@(q.Sort == "name_desc")">Nome (Z-A)</option>
+                    <option value="price_asc" selected="@(q.Sort == "price_asc")">Menor preço</option>
+                    <option value="price_desc" selected="@(q.Sort == "price_desc")">Maior preço</option>
+                    <option value="newest" selected="@(q.Sort == "newest")">Mais recentes</option>
+                </select>
+            </div>
+            <button class="btn btn-brand btn-sm w-100" type="submit">Aplicar</button>
+            <a class="btn btn-link btn-sm w-100" href="/produtos">Limpar filtros</a>
+        </form>
+        @if (Model.Categories.Count > 0)
+        {
+            <div class="bg-white p-3 rounded shadow-sm mt-3">
+                <h6>Categorias</h6>
+                <ul class="list-unstyled mb-0">
+                    @foreach (var c in Model.Categories)
+                    {
+                        <li><a href="/categoria/@c.Slug" class="@(Model.CurrentCategory?.Id == c.Id ? "fw-bold" : "")">@c.Name</a></li>
+                    }
+                </ul>
+            </div>
+        }
+    </aside>
+    <section class="col-lg-9">
+        <h1 class="h4">@ViewData["Title"] <small class="text-muted fs-6">(@Model.Result.Total resultado(s))</small></h1>
+        @if (Model.CurrentCategory?.Description is string desc && !string.IsNullOrWhiteSpace(desc)) { <p class="text-muted">@desc</p> }
+        @if (Model.Result.Items.Count == 0)
+        {
+            <div class="alert alert-light border">Nenhum produto encontrado. Ajuste os filtros ou <a href="/produtos">veja todos os produtos</a>.</div>
+        }
+        else
+        {
+            <div class="row row-cols-2 row-cols-md-3 g-3">
+                @foreach (var p in Model.Result.Items)
+                {
+                    <div class="col"><partial name="_ProductCard" model="p" /></div>
+                }
+            </div>
+            <div class="mt-4"><partial name="_Pager" model="PagerVm.Create(Model.Result.Page, Model.Result.TotalPages, baseUrl)" /></div>
+        }
+    </section>
+</div>

@@ -1,0 +1,33 @@
+@model ApplicationUser
+@{
+    ViewData["Title"] = "Minha conta";
+    var recent = (List<Order>)ViewBag.RecentOrders;
+}
+<div class="row">
+    <div class="col-md-3"><partial name="_Nav" /></div>
+    <div class="col-md-9">
+        <h1 class="h4">Olá, @Model.FullName</h1>
+        <p class="text-muted">@Model.Email</p>
+        <h5 class="mt-4">Pedidos recentes</h5>
+        @if (recent.Count == 0)
+        {
+            <div class="alert alert-light border">Você ainda não fez pedidos. <a href="/produtos">Ver produtos</a></div>
+        }
+        else
+        {
+            <div class="list-group">
+                @foreach (var o in recent)
+                {
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between" href="/conta/pedidos/@o.Id">
+                        <span>@o.Number · @o.CreatedAtUtc.ToString("dd/MM/yyyy")</span>
+                        <span><span class="badge bg-@o.Status.Badge()">@o.Status.Label()</span> @o.Total.ToBrl()</span>
+                    </a>
+                }
+            </div>
+        }
+        <div class="mt-4">
+            <h5>Suporte</h5>
+            <p class="small">Dúvidas sobre seus pedidos? Consulte o rodapé do site para os dados de contato da loja.</p>
+        </div>
+    </div>
+</div>
