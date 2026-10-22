@@ -1,2 +1,647 @@
-﻿body {
+﻿
+/* =========================================================
+   PORTALGAMERX
+   Arquivo: wwwroot/css/Loja/layout.css
+   Header preto, navbar azul, hover amarelo e footer preto.
+   ========================================================= */
+
+:root {
+    --pgx-black: #080808;
+    --pgx-black-pure: #000000;
+    --pgx-navy: #172B50;
+    --pgx-blue: var(--brand, #1247FF);
+    --pgx-yellow: var(--accent, #FFD400);
+    --pgx-white: #FFFFFF;
+    --pgx-background: #FFFFFF;
+    --pgx-background-soft: #F0F3FA;
+    --pgx-text: #101828;
+    --pgx-muted: #667085;
+    --pgx-border: #DCE2EB;
+    --pgx-radius: 8px;
+    --pgx-transition: 180ms ease;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+    background: var(--pgx-background);
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--pgx-background);
+    color: var(--pgx-text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    transition: color var(--pgx-transition), background-color var(--pgx-transition);
+}
+
+.text-pre {
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   HEADER PRETO
+   ========================================================= */
+
+.site-header {
+    position: relative;
+    z-index: 100;
+    background: var(--pgx-black);
+    color: var(--pgx-white);
+}
+
+.site-header-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 22px;
+    min-height: 84px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+/* =========================================================
+   MARCA E LOGO
+   ========================================================= */
+
+.site-brand {
+    display: inline-flex;
+    flex: 0 1 auto;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    color: var(--pgx-white);
+    text-decoration: none;
+}
+
+    .site-brand:hover,
+    .site-brand:focus-visible {
+        color: var(--pgx-yellow);
+    }
+
+.site-brand-text {
+    color: var(--pgx-white);
+    font-size: clamp(1.2rem, 2vw, 1.65rem);
+    font-weight: 900;
+    letter-spacing: -0.7px;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.site-logo {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 220px;
+    max-height: 58px;
+    object-fit: contain;
+}
+
+/* Símbolo provisório do portal */
+
+.site-brand-icon {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 46px;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    overflow: hidden;
+    border: 2px solid var(--pgx-blue);
+    border-radius: 50%;
+    background: radial-gradient(circle, #172B50 0%, #080808 70%);
+    box-shadow: 0 0 10px rgba(18, 71, 255, 0.35);
+}
+
+.portal-ring {
+    position: absolute;
+    width: 29px;
+    height: 29px;
+    border: 3px solid var(--pgx-yellow);
+    border-right-color: var(--pgx-blue);
+    border-left-color: var(--pgx-blue);
+    border-radius: 50%;
+    transform: rotate(-35deg);
+    box-shadow: 0 0 8px rgba(255, 212, 0, 0.35);
+}
+
+.portal-core {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--pgx-blue);
+    box-shadow: 0 0 10px var(--pgx-blue);
+}
+
+.portal-spark {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--pgx-yellow);
+}
+
+.portal-spark-one {
+    top: 6px;
+    right: 7px;
+}
+
+.portal-spark-two {
+    bottom: 7px;
+    left: 6px;
+    background: var(--pgx-white);
+}
+
+.site-brand-name {
+    display: inline-block;
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    font-weight: 900;
+    letter-spacing: -0.7px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.site-brand-portal {
+    color: var(--pgx-white);
+}
+
+.site-brand-gamer {
+    color: var(--pgx-yellow);
+}
+
+.site-brand:hover .site-brand-portal {
+    color: var(--pgx-yellow);
+}
+
+/* =========================================================
+   PESQUISA
+   ========================================================= */
+
+.search-form {
+    flex: 1 1 260px;
+    min-width: 0;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+    .search-form .input-group {
+        min-height: 44px;
+    }
+
+    .search-form .form-control {
+        min-width: 0;
+        min-height: 44px;
+        border-color: #394150;
+        border-radius: var(--pgx-radius) 0 0 var(--pgx-radius);
+        background: #FFFFFF;
+        color: var(--pgx-text);
+        box-shadow: none;
+    }
+
+        .search-form .form-control::placeholder {
+            color: var(--pgx-muted);
+            opacity: 1;
+        }
+
+        .search-form .form-control:focus {
+            position: relative;
+            z-index: 2;
+            border-color: var(--pgx-yellow);
+            box-shadow: 0 0 0 3px rgba(255, 212, 0, 0.18);
+        }
+
+    .search-form .btn-brand {
+        min-height: 44px;
+        padding-right: 20px;
+        padding-left: 20px;
+        border-radius: 0 var(--pgx-radius) var(--pgx-radius) 0;
+    }
+
+/* =========================================================
+   AÇÕES DO HEADER
+   ========================================================= */
+
+.site-header-actions {
+    display: flex;
+    flex: 0 1 auto;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    min-width: 0;
+}
+
+    .site-header-actions > *,
+    .site-header-actions .dropdown {
+        min-width: 0;
+    }
+
+        .site-header-actions > .btn,
+        .site-header-actions .dropdown > .btn {
+            white-space: nowrap;
+        }
+
+/* =========================================================
+   BOTÕES DO HEADER
+   ========================================================= */
+
+.site-header .btn {
+    transition: color var(--pgx-transition), background-color var(--pgx-transition), border-color var(--pgx-transition);
+}
+
+.btn-brand {
+    border: 1px solid var(--pgx-navy);
+    background: var(--pgx-navy);
+    color: var(--pgx-white);
+    font-weight: 750;
+}
+
+    .btn-brand:hover,
+    .btn-brand:focus-visible {
+        border-color: var(--pgx-yellow);
+        background: var(--pgx-yellow);
+        color: var(--pgx-black);
+    }
+
+.btn-register {
+    border-color: var(--pgx-yellow);
+    background: var(--pgx-yellow);
+    color: var(--pgx-black);
+}
+
+    .btn-register:hover,
+    .btn-register:focus-visible {
+        border-color: var(--pgx-navy);
+        background: var(--pgx-navy);
+        color: var(--pgx-white);
+    }
+
+.btn-accent {
+    border-color: var(--pgx-navy);
+    background: var(--pgx-navy);
+    color: var(--pgx-white);
+    font-weight: 700;
+}
+
+    .btn-accent:hover,
+    .btn-accent:focus-visible {
+        border-color: var(--pgx-yellow);
+        background: var(--pgx-yellow);
+        color: var(--pgx-black);
+    }
+
+.btn-account {
+    border: 1px solid #465064;
+    background: transparent;
+    color: var(--pgx-white);
+}
+
+    .btn-account:hover,
+    .btn-account:focus-visible {
+        border-color: var(--pgx-yellow);
+        background: var(--pgx-yellow);
+        color: var(--pgx-black);
+    }
+
+/* =========================================================
+   NAVBAR AZUL
+   ========================================================= */
+
+.site-nav {
+    min-height: 48px;
+    padding: 0;
+    background: var(--pgx-blue);
+}
+
+    .site-nav .navbar-nav {
+        gap: 3px;
+    }
+
+    .site-nav .nav-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 48px;
+        padding: 12px 16px;
+        color: var(--pgx-white);
+        font-size: 0.92rem;
+        font-weight: 650;
+        transition: color var(--pgx-transition), background-color var(--pgx-transition);
+    }
+
+        .site-nav .nav-link:hover,
+        .site-nav .nav-link:focus-visible {
+            background: var(--pgx-navy);
+            color: var(--pgx-yellow);
+        }
+
+        .site-nav .nav-link.active {
+            background: var(--pgx-navy);
+            color: var(--pgx-yellow);
+        }
+
+            .site-nav .nav-link.active::after {
+                position: absolute;
+                right: 14px;
+                bottom: 0;
+                left: 14px;
+                height: 3px;
+                border-radius: 3px 3px 0 0;
+                background: var(--pgx-yellow);
+                content: "";
+            }
+
+    /* Botão do menu mobile */
+
+    .site-nav .navbar-toggler {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border-color: rgba(255, 255, 255, 0.65);
+    }
+
+        .site-nav .navbar-toggler:focus {
+            box-shadow: 0 0 0 3px rgba(255, 212, 0, 0.3);
+        }
+
+    .site-nav .navbar-toggler-icon {
+        filter: brightness(0) invert(1);
+    }
+
+/* =========================================================
+   DROPDOWNS
+   ========================================================= */
+
+.site-header .dropdown-menu {
+    padding: 6px;
+    border: 1px solid #293346;
+    border-radius: var(--pgx-radius);
+    background: #111318;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.site-header .dropdown-item {
+    padding: 9px 12px;
+    border-radius: 5px;
+    color: var(--pgx-white);
+}
+
+    .site-header .dropdown-item:hover,
+    .site-header .dropdown-item:focus {
+        background: var(--pgx-navy);
+        color: var(--pgx-yellow);
+    }
+
+.site-header .dropdown-divider {
+    border-color: #394150;
+}
+
+.site-header .dropdown-menu .btn-link {
+    color: var(--pgx-yellow);
+}
+
+    .site-header .dropdown-menu .btn-link:hover {
+        color: var(--pgx-white);
+    }
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+
+.site-main {
+    width: 100%;
+    min-width: 0;
+    padding-top: 24px;
+    padding-bottom: 40px;
+    background: transparent;
+}
+
+    .site-main img {
+        height: auto;
+    }
+
+/* =========================================================
+   FOOTER PRETO COM TEXTOS AMARELOS
+   ========================================================= */
+
+.site-footer {
+    margin-top: auto;
+    background: var(--pgx-black-pure);
+    color: var(--pgx-yellow);
+}
+
+    .site-footer h1,
+    .site-footer h2,
+    .site-footer h3,
+    .site-footer h4,
+    .site-footer h5,
+    .site-footer h6,
+    .site-footer .footer-heading {
+        margin-bottom: 14px;
+        color: var(--pgx-yellow);
+        font-size: 0.95rem;
+        font-weight: 750;
+    }
+
+    .site-footer p,
+    .site-footer li,
+    .site-footer .footer-copyright {
+        color: var(--pgx-yellow);
+    }
+
+    .site-footer a {
+        color: var(--pgx-yellow);
+        text-decoration: none;
+        transition: color var(--pgx-transition);
+    }
+
+        .site-footer a:hover,
+        .site-footer a:focus-visible {
+            color: var(--pgx-navy);
+        }
+
+.footer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.footer-divider {
+    border-color: #333333;
+    opacity: 1;
+}
+
+.footer-copyright {
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   FOCO ACESSÍVEL
+   ========================================================= */
+
+.site-header a:focus-visible,
+.site-header button:focus-visible,
+.site-header input:focus-visible,
+.site-footer a:focus-visible {
+    outline: 2px solid var(--pgx-yellow);
+    outline-offset: 3px;
+}
+
+.site-nav a:focus-visible,
+.site-nav button:focus-visible {
+    outline-color: var(--pgx-yellow);
+}
+
+/* =========================================================
+   TABLETS
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+    .site-header-main {
+        gap: 14px;
+    }
+
+    .site-brand {
+        flex: 1 1 auto;
+    }
+
+    .search-form {
+        order: 3;
+        flex: 1 1 100%;
+        max-width: none;
+    }
+
+    .site-header-actions {
+        flex: 0 1 auto;
+    }
+
+    .site-nav .navbar-nav {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .site-nav .nav-link {
+        min-height: 42px;
+        padding: 10px 12px;
+    }
+
+        .site-nav .nav-link.active::after {
+            right: auto;
+            bottom: 8px;
+            left: 0;
+            width: 3px;
+            height: calc(100% - 16px);
+            border-radius: 0 3px 3px 0;
+        }
+}
+
+/* =========================================================
+   CELULARES
+   ========================================================= */
+
+@media (max-width: 575.98px) {
+    .site-header-main {
+        gap: 12px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .site-brand {
+        flex: 1 1 100%;
+    }
+
+    .site-brand-icon {
+        flex-basis: 38px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .portal-ring {
+        width: 24px;
+        height: 24px;
+    }
+
+    .site-brand-name {
+        font-size: 1.05rem;
+        letter-spacing: -0.5px;
+    }
+
+    .site-logo {
+        max-width: 180px;
+        max-height: 46px;
+    }
+
+    .site-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 6px;
+    }
+
+        .site-header-actions .btn {
+            min-height: 38px;
+            padding: 8px 10px;
+            font-size: 0.82rem;
+        }
+
+        .site-header-actions .dropdown > .btn {
+            white-space: normal;
+        }
+
+    .search-form .form-control {
+        padding-right: 9px;
+        padding-left: 10px;
+        font-size: 0.88rem;
+    }
+
+    .search-form .btn-brand {
+        padding-right: 13px;
+        padding-left: 13px;
+    }
+
+    .site-main {
+        padding-top: 18px;
+        padding-bottom: 28px;
+    }
+
+    .site-footer .container {
+        padding-top: 28px !important;
+        padding-bottom: 24px !important;
+    }
+
+    .footer-list {
+        gap: 9px;
+    }
+}
+
+/* =========================================================
+   MOVIMENTO REDUZIDO
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .site-header *,
+    .site-footer * {
+        transition-duration: 0.01ms !important;
+    }
 }

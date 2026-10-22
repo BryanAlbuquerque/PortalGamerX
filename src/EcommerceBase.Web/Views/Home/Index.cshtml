@@ -1,6 +1,8 @@
 @model HomeVm
+
 @{
     ViewData["Title"] = "Início";
+
     var showcases = new List<(string Title, List<ProductCardVm> Items, string Link)>
     {
         ("Destaques", Model.Featured, "/produtos"),
@@ -10,75 +12,230 @@
     };
 }
 
-@if (Model.Banners.Count > 0)
-{
-    <div id="homeBanners" class="carousel slide mb-4" data-bs-ride="carousel">
-        <div class="carousel-inner rounded">
-            @for (var i = 0; i < Model.Banners.Count; i++)
-            {
-                var b = Model.Banners[i];
-                <div class="carousel-item @(i == 0 ? "active" : "")">
-                    <div class="hero-banner">
-                        @if (!string.IsNullOrWhiteSpace(b.LinkUrl) && (b.LinkUrl.StartsWith("/") || b.LinkUrl.StartsWith("https://")))
+<div class="home-page">
+
+    @* BANNERS PRINCIPAIS *@
+    @if (Model.Banners.Count > 0)
+    {
+        <section class="home-hero" aria-label="Banners em destaque">
+
+            <div id="homeBanners"
+                 class="carousel slide home-carousel"
+                 data-bs-ride="carousel">
+
+                @if (Model.Banners.Count > 1)
+                {
+                    <div class="carousel-indicators">
+                        @for (var i = 0; i < Model.Banners.Count; i++)
                         {
-                            <a href="@b.LinkUrl"><img src="@b.ImagePath" alt="@b.Title" /></a>
+                            <button type="button"
+                                    data-bs-target="#homeBanners"
+                                    data-bs-slide-to="@i"
+                                    class="@(i == 0 ? "active" : "")"
+                                    aria-current="@(i == 0 ? "true" : "false")"
+                                    aria-label="Banner @(i + 1)">
+                            </button>
                         }
-                        else
-                        {
-                            <img src="@b.ImagePath" alt="@b.Title" />
-                        }
-                        <div class="hero-caption">
-                            <h2 class="fw-bold">@b.Title</h2>
-                            @if (!string.IsNullOrWhiteSpace(b.Subtitle)) { <p class="lead">@b.Subtitle</p> }
-                            @if (!string.IsNullOrWhiteSpace(b.LinkUrl) && !string.IsNullOrWhiteSpace(b.ButtonText) && (b.LinkUrl.StartsWith("/") || b.LinkUrl.StartsWith("https://")))
-                            {
-                                <a class="btn btn-accent" href="@b.LinkUrl">@b.ButtonText</a>
-                            }
-                        </div>
                     </div>
+                }
+
+                <div class="carousel-inner">
+                    @for (var i = 0; i < Model.Banners.Count; i++)
+                    {
+                        var banner = Model.Banners[i];
+
+                        var validLink =
+                            !string.IsNullOrWhiteSpace(banner.LinkUrl) &&
+                            (banner.LinkUrl.StartsWith("/") ||
+                             banner.LinkUrl.StartsWith("https://",
+                                 StringComparison.OrdinalIgnoreCase));
+
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+
+                            <div class="hero-banner">
+
+                                @if (validLink)
+                                {
+                                    <a class="hero-banner-image-link"
+                                       href="@banner.LinkUrl"
+                                       aria-label="@banner.Title">
+
+                                        <img src="@banner.ImagePath"
+                                             alt="@banner.Title"
+                                             class="hero-banner-image"
+                                             loading="@(i == 0 ? "eager" : "lazy")" />
+                                    </a>
+                                }
+                                else
+                                {
+                                    <img src="@banner.ImagePath"
+                                         alt="@banner.Title"
+                                         class="hero-banner-image"
+                                         loading="@(i == 0 ? "eager" : "lazy")" />
+                                }
+
+                                <div class="hero-overlay"></div>
+
+                                <div class="hero-caption">
+                                    <span class="hero-eyebrow">
+                                        PORTALGAMERX
+                                    </span>
+
+                                    <h1>@banner.Title</h1>
+
+                                    @if (!string.IsNullOrWhiteSpace(banner.Subtitle))
+                                    {
+                                        <p>@banner.Subtitle</p>
+                                    }
+
+                                    @if (validLink &&
+                                         !string.IsNullOrWhiteSpace(banner.ButtonText))
+                                    {
+                                        <a class="btn-home-primary"
+                                           href="@banner.LinkUrl">
+                                            @banner.ButtonText
+                                            <span aria-hidden="true">→</span>
+                                        </a>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    }
                 </div>
-            }
-        </div>
-        @if (Model.Banners.Count > 1)
-        {
-            <button class="carousel-control-prev" type="button" data-bs-target="#homeBanners" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Anterior</span></button>
-            <button class="carousel-control-next" type="button" data-bs-target="#homeBanners" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Próximo</span></button>
-        }
-    </div>
-}
 
-@if (Model.Categories.Count > 0)
-{
-    <div class="row g-2 mb-3">
-        @foreach (var c in Model.Categories)
-        {
-            <div class="col-6 col-md-3 col-lg-2"><a class="category-chip" href="/categoria/@c.Slug">@c.Name</a></div>
-        }
-    </div>
-}
+                @if (Model.Banners.Count > 1)
+                {
+                    <button class="carousel-control-prev home-carousel-control"
+                            type="button"
+                            data-bs-target="#homeBanners"
+                            data-bs-slide="prev"
+                            aria-label="Banner anterior">
 
-@if (Model.IsEmpty)
-{
-    <div class="text-center py-5">
-        <h2>Nossa loja está sendo preparada</h2>
-        <p class="text-muted">Em breve teremos produtos disponíveis por aqui.</p>
-    </div>
-}
+                        <span class="carousel-control-prev-icon"
+                              aria-hidden="true"></span>
 
-@foreach (var showcase in showcases)
-{
-    var title = showcase.Title;
-    var items = showcase.Items;
-    var link = showcase.Link;
-    if (items.Count == 0) { continue; }
-    <div class="d-flex justify-content-between align-items-end">
-        <h3 class="section-title">@title</h3>
-        <a href="@link" class="small">Ver todos</a>
-    </div>
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
-        @foreach (var p in items)
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+
+                    <button class="carousel-control-next home-carousel-control"
+                            type="button"
+                            data-bs-target="#homeBanners"
+                            data-bs-slide="next"
+                            aria-label="Próximo banner">
+
+                        <span class="carousel-control-next-icon"
+                              aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Próximo</span>
+                    </button>
+                }
+
+            </div>
+        </section>
+    }
+
+    @* CATEGORIAS *@
+    @if (Model.Categories.Count > 0)
+    {
+        <section class="home-categories" aria-label="Categorias de produtos">
+
+            <div class="home-section-heading">
+                <div>
+                    <span class="home-section-eyebrow">EXPLORE</span>
+                    <h2 class="section-title">Navegue por categorias</h2>
+                </div>
+            </div>
+
+            <div class="home-category-list">
+                @foreach (var category in Model.Categories)
+                {
+                    <a class="category-chip"
+                       href="/categoria/@category.Slug">
+
+                        <span class="category-chip-indicator"
+                              aria-hidden="true"></span>
+
+                        <span>@category.Name</span>
+
+                        <span class="category-chip-arrow"
+                              aria-hidden="true">→</span>
+                    </a>
+                }
+            </div>
+
+        </section>
+    }
+
+    @* ESTADO VAZIO *@
+    @if (Model.IsEmpty)
+    {
+        <section class="home-empty-state">
+
+            <div class="empty-state-icon" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <span class="home-section-eyebrow">EM CONSTRUÇÃO</span>
+
+            <h2>Nossa loja está sendo preparada</h2>
+
+            <p>
+                Estamos preparando o portal para você.
+                Em breve, novidades e produtos estarão disponíveis.
+            </p>
+
+            <a href="/produtos" class="btn-home-secondary">
+                Explorar produtos
+                <span aria-hidden="true">→</span>
+            </a>
+
+        </section>
+    }
+
+    @* VITRINES DE PRODUTOS *@
+    @foreach (var showcase in showcases)
+    {
+        var title = showcase.Title;
+        var items = showcase.Items;
+        var link = showcase.Link;
+
+        if (items.Count == 0)
         {
-            <div class="col"><partial name="_ProductCard" model="p" /></div>
+            continue;
         }
-    </div>
-}
+
+        <section class="home-showcase">
+
+            <div class="home-section-heading">
+
+                <div class="home-section-heading-title">
+                    <span class="home-section-eyebrow">
+                        PORTALGAMERX
+                    </span>
+
+                    <h2 class="section-title">@title</h2>
+                </div>
+
+                <a href="@link" class="home-view-all">
+                    Ver todos
+                    <span aria-hidden="true">→</span>
+                </a>
+
+            </div>
+
+            <div class="home-product-grid">
+                @foreach (var product in items)
+                {
+                    <div class="home-product-item">
+                        <partial name="_ProductCard" model="product" />
+                    </div>
+                }
+            </div>
+
+        </section>
+    }
+
+</div>
