@@ -291,7 +291,7 @@
                         @if (!string.IsNullOrWhiteSpace(s.City))
                         {
                             <li>
-@s.City@(string.IsNullOrWhiteSpace(s.State)
+                                @s.City@(string.IsNullOrWhiteSpace(s.State)
                                     ? "" : " - " + s.State)
                             </li>
                         }
