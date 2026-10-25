@@ -1,4 +1,4 @@
-﻿/* PortalGamerX - wwwroot/css/Loja/layout.css (v3)
+﻿/* PortalGamerX - wwwroot/css/Loja/layout.css (v3.1)
    Dourado = ação e seleção (texto sempre preto por cima)
    Azul = navbar e estrutura | Preto = header e footer | Branco = conteúdo */
 
@@ -284,7 +284,6 @@ a {
     display: inline-flex;
     flex: 0 1 auto;
     align-items: center;
-    gap: 12px;
     min-width: 0;
     margin: 0;
     padding: 0;
@@ -292,116 +291,22 @@ a {
     text-decoration: none;
 }
 
+/* A logo sempre tem a mesma altura; a largura acompanha a proporção da imagem */
 .site-logo {
     display: block;
     width: auto;
-    height: auto;
-    max-width: 220px;
-    max-height: 58px;
+    height: 100px;
+    max-width: min(200px, 100%);
     object-fit: contain;
+    object-position: left center;
+    transform-origin: left center;
+    transition: filter var(--pgx-transition), transform var(--pgx-transition);
 }
 
-.site-brand-icon {
-    position: relative;
-    display: inline-flex;
-    flex: 0 0 46px;
-    align-items: center;
-    justify-content: center;
-    width: 46px;
-    height: 46px;
-    overflow: hidden;
-    border: 2px solid var(--pgx-gold);
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--pgx-navy) 0%, var(--pgx-black) 72%);
-    box-shadow: 0 0 16px rgba(255, 196, 0, 0.35);
-    transition: box-shadow var(--pgx-transition);
-}
-
-.site-brand:hover .site-brand-icon {
-    box-shadow: 0 0 24px rgba(255, 196, 0, 0.65);
-}
-
-/* O anel gira devagar (único movimento automático) */
-.portal-ring {
-    position: absolute;
-    width: 29px;
-    height: 29px;
-    border: 3px solid var(--pgx-gold);
-    border-right-color: var(--pgx-blue);
-    border-left-color: var(--pgx-blue);
-    border-radius: 50%;
-    animation: portal-spin 9s linear infinite;
-}
-
-.site-brand:hover .portal-ring {
-    animation-duration: 1.4s;
-}
-
-@keyframes portal-spin {
-    from {
-        transform: rotate(-35deg);
-    }
-
-    to {
-        transform: rotate(325deg);
-    }
-}
-
-.portal-core {
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background: var(--pgx-blue);
-    box-shadow: 0 0 10px var(--pgx-blue);
-}
-
-.portal-spark {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--pgx-gold);
-}
-
-.portal-spark-one {
-    top: 6px;
-    right: 7px;
-}
-
-.portal-spark-two {
-    bottom: 7px;
-    left: 6px;
-    background: var(--pgx-white);
-}
-
-.site-brand-name {
-    display: inline-block;
-    font-family: var(--pgx-font-display);
-    font-size: clamp(1.15rem, 2vw, 1.5rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    white-space: nowrap;
-}
-
-.site-brand-portal {
-    color: var(--pgx-white);
-    transition: color var(--pgx-transition);
-}
-
-.site-brand-gamer {
-    color: var(--pgx-gold);
-    transition: color var(--pgx-transition);
-}
-
-/* No hover as duas metades trocam de cor */
-.site-brand:hover .site-brand-portal {
-    color: var(--pgx-gold);
-}
-
-.site-brand:hover .site-brand-gamer {
-    color: var(--pgx-white);
+.site-brand:hover .site-logo,
+.site-brand:focus-visible .site-logo {
+    filter: drop-shadow(0 0 10px rgba(255, 196, 0, 0.55));
+    transform: scale(1.03);
 }
 
 /* Pesquisa */
@@ -818,24 +723,9 @@ a {
         flex: 1 1 100%;
     }
 
-    .site-brand-icon {
-        flex-basis: 38px;
-        width: 38px;
-        height: 38px;
-    }
-
-    .portal-ring {
-        width: 24px;
-        height: 24px;
-    }
-
-    .site-brand-name {
-        font-size: 1.15rem;
-    }
-
     .site-logo {
-        max-width: 180px;
-        max-height: 46px;
+        height: 44px;
+        max-width: min(220px, 100%);
     }
 
     .site-header-actions {
@@ -889,11 +779,6 @@ a {
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
-    }
-
-    .portal-ring {
-        animation: none;
-        transform: rotate(-35deg);
     }
 
     .site-header *,

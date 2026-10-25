@@ -12,6 +12,11 @@
     var storeName = string.IsNullOrWhiteSpace(s.StoreName)
         ? "PORTALGAMERX"
         : s.StoreName;
+
+    // Logo do painel admin; se não houver, usa a padrão em wwwroot/images/Logo.png
+    var logoSrc = string.IsNullOrWhiteSpace(s.LogoPath)
+        ? Url.Content("~/images/Logo.png")
+        : s.LogoPath;
 }
 
 <!DOCTYPE html>
@@ -31,6 +36,11 @@
     {
         <link rel="icon" href="@s.FaviconPath" />
     }
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" />
 
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
@@ -56,27 +66,11 @@
 
             <a class="site-brand"
                href="/"
-               aria-label="PortalGamerX - Página inicial">
+               aria-label="@storeName - Página inicial">
 
-                @if (!string.IsNullOrWhiteSpace(s.LogoPath))
-                {
-                    <img src="@s.LogoPath"
-                         alt="@storeName"
-                         class="site-logo" />
-                }
-                else
-                {
-                    <span class="site-brand-icon" aria-hidden="true">
-                        <span class="portal-ring"></span>
-                        <span class="portal-core"></span>
-                        <span class="portal-spark portal-spark-one"></span>
-                        <span class="portal-spark portal-spark-two"></span>
-                    </span>
-
-                    <span class="site-brand-name">
-                        <span class="site-brand-portal">PORTAL</span><span class="site-brand-gamer">GAMERX</span>
-                    </span>
-                }
+                <img src="@logoSrc"
+                     alt="@storeName"
+                     class="site-logo" />
 
             </a>
 
@@ -250,7 +244,7 @@
 
     </main>
 
-    <footer class="site-footer mt-auto">
+    <footer class="site-footer mt-auto" data-store="@storeName">
 
         <div class="container py-4">
 
@@ -291,7 +285,7 @@
                         @if (!string.IsNullOrWhiteSpace(s.City))
                         {
                             <li>
-                                @s.City@(string.IsNullOrWhiteSpace(s.State)
+@s.City@(string.IsNullOrWhiteSpace(s.State)
                                     ? "" : " - " + s.State)
                             </li>
                         }
