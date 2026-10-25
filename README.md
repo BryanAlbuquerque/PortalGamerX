@@ -1,21 +1,21 @@
-# Ecommerce Base
+# PortalGamerX
 
-Base de e-commerce **reutilizável**, com **uma instalação independente por cliente** (sem multi-tenancy).
+Loja virtual de **jogos** (mídia física), com **uma instalação independente por cliente** (sem multi-tenancy).
 Stack: C# · ASP.NET Core MVC (.NET 10) · Razor · ASP.NET Core Identity · EF Core + Npgsql (PostgreSQL) · Bootstrap 5 · xUnit · Docker/Render.
 
 ## Funcionalidades
 
-**Loja:** home com banners/destaques, catálogo (busca, filtros, ordenação, paginação), página de produto com galeria, carrinho (cookie para anônimos, persistido para logados, mescla ao entrar), cupom, cálculo de frete por CEP, checkout autenticado com endereço, pagamento externo (Mercado Pago Checkout Pro) e área do cliente (pedidos, cancelamento, endereços, dados, senha).
+**Loja:** home com banners/destaques, catálogo de jogos (busca, filtro por plataforma, ordenação, paginação), página de jogo com galeria, carrinho (cookie para anônimos, persistido para logados, mescla ao entrar), cupom, cálculo de frete por CEP, checkout autenticado com endereço, pagamento externo (Mercado Pago Checkout Pro) e área do cliente (pedidos, cancelamento, endereços, dados, senha).
 
-**Painel (`/admin`, somente papel Admin):** dashboard, produtos (imagens, SKU, NCM, promoção), categorias, marcas, clientes, pedidos (máquina de estados, rastreio, reembolso, fiscal), estoque (movimentações com histórico), cupons, banners, auditoria e **Configurações** (empresa, identidade visual, gerais, pagamentos, frete, e-mail, fiscal).
+**Painel (`/admin`, somente papel Admin):** dashboard, jogos (plataforma, tipo de mídia, classificação indicativa, lançamento, imagens, SKU, GTIN, dados fiscais, promoção), categorias (gêneros), publicadoras, clientes, pedidos (máquina de estados, rastreio, reembolso, fiscal), estoque (movimentações com histórico), cupons, banners, auditoria e **Configurações** (empresa, identidade visual, gerais, pagamentos, frete, e-mail, fiscal).
 
-**Integrações (interfaces + adaptadores):** `IPaymentProvider` → Mercado Pago · `IShippingProvider` → Melhor Envio (+ simulado só em desenvolvimento) · `IEmailProvider` → SMTP (MailKit, com fila/outbox) · `IFiscalProvider` → **somente contrato** (nenhum provedor fiscal implementado).
+**Integrações (interfaces + adaptadores):** `IPaymentProvider` → Mercado Pago · `IShippingProvider` → Melhor Envio (+ simulado só em desenvolvimento) · `IEmailProvider` → SMTP (MailKit, com fila/outbox) · `IFiscalProvider` → contrato de emissão para jogos (NF-e modelo 55) com dados fiscais prontos; **nenhum provedor fiscal implementado ainda**.
 
 ## Estrutura
 
 ```
-EcommerceBase.sln · global.json · Directory.Build.props · Dockerfile · render.yaml · .env.example
-src/EcommerceBase.Web/
+PortalGamerX.sln · global.json · Directory.Build.props · Dockerfile · render.yaml · .env.example
+src/PortalGamerX.Web/
   Domain/            entidades, enums, regras puras (preço, cupom, estados, CPF/CNPJ)
   Data/              AppDbContext, DbInitializer, CLI (--migrate/--create-admin), resolução de DATABASE_URL
   Services/          catálogo, carrinho, checkout, pedidos, pagamento, frete, e-mail, fiscal, estoque, auditoria
@@ -23,7 +23,7 @@ src/EcommerceBase.Web/
   Infrastructure/    DI, armazenamento de imagens, binder decimal, convenção de autorização do admin
   Controllers/       loja e conta        Areas/Admin/   painel (controllers + views)
   Views/ wwwroot/ ViewModels/
-tests/EcommerceBase.Tests/   xUnit (lógica pura, InMemory e integração PostgreSQL opcional)
+tests/PortalGamerX.Tests/   xUnit (lógica pura, InMemory e integração PostgreSQL opcional)
 scripts/   new-migration.ps1 · apply-migrations.ps1 · create-admin.ps1 · test.ps1 · package.ps1
 docs/      RENDER.md · SEGURANCA.md · LIMITACOES.md
 ```
@@ -38,7 +38,7 @@ docs/      RENDER.md · SEGURANCA.md · LIMITACOES.md
 
 ```powershell
 # 1) Entre na pasta do projeto
-cd .\EcommerceBase
+cd .\PortalGamerX
 
 # 2) Restaurar e compilar
 dotnet restore
@@ -51,17 +51,17 @@ psql -U postgres -c "CREATE DATABASE ecommercebase_dev;"
 # docker exec eb-pg psql -U postgres -c "CREATE DATABASE ecommercebase_dev;"
 
 # 4) Guardar a conexão FORA do código (User Secrets)
-dotnet user-secrets set "ConnectionStrings:Default" "Host=localhost;Port=5432;Database=ecommercebase_dev;Username=postgres;Password=SUA_SENHA" --project src/EcommerceBase.Web
+dotnet user-secrets set "ConnectionStrings:Default" "Host=localhost;Port=5432;Database=ecommercebase_dev;Username=postgres;Password=SUA_SENHA" --project src/PortalGamerX.Web
 
 # 5) Gerar a migration inicial (uma única vez; depois COMMITE a pasta Data/Migrations)
 .\scripts\new-migration.ps1 -Name InitialCreate
 
 # 6) Executar (em Development as migrations são aplicadas na inicialização)
-dotnet run --project src/EcommerceBase.Web
+dotnet run --project src/PortalGamerX.Web
 #    Abra a URL exibida (ex.: http://localhost:5xxx)
 ```
 
-> **Visual Studio (Console do Gerenciador de Pacotes):** selecione **Projeto padrão = EcommerceBase.Web** (lista suspensa no topo do console), defina EcommerceBase.Web como projeto de inicialização e rode `Add-Migration InitialCreate -OutputDir Data/Migrations` e depois `Update-Database`. Não é preciso banco acessível para gerar a migration, mas o projeto precisa compilar.
+> **Visual Studio (Console do Gerenciador de Pacotes):** selecione **Projeto padrão = PortalGamerX** (lista suspensa no topo do console), defina PortalGamerX como projeto de inicialização e rode `Add-Migration InitialCreate -OutputDir Data/Migrations` e depois `Update-Database`. Não é preciso banco acessível para gerar a migration, mas o projeto precisa compilar.
 
 > **Migrations:** não acompanham este pacote porque só podem ser geradas com o SDK instalado. O passo 5 é obrigatório. Se `dotnet ef` pedir, o script instala `dotnet-ef` automaticamente. Para aplicar manualmente: `.\scripts\apply-migrations.ps1`.
 
@@ -77,14 +77,14 @@ Não existe senha padrão. Escolha **uma** forma:
 .\scripts\create-admin.ps1 -Email "voce@empresa.com" -PromoteExisting
 
 # C) Bootstrap na inicialização (só cria se NÃO existir nenhum Admin) — use User Secrets, remova depois:
-dotnet user-secrets set "Bootstrap:AdminEmail" "voce@empresa.com" --project src/EcommerceBase.Web
-dotnet user-secrets set "Bootstrap:AdminPassword" "SenhaForte123" --project src/EcommerceBase.Web
+dotnet user-secrets set "Bootstrap:AdminEmail" "voce@empresa.com" --project src/PortalGamerX.Web
+dotnet user-secrets set "Bootstrap:AdminPassword" "SenhaForte123" --project src/PortalGamerX.Web
 ```
 
 Política de senha: mínimo 8 caracteres, com maiúscula, minúscula e dígito; bloqueio após 5 tentativas. Depois de entrar como Admin aparece o botão **PAINEL ADMIN** no topo; a proteção real é no servidor (`[Authorize(Policy="AdminOnly")]` em toda a área, reforçada por uma convenção global e coberta por teste).
 
 ### Visual Studio: primeiro acesso passo a passo
-1. Clique com o direito em **EcommerceBase.Web → Gerenciar Segredos do Usuário** e cole (troque os valores):
+1. Clique com o direito em **PortalGamerX → Gerenciar Segredos do Usuário** e cole (troque os valores):
 ```json
 {
   "ConnectionStrings": { "Default": "Host=localhost;Port=5432;Database=ecommercebase_dev;Username=postgres;Password=SENHA_DO_POSTGRES" },
@@ -113,7 +113,7 @@ Cobrem: dinheiro/preços, cupons, máquina de estados, CPF/CNPJ/CEP/slug, valida
 ### Gerar o ZIP do código-fonte
 
 ```powershell
-.\scripts\package.ps1   # gera ..\EcommerceBase.zip sem bin/obj/.env/storage
+.\scripts\package.ps1   # gera ..\PortalGamerX.zip sem bin/obj/.env/storage
 ```
 
 ## Integrações que precisam de credenciais (Admin → Configurações)
@@ -123,7 +123,7 @@ Cobrem: dinheiro/preços, cupons, máquina de estados, CPF/CNPJ/CEP/slug, valida
 | Mercado Pago | Access Token, Public Key, **chave secreta do webhook** | Webhook: `https://SEU-DOMINIO/webhooks/mercadopago`. O pedido só vira "Pago" após o sistema **consultar o pagamento na API** do provedor. Teste primeiro em sandbox. |
 | Melhor Envio | Token, CEP de origem, e-mail técnico | Cotação apenas (não gera etiqueta/postagem). Em Development há frete **simulado**, rotulado como tal. |
 | E-mail (SMTP) | Servidor, porta, usuário, senha, remetente | Envio assíncrono por fila com tentativas; há "enviar teste" na tela. |
-| Fiscal | — | **Não implementado**: só estrutura. Ver `docs/LIMITACOES.md`. |
+| Fiscal | — | **Emissão não implementada** (falta o adaptador do provedor). Os dados fiscais dos jogos (NCM, CFOP, origem, CEST, GTIN) e as validações já estão prontos. |
 
 Segredos são gravados **cifrados** (Data Protection, chaves persistidas no banco), nunca reexibidos e nunca registrados em log/auditoria. Campo em branco = manter o valor atual.
 
@@ -139,4 +139,27 @@ Veja `docs/RENDER.md` (blueprint `render.yaml`, disco persistente para imagens, 
 
 ## Limitações conhecidas
 
-Veja `docs/LIMITACOES.md` (sem variações de produto, fiscal só contrato, Bootstrap via CDN sem SRI, imagens em disco local, etc.).
+Veja `docs/LIMITACOES.md` (sem variações de jogo, fiscal só contrato, Bootstrap via CDN sem SRI, imagens em disco local, etc.).
+
+## Jogos e dados fiscais
+
+Cada jogo tem: plataforma (PC, PlayStation, Xbox, Nintendo Switch...), tipo de mídia (disco ou cartucho/game card), classificação indicativa, data de lançamento, publicadora e categoria (gênero).
+
+**NCM padrão** (usado quando o campo do jogo fica vazio; sempre confirme com o contador):
+
+| Tipo de mídia | NCM |
+|---|---|
+| Disco (Blu-ray/DVD) | `8523.49.90` |
+| Cartucho / game card | `9504.50.00` |
+
+**CFOP automático** (venda online a consumidor final não contribuinte): `5102` no mesmo estado da empresa, `6108` para outro estado. Também seguem para o provedor: origem da mercadoria, CEST (quando houver), GTIN/EAN, unidade `UN` e descrição "Jogo - Plataforma". Antes de emitir, o sistema valida CNPJ, IE, UF e CEP da empresa e os dados fiscais de cada jogo (`Domain/Rules/FiscalRules.cs`).
+
+Licenças/chaves digitais não são tratadas (só mídia física).
+
+## Atualizando um banco que já existia (produtos → jogos)
+
+A migration `20261025130000_ProdutoParaJogo` renomeia as tabelas/colunas de produto para jogo preservando os dados e cria os novos campos (jogos antigos ficam com plataforma "Outra plataforma": ajuste no painel). Aplique com:
+
+```powershell
+.\scripts\apply-migrations.ps1
+```

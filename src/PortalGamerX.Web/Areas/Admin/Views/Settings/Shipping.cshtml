@@ -1,0 +1,39 @@
+@model ShippingSettingsForm
+@{ ViewData["Title"] = "Configurações - Frete"; }
+<h1 class="h3 mb-3">Configurações</h1>
+<partial name="_SettingsNav" />
+<div class="row g-3">
+<div class="col-lg-8">
+<form method="post" class="card stat-card"><div class="card-body">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row g-3">
+        <div class="col-md-6"><label asp-for="Provider" class="form-label"></label>
+            <select asp-for="Provider" class="form-select">
+                <option value="None">Desativado</option>
+                <option value="MelhorEnvio">Melhor Envio</option>
+                <option value="Development">Simulado (somente desenvolvimento)</option>
+            </select><span asp-validation-for="Provider" class="text-danger small"></span>
+            <div class="form-text">"Simulado" só funciona em ambiente de desenvolvimento e nunca representa cotação real.</div></div>
+        <div class="col-md-3"><label asp-for="OriginZip" class="form-label"></label><input asp-for="OriginZip" class="form-control" data-mask="cep" /><span asp-validation-for="OriginZip" class="text-danger small"></span></div>
+        <div class="col-md-3"><label asp-for="HandlingDays" class="form-label"></label><input asp-for="HandlingDays" type="number" min="0" max="60" class="form-control" /></div>
+        <div class="col-md-6"><label asp-for="FreeMinimum" class="form-label"></label><input asp-for="FreeMinimum" type="text" inputmode="decimal" class="form-control" value="@Model.FreeMinimum.Dec()" /></div>
+        <div class="col-12"><hr /><h2 class="h6">Melhor Envio</h2></div>
+        <div class="col-md-4"><label asp-for="MeEnvironment" class="form-label"></label>
+            <select asp-for="MeEnvironment" class="form-select"><option value="sandbox">Sandbox</option><option value="production">Produção</option></select></div>
+        <div class="col-md-8"><label asp-for="MeContactEmail" class="form-label"></label><input asp-for="MeContactEmail" type="email" class="form-control" /></div>
+        <div class="col-12"><label asp-for="MeToken" class="form-label"></label>
+            <input asp-for="MeToken" type="password" class="form-control" autocomplete="new-password" placeholder="@(Model.HasMeToken ? "•••••••• (já configurado)" : "")" value="" />
+            <div class="form-text">Gravado cifrado; nunca exibido novamente.</div></div>
+        <div class="col-12"><label asp-for="MeServices" class="form-label"></label><input asp-for="MeServices" class="form-control" placeholder="1,2" /></div>
+    </div>
+    <div class="mt-4"><button class="btn btn-primary">Salvar</button></div>
+</div></form>
+</div>
+<div class="col-lg-4">
+    <div class="card stat-card"><div class="card-body">
+        <h2 class="h6">Testar provedor</h2>
+        <form asp-action="TestShipping" method="post"><button class="btn btn-outline-primary btn-sm">Testar conexão</button></form>
+        <div class="form-text">Faz uma cotação de teste com o CEP de origem salvo. Salve as alterações antes de testar.</div>
+    </div></div>
+</div>
+</div>

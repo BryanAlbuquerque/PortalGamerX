@@ -70,25 +70,25 @@ public class ProductsController : AdminBaseController
         if (!ModelState.IsValid) { await FillListsAsync(f); return View("Form", f); }
 
         var slug = await UniqueSlugAsync(f.Name, null);
-        var p = new Product { Slug = slug };
-        Apply(p, f);
-        p.StockQuantity = 0;
-        _db.Products.Add(p);
+        var j = new Jogos { Slug = slug };
+        Apply(j, f);
+        j.StockQuantity = 0;
+        _db.Jogos.Add(j);
         await _db.SaveChangesAsync();
 
         if (f.StockQuantity > 0)
-            await _stock.AdminMoveAsync(p.Id, StockMovementType.Entry, f.StockQuantity, "Estoque inicial do cadastro", CurrentUserId, CurrentUserName);
+            await _stock.AdminMoveAsync(j.Id, StockMovementType.Entry, f.StockQuantity, "Estoque inicial do cadastro", CurrentUserId, CurrentUserName);
 
-        await _audit.LogAsync("product.create", "Product", p.Id.ToString(), $"{p.Sku} - {p.Name}");
+        await _audit.LogAsync("product.create", "Product", j.Id.ToString(), $"{j.Sku} - {j.Name}");
         TempData["Success"] = "Produto criado. Agora você pode enviar as imagens.";
-        return RedirectToAction(nameof(Edit), new { id = p.Id });
+        return RedirectToAction(nameof(Edit), new { id = j.Id });
     }
 
     public async Task<IActionResult> Edit(int id)
     {
-        var p = await _db.Products.AsNoTracking().Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
-        if (p == null) return NotFound();
-        var f = ToForm(p);
+        var j = await _db.Jogos.AsNoTracking().Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
+        if (j == null) return NotFound();
+        var f = ToForm(j);
         await FillListsAsync(f);
         return View("Form", f);
     }
@@ -96,26 +96,26 @@ public class ProductsController : AdminBaseController
     [HttpPost]
     public async Task<IActionResult> Edit(int id, ProductForm f)
     {
-        var p = await _db.Products.Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
-        if (p == null) return NotFound();
+        var j = await _db.Jogos.Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
+        if (j == null) return NotFound();
         f.Id = id;
         await ValidateUniqueAsync(f);
         if (!ModelState.IsValid)
         {
-            f.Images = p.Images.OrderBy(i => i.SortOrder).ToList();
-            f.CurrentStock = p.StockQuantity;
+            f.Images = j.Images.OrderBy(i => i.SortOrder).ToList();
+            f.CurrentStock = j.StockQuantity;
             await FillListsAsync(f);
             return View("Form", f);
         }
 
-        var oldPrice = p.Price;
-        var oldPromo = p.PromotionalPrice;
-        Apply(p, f); // estoque NÃO é alterado aqui (apenas por movimentações)
+        var oldPrice = j.Price;
+        var oldPromo = j.PromotionalPrice;
+        Apply(j, f); // estoque NÃO é alterado aqui (apenas por movimentações)
         await _db.SaveChangesAsync();
-        await _audit.LogAsync("product.update", "Product", p.Id.ToString(),
-            oldPrice != p.Price || oldPromo != p.PromotionalPrice
-                ? $"{p.Sku}: preço {oldPrice} -> {p.Price}; promo {oldPromo} -> {p.PromotionalPrice}"
-                : p.Sku);
+        await _audit.LogAsync("product.update", "Product", j.Id.ToString(),
+            oldPrice != j.Price || oldPromo != j.PromotionalPrice
+                ? $"{j.Sku}: preço {oldPrice} -> {j.Price}; promo {oldPromo} -> {j.PromotionalPrice}"
+                : j.Sku);
         TempData["Success"] = "Produto atualizado.";
         return RedirectToAction(nameof(Edit), new { id });
     }
@@ -123,35 +123,35 @@ public class ProductsController : AdminBaseController
     [HttpPost]
     public async Task<IActionResult> Toggle(int id)
     {
-        var p = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
-        if (p == null) return NotFound();
-        p.IsActive = !p.IsActive;
-        p.UpdatedAtUtc = DateTime.UtcNow;
+        var j = await _db.Jogos.FirstOrDefaultAsync(x => x.Id == id);
+        if (j == null) return NotFound();
+        j.IsActive = !j.IsActive;
+        j.UpdatedAtUtc = DateTime.UtcNow;
         await _db.SaveChangesAsync();
-        await _audit.LogAsync(p.IsActive ? "product.activate" : "product.deactivate", "Product", p.Id.ToString(), p.Sku);
-        TempData["Success"] = p.IsActive ? "Produto ativado." : "Produto desativado.";
+        await _audit.LogAsync(j.IsActive ? "product.activate" : "product.deactivate", "Product", j.Id.ToString(), j.Sku);
+        TempData["Success"] = j.IsActive ? "Produto ativado." : "Produto desativado.";
         return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
     public async Task<IActionResult> UploadImages(int id, List<IFormFile> files)
     {
-        var p = await _db.Products.Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
-        if (p == null) return NotFound();
+        var j = await _db.Jogos.Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
+        if (j == null) return NotFound();
         if (files == null || files.Count == 0) { TempData["Error"] = "Selecione ao menos uma imagem."; return RedirectToAction(nameof(Edit), new { id }); }
-        if (p.Images.Count + files.Count > 10) { TempData["Error"] = "Limite de 10 imagens por produto."; return RedirectToAction(nameof(Edit), new { id }); }
+        if (j.Images.Count + files.Count > 10) { TempData["Error"] = "Limite de 10 imagens por produto."; return RedirectToAction(nameof(Edit), new { id }); }
 
         var errors = new List<string>();
-        var order = p.Images.Count == 0 ? 0 : p.Images.Max(i => i.SortOrder) + 1;
+        var order = j.Images.Count == 0 ? 0 : j.Images.Max(i => i.SortOrder) + 1;
         foreach (var file in files)
         {
             var r = await _storage.SaveImageAsync(file, "products");
             if (!r.Success) { errors.Add($"{Path.GetFileName(file.FileName)}: {r.Error}"); continue; }
-            _db.ProductImages.Add(new ProductImage { ProductId = p.Id, Path = r.Path!, AltText = p.Name, SortOrder = order++, IsPrimary = p.Images.Count == 0 && !_db.ChangeTracker.Entries<ProductImage>().Any(e => e.State == EntityState.Added && e.Entity.IsPrimary) });
+            _db.JogosImages.Add(new JogosImages { JogosId = j.Id, Path = r.Path!, AltText = j.Name, SortOrder = order++, IsPrimary = j.Images.Count == 0 && !_db.ChangeTracker.Entries<JogosImage>().Any(e => e.State == EntityState.Added && e.Entity.IsPrimary) });
         }
-        p.UpdatedAtUtc = DateTime.UtcNow;
+        j.UpdatedAtUtc = DateTime.UtcNow;
         await _db.SaveChangesAsync();
-        await _audit.LogAsync("product.images.upload", "Product", p.Id.ToString());
+        await _audit.LogAsync("product.images.upload", "Product", j.Id.ToString());
         if (errors.Count > 0) TempData["Error"] = string.Join(" | ", errors); else TempData["Success"] = "Imagens enviadas.";
         return RedirectToAction(nameof(Edit), new { id });
     }

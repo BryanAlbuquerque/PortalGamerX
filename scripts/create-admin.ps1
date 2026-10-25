@@ -23,7 +23,7 @@ if (-not $PromoteExisting) {
 try {
     $args = @('--create-admin')
     if ($PromoteExisting) { $args += '--promote-existing' }
-    dotnet run --project src/EcommerceBase.Web/EcommerceBase.Web.csproj -- @args
+    dotnet run --project src/PortalGamerX.Web/PortalGamerX.csproj -- @args
     if ($LASTEXITCODE -ne 0) { throw 'Falha ao criar/promover o administrador.' }
 }
 finally {

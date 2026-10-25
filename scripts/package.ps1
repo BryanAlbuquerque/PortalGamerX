@@ -4,7 +4,7 @@
 #>
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-$out = Join-Path (Split-Path -Parent $root) 'EcommerceBase.zip'
+$out = Join-Path (Split-Path -Parent $root) 'PortalGamerX.zip'
 if (Test-Path $out) { Remove-Item $out }
 $tmp = Join-Path $env:TEMP ("eb-" + [guid]::NewGuid())
 New-Item -ItemType Directory $tmp | Out-Null

@@ -18,8 +18,8 @@ if (-not (Get-Command dotnet-ef -ErrorAction SilentlyContinue)) {
 }
 
 dotnet ef migrations add $Name `
-    --project src/EcommerceBase.Web/EcommerceBase.Web.csproj `
-    --startup-project src/EcommerceBase.Web/EcommerceBase.Web.csproj `
+    --project src/PortalGamerX.Web/PortalGamerX.csproj `
+    --startup-project src/PortalGamerX.Web/PortalGamerX.csproj `
     --output-dir Data/Migrations
 if ($LASTEXITCODE -ne 0) { throw 'Falha ao gerar a migration.' }
-Write-Host "Migration '$Name' criada em src/EcommerceBase.Web/Data/Migrations. Revise o código gerado antes de aplicar."
+Write-Host "Migration '$Name' criada em src/PortalGamerX.Web/Data/Migrations. Revise o código gerado antes de aplicar."

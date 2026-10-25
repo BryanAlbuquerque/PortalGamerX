@@ -1,0 +1,19 @@
+@model StockMoveForm
+@{ ViewData["Title"] = "Movimentar estoque"; }
+<h1 class="h3 mb-1">Movimentar estoque</h1>
+<p class="text-muted">@Model.JogoName — saldo atual: <strong>@Model.CurrentStock</strong></p>
+<form method="post" class="card stat-card" style="max-width:560px"><div class="card-body">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="JogoId" />
+    <input type="hidden" asp-for="JogoName" />
+    <input type="hidden" asp-for="CurrentStock" />
+    <div class="mb-3"><label asp-for="Type" class="form-label"></label>
+        <select asp-for="Type" class="form-select">
+            <option value="@StockMovementType.Entry">Entrada (soma ao saldo)</option>
+            <option value="@StockMovementType.Exit">Saída (subtrai do saldo)</option>
+            <option value="@StockMovementType.Adjustment">Ajuste (define o novo saldo)</option>
+        </select></div>
+    <div class="mb-3"><label asp-for="Quantity" class="form-label"></label><input asp-for="Quantity" type="number" min="0" class="form-control" /><span asp-validation-for="Quantity" class="text-danger small"></span></div>
+    <div class="mb-3"><label asp-for="Reason" class="form-label"></label><input asp-for="Reason" class="form-control" maxlength="300" /><span asp-validation-for="Reason" class="text-danger small"></span></div>
+    <button class="btn btn-primary">Registrar</button> <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</div></form>

@@ -1,0 +1,123 @@
+@model JogoForm
+@{
+    var editing = Model.Id.HasValue;
+    ViewData["Title"] = editing ? "Editar jogo" : "Novo jogo";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
+</div>
+<div class="row g-4">
+    <div class="col-lg-8">
+        <form method="post" class="card stat-card"><div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="row g-3">
+                <div class="col-12"><label asp-for="Name" class="form-label"></label><input asp-for="Name" class="form-control" maxlength="200" /><span asp-validation-for="Name" class="text-danger small"></span></div>
+                <div class="col-12"><label asp-for="ShortDescription" class="form-label"></label><input asp-for="ShortDescription" class="form-control" maxlength="500" /><span asp-validation-for="ShortDescription" class="text-danger small"></span></div>
+                <div class="col-12"><label asp-for="Description" class="form-label"></label><textarea asp-for="Description" class="form-control" rows="6"></textarea><div class="form-text">Texto simples. Será exibido com escape (sem HTML).</div></div>
+                <div class="col-md-6"><label asp-for="Price" class="form-label"></label><input asp-for="Price" type="text" inputmode="decimal" class="form-control" value="@Model.Price.Dec()" /><span asp-validation-for="Price" class="text-danger small"></span></div>
+                <div class="col-md-6"><label asp-for="PromotionalPrice" class="form-label"></label><input asp-for="PromotionalPrice" type="text" inputmode="decimal" class="form-control" value="@Model.PromotionalPrice.Dec()" /><span asp-validation-for="PromotionalPrice" class="text-danger small"></span></div>
+                <div class="col-12"><hr class="my-1" /><h2 class="h6 text-muted">Dados do jogo</h2></div>
+                <div class="col-md-4"><label asp-for="Platform" class="form-label"></label>
+                    <select asp-for="Platform" class="form-select">
+                        @foreach (var v in Enum.GetValues<GamePlatform>()) { <option value="@((int)v)" selected="@(Model.Platform == v)">@v.Label()</option> }
+                    </select><span asp-validation-for="Platform" class="text-danger small"></span></div>
+                <div class="col-md-4"><label asp-for="MediaType" class="form-label"></label>
+                    <select asp-for="MediaType" class="form-select" data-media-type>
+                        @foreach (var v in Enum.GetValues<GameMediaType>()) { <option value="@((int)v)" selected="@(Model.MediaType == v)">@v.Label()</option> }
+                    </select></div>
+                <div class="col-md-4"><label asp-for="AgeRating" class="form-label"></label>
+                    <select asp-for="AgeRating" class="form-select">
+                        @foreach (var v in Enum.GetValues<AgeRating>()) { <option value="@((int)v)" selected="@(Model.AgeRating == v)">@v.Label()</option> }
+                    </select></div>
+                <div class="col-md-4"><label asp-for="ReleaseDate" class="form-label"></label><input asp-for="ReleaseDate" type="date" class="form-control" value="@(Model.ReleaseDate?.ToString("yyyy-MM-dd"))" /><span asp-validation-for="ReleaseDate" class="text-danger small"></span></div>
+                <div class="col-md-4"><label asp-for="Sku" class="form-label"></label><input asp-for="Sku" class="form-control" maxlength="60" /><span asp-validation-for="Sku" class="text-danger small"></span></div>
+                <div class="col-md-4"><label asp-for="Barcode" class="form-label"></label><input asp-for="Barcode" class="form-control" maxlength="60" inputmode="numeric" /></div>
+                <div class="col-12"><hr class="my-1" /><h2 class="h6 text-muted">Dados fiscais</h2></div>
+                <div class="col-md-4"><label asp-for="Ncm" class="form-label"></label>
+                    <input asp-for="Ncm" class="form-control" maxlength="8" inputmode="numeric" data-ncm-input data-ncm-disc="@FiscalRules.NcmOpticalDisc" data-ncm-cartridge="@FiscalRules.NcmGameCartridge" placeholder="@FiscalRules.DefaultNcm(Model.MediaType)" />
+                    <span asp-validation-for="Ncm" class="text-danger small"></span>
+                    <div class="form-text">Vazio = padrão do tipo de mídia: disco <code>8523.49.90</code>, cartucho/game card <code>9504.50.00</code>. Confirme com seu contador.</div></div>
+                <div class="col-md-4"><label asp-for="Cest" class="form-label"></label><input asp-for="Cest" class="form-control" maxlength="7" inputmode="numeric" /><span asp-validation-for="Cest" class="text-danger small"></span>
+                    <div class="form-text">Somente se o item estiver sujeito a substituição tributária.</div></div>
+                <div class="col-md-4"><label asp-for="OriginCode" class="form-label"></label>
+                    <select asp-for="OriginCode" class="form-select">
+                        @for (var o = 0; o <= 8; o++) { <option value="@o" selected="@(Model.OriginCode == o)">@FiscalRules.OriginLabel(o)</option> }
+                    </select><span asp-validation-for="OriginCode" class="text-danger small"></span></div>
+                <div class="col-12"><hr class="my-1" /></div>
+                <div class="col-md-6"><label asp-for="CategoryId" class="form-label"></label>
+                    <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories"><option value="0">Selecione...</option></select>
+                    <span asp-validation-for="CategoryId" class="text-danger small"></span></div>
+                <div class="col-md-6"><label asp-for="BrandId" class="form-label"></label>
+                    <select asp-for="BrandId" class="form-select" asp-items="Model.Brands"><option value="">Sem publicadora</option></select></div>
+                @if (!editing)
+                {
+                    <div class="col-md-4"><label asp-for="StockQuantity" class="form-label"></label><input asp-for="StockQuantity" type="number" min="0" class="form-control" /><span asp-validation-for="StockQuantity" class="text-danger small"></span></div>
+                }
+                else
+                {
+                    <div class="col-md-4"><label class="form-label">Estoque atual</label>
+                        <div class="form-control-plaintext"><strong>@Model.CurrentStock</strong> — <a asp-controller="Stock" asp-action="Move" asp-route-id="@Model.Id">movimentar</a></div>
+                        <div class="form-text">O estoque só muda por movimentações registradas.</div></div>
+                }
+                <div class="col-md-2"><label asp-for="WeightKg" class="form-label"></label><input asp-for="WeightKg" type="text" inputmode="decimal" class="form-control" value="@Model.WeightKg.Dec()" /></div>
+                <div class="col-md-2"><label asp-for="HeightCm" class="form-label"></label><input asp-for="HeightCm" type="text" inputmode="decimal" class="form-control" value="@Model.HeightCm.Dec()" /></div>
+                <div class="col-md-2"><label asp-for="WidthCm" class="form-label"></label><input asp-for="WidthCm" type="text" inputmode="decimal" class="form-control" value="@Model.WidthCm.Dec()" /></div>
+                <div class="col-md-2"><label asp-for="LengthCm" class="form-label"></label><input asp-for="LengthCm" type="text" inputmode="decimal" class="form-control" value="@Model.LengthCm.Dec()" /></div>
+                <div class="col-12 d-flex flex-wrap gap-4">
+                    <div class="form-check"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label"></label></div>
+                    <div class="form-check"><input asp-for="IsAvailable" class="form-check-input" /><label asp-for="IsAvailable" class="form-check-label"></label></div>
+                    <div class="form-check"><input asp-for="IsFeatured" class="form-check-input" /><label asp-for="IsFeatured" class="form-check-label"></label></div>
+                </div>
+            </div>
+            <div class="mt-4"><button class="btn btn-primary" type="submit">Salvar</button></div>
+        </div></form>
+    </div>
+    <div class="col-lg-4">
+        @if (editing)
+        {
+            <div class="card stat-card"><div class="card-body">
+                <h2 class="h6">Imagens</h2>
+                <form asp-action="UploadImages" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data" class="mb-3">
+                    <input type="file" name="files" class="form-control mb-2" accept="image/jpeg,image/png,image/webp,image/gif" multiple required />
+                    <div class="form-text mb-2">JPG, PNG, WEBP ou GIF. O conteúdo do arquivo é validado no servidor.</div>
+                    <button class="btn btn-sm btn-outline-primary">Enviar imagens</button>
+                </form>
+                @if (Model.Images.Count == 0) { <p class="text-muted small mb-0">Nenhuma imagem.</p> }
+                @foreach (var img in Model.Images.OrderByDescending(i => i.IsPrimary).ThenBy(i => i.SortOrder))
+                {
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="@img.Path" alt="" class="rounded" style="width:64px;height:64px;object-fit:cover" />
+                        <div class="flex-grow-1">
+                            @if (img.IsPrimary) { <span class="badge text-bg-success">Principal</span> }
+                            else
+                            {
+                                <form asp-action="SetPrimaryImage" asp-route-id="@Model.Id" asp-route-imageId="@img.Id" method="post"><button class="btn btn-sm btn-link p-0">Tornar principal</button></form>
+                            }
+                        </div>
+                        <form asp-action="DeleteImage" asp-route-id="@Model.Id" asp-route-imageId="@img.Id" method="post" data-confirm="Excluir esta imagem?">
+                            <button class="btn btn-sm btn-outline-danger">Excluir</button>
+                        </form>
+                    </div>
+                }
+            </div></div>
+        }
+        else
+        {
+            <div class="alert alert-light border">Salve o jogo para enviar as imagens.</div>
+        }
+    </div>
+</div>
+@section Scripts {
+<script>
+(function () {
+  var media = document.querySelector('[data-media-type]');
+  var ncm = document.querySelector('[data-ncm-input]');
+  if (!media || !ncm) return;
+  media.addEventListener('change', function () {
+    ncm.placeholder = media.value === '1' ? ncm.dataset.ncmCartridge : ncm.dataset.ncmDisc;
+  });
+})();
+</script>
+}

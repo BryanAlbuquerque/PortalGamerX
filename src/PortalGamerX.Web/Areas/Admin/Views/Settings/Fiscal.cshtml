@@ -1,0 +1,38 @@
+@model FiscalSettingsForm
+@{ ViewData["Title"] = "Configurações - Fiscal"; }
+<h1 class="h3 mb-3">Configurações</h1>
+<partial name="_SettingsNav" />
+<div class="alert alert-warning">
+    <strong>Emissão fiscal NÃO está ativa.</strong> Esta versão traz apenas a estrutura (contrato <code>IFiscalProvider</code>, documentos e eventos). Nenhum provedor fiscal foi implementado: nenhuma NF-e/NFC-e é emitida.
+    Para emitir é necessário contratar um provedor (ou integrar diretamente à SEFAZ), possuir certificado digital e cadastro tributário corretos, e implementar o adaptador correspondente — com validação do seu contador.
+</div>
+<form method="post" class="card stat-card" style="max-width:720px"><div class="card-body">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row g-3">
+        <div class="col-md-6"><label asp-for="Provider" class="form-label"></label>
+            <select asp-for="Provider" class="form-select"><option value="None">Nenhum</option></select><span asp-validation-for="Provider" class="text-danger small"></span></div>
+        <div class="col-md-3"><label asp-for="Environment" class="form-label"></label>
+            <select asp-for="Environment" class="form-select"><option value="homologacao">Homologação</option><option value="producao">Produção</option></select></div>
+        <div class="col-md-3"><label asp-for="DocumentType" class="form-label"></label>
+            <select asp-for="DocumentType" class="form-select"><option value="NFe">NF-e</option><option value="NFCe">NFC-e</option></select></div>
+        <div class="col-md-6"><label asp-for="TaxRegime" class="form-label"></label><input asp-for="TaxRegime" class="form-control" placeholder="Ex.: Simples Nacional" /></div>
+        <div class="col-md-6"><label asp-for="Series" class="form-label"></label><input asp-for="Series" class="form-control" /></div>
+        <div class="col-md-6"><label asp-for="Token" class="form-label"></label>
+            <input asp-for="Token" type="password" class="form-control" autocomplete="new-password" placeholder="@(Model.HasToken ? "•••••••• (já configurado)" : "")" value="" /></div>
+        <div class="col-md-6"><label asp-for="CertificatePassword" class="form-label"></label>
+            <input asp-for="CertificatePassword" type="password" class="form-control" autocomplete="new-password" placeholder="@(Model.HasCertificatePassword ? "•••••••• (já configurada)" : "")" value="" /></div>
+    </div>
+    <div class="mt-3 small text-muted">Situação do provedor: <strong>@(Model.ProviderConfigured ? "configurado" : "não configurado")</strong>.</div>
+    <div class="mt-3 small text-muted">
+        <strong>Como os jogos entram na nota:</strong>
+        <ul class="mb-0">
+            <li>Mídia física (NF-e modelo 55). NCM padrão: disco Blu-ray/DVD <code>8523.49.90</code>; cartucho/game card <code>9504.50.00</code>. Você pode informar outro NCM em cada jogo.</li>
+            <li>CFOP automático para venda online a consumidor final não contribuinte: <code>5102</code> (mesmo estado da empresa) ou <code>6108</code> (outro estado).</li>
+            <li>Também seguem na nota: origem da mercadoria, CEST (quando houver), GTIN/EAN, unidade <code>UN</code> e descrição "Jogo - Plataforma".</li>
+            <li>Antes de emitir, o sistema confere CNPJ, inscrição estadual, UF e CEP da empresa (Configurações &rsaquo; Empresa) e os dados fiscais de cada jogo do pedido.</li>
+            <li>Licenças/chaves digitais não são mercadoria e <strong>não</strong> são tratadas aqui; exigem outro tratamento fiscal (consulte seu contador).</li>
+        </ul>
+        Esses são valores padrão: a classificação e a tributação definitivas devem ser validadas pelo seu contador.
+    </div>
+    <div class="mt-4"><button class="btn btn-primary">Salvar</button></div>
+</div></form>

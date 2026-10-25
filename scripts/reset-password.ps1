@@ -14,7 +14,7 @@ $bstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secure)
 try { $env:ADMIN_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr) }
 finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr) }
 try {
-    dotnet run --project src/EcommerceBase.Web/EcommerceBase.Web.csproj -- --reset-password
+    dotnet run --project src/PortalGamerX.Web/PortalGamerX.csproj -- --reset-password
     if ($LASTEXITCODE -ne 0) { throw 'Falha ao redefinir a senha.' }
 }
 finally { Remove-Item Env:ADMIN_PASSWORD -ErrorAction SilentlyContinue }

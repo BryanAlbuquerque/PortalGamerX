@@ -8,5 +8,5 @@
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
-dotnet run --project src/EcommerceBase.Web/EcommerceBase.Web.csproj -- --migrate
+dotnet run --project src/PortalGamerX.Web/PortalGamerX.csproj -- --migrate
 if ($LASTEXITCODE -ne 0) { throw 'Falha ao aplicar as migrations.' }

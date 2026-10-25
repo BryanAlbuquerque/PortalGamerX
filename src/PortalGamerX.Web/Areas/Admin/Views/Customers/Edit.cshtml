@@ -1,0 +1,12 @@
+@model CustomerEditForm
+@{ ViewData["Title"] = "Editar cliente"; }
+<h1 class="h3 mb-3">Editar cliente</h1>
+<form method="post" class="card stat-card" style="max-width:560px"><div class="card-body">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3"><label class="form-label">E-mail</label><input class="form-control" value="@Model.Email" disabled /><div class="form-text">E-mail e senha não são alterados pelo painel.</div></div>
+    <div class="mb-3"><label asp-for="FullName" class="form-label"></label><input asp-for="FullName" class="form-control" maxlength="150" /><span asp-validation-for="FullName" class="text-danger small"></span></div>
+    <div class="mb-3"><label asp-for="Phone" class="form-label"></label><input asp-for="Phone" class="form-control" maxlength="20" /></div>
+    <div class="mb-3"><label asp-for="Document" class="form-label"></label><input asp-for="Document" class="form-control" maxlength="20" /><span asp-validation-for="Document" class="text-danger small"></span></div>
+    <button class="btn btn-primary">Salvar</button> <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancelar</a>
+</div></form>

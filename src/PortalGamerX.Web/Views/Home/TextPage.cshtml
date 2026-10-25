@@ -1,0 +1,13 @@
+@model TextPageVm
+@{
+    ViewData["Title"] = Model.Title;
+}
+<h1 class="h3">@Model.Title</h1>
+@if (string.IsNullOrWhiteSpace(Model.Text))
+{
+    <p class="text-muted">Conteúdo ainda não informado pela loja.</p>
+}
+else
+{
+    <div class="bg-white p-4 rounded shadow-sm text-pre">@Model.Text</div>
+}

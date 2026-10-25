@@ -1,0 +1,9 @@
+@model string
+@{
+    ViewData["Title"] = "Confirme seu e-mail";
+}
+<div class="card auth-card shadow-sm"><div class="card-body">
+    <h1 class="h4">Quase lá!</h1>
+    <p>Enviamos um link de confirmação para <strong>@Model</strong>. Clique no link para ativar sua conta e poder entrar.</p>
+    <p class="small text-muted">Não chegou? Verifique o spam ou <a href="/conta/reenviar-confirmacao">solicite um novo envio</a>.</p>
+</div></div>

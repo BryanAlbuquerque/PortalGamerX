@@ -46,7 +46,7 @@ public class CouponsController : AdminBaseController
     public async Task<IActionResult> Create(CouponForm f)
     {
         var skus = ParseSkus(f.Skus);
-        var products = await ResolveProductsAsync(skus, f);
+        var products = await ResolveJogosAsync(skus, f);
         await ValidateAsync(f);
         if (!ModelState.IsValid) { await FillAsync(f); return View("Form", f); }
 
@@ -125,10 +125,10 @@ public class CouponsController : AdminBaseController
         (raw ?? string.Empty).Split(new[] { ',', ';', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
 
-    private async Task<List<Product>> ResolveProductsAsync(List<string> skus, CouponForm f)
+    private async Task<List<Jogos>> ResolveJogosAsync(List<string> skus, CouponForm f)
     {
-        if (skus.Count == 0) return new List<Product>();
-        var found = await _db.Products.Where(p => skus.Contains(p.Sku)).ToListAsync();
+        if (skus.Count == 0) return new List<Jogos>();
+        var found = await _db.Jogos.Where(p => skus.Contains(p.Sku)).ToListAsync();
         var missing = skus.Where(s => !found.Any(p => p.Sku.Equals(s, StringComparison.OrdinalIgnoreCase))).ToList();
         if (missing.Count > 0) ModelState.AddModelError(nameof(f.Skus), "SKUs não encontrados: " + string.Join(", ", missing));
         return found;

@@ -13,7 +13,7 @@ public class Category
     public List<Category> Children { get; set; } = new();
     public bool IsActive { get; set; } = true;
     public int SortOrder { get; set; }
-    public List<Product> Products { get; set; } = new();
+    public List<Jogos> Jogos { get; set; } = new();
 }
 
 public class Brand
@@ -24,7 +24,7 @@ public class Brand
     public bool IsActive { get; set; } = true;
 }
 
-public class Product
+public class Jogos
 {
     public int Id { get; set; }
     [MaxLength(200)] public string Name { get; set; } = string.Empty;
@@ -77,8 +77,8 @@ public class Product
 public class ProductImage
 {
     public int Id { get; set; }
-    public int ProductId { get; set; }
-    public Product? Product { get; set; }
+    public int JogosId { get; set; }
+    public Jogos? jogos { get; set; }
     [MaxLength(300)] public string Path { get; set; } = string.Empty;
     [MaxLength(200)] public string? AltText { get; set; }
     public int SortOrder { get; set; }
@@ -102,8 +102,8 @@ public class Banner
 public class StockMovement
 {
     public long Id { get; set; }
-    public int ProductId { get; set; }
-    public Product? Product { get; set; }
+    public int JogosId { get; set; }
+    public Jogos? Jogos { get; set; }
     public StockMovementType Type { get; set; }
     /// <summary>Variação com sinal (+ entrada, - saída).</summary>
     public int Quantity { get; set; }
