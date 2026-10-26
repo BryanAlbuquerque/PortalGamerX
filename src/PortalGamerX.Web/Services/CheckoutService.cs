@@ -3,12 +3,11 @@ using PortalGamerX.Domain;
 using PortalGamerX.Domain.Entities;
 using PortalGamerX.Domain.Rules;
 using PortalGamerX.Infrastructure;
-using PortalGamerX.Integrations.Shipping;
 using Microsoft.EntityFrameworkCore;
 
 namespace PortalGamerX.Services;
 
-public record PlaceOrderRequest(Guid UserId, Guid IdempotencyKey, int AddressId, string ShippingServiceCode, string? Notes);
+public record PlaceOrderRequest(Guid UserId, Guid IdempotencyKey, int AddressId, string? Notes);
 
 public record PlaceOrderResult(bool Success, Guid? OrderId, string? Error, bool Duplicate = false)
 {
@@ -17,8 +16,6 @@ public record PlaceOrderResult(bool Success, Guid? OrderId, string? Error, bool 
 
 public interface ICheckoutService
 {
-    /// <summary>Cotação de frete a partir do CARRINHO do usuário e do endereço (valores calculados no servidor).</summary>
-    Task<ShippingQuoteResult> QuoteShippingAsync(Guid userId, int addressId);
     Task<PlaceOrderResult> PlaceOrderAsync(PlaceOrderRequest request);
 }
 
@@ -26,19 +23,17 @@ public class CheckoutService : ICheckoutService
 {
     private readonly AppDbContext _db;
     private readonly ICouponService _coupons;
-    private readonly IShippingService _shipping;
     private readonly IStockService _stock;
     private readonly IStoreSettingsService _store;
     private readonly IEmailService _email;
     private readonly IPublicUrl _url;
     private readonly ILogger<CheckoutService> _logger;
 
-    public CheckoutService(AppDbContext db, ICouponService coupons, IShippingService shipping, IStockService stock,
+    public CheckoutService(AppDbContext db, ICouponService coupons, IStockService stock,
         IStoreSettingsService store, IEmailService email, IPublicUrl url, ILogger<CheckoutService> logger)
     {
         _db = db;
         _coupons = coupons;
-        _shipping = shipping;
         _stock = stock;
         _store = store;
         _email = email;
@@ -66,7 +61,7 @@ public class CheckoutService : ICheckoutService
             if (!p.IsActive || !p.IsAvailable)
                 return new CartSnapshot(cart, jogos, lines, 0, null, null, $"O jogo \"{p.Name}\" está indisponível.");
             if (item.Quantity > p.StockQuantity)
-                return new CartSnapshot(cart, jogos, lines, 0, null, null, $"Estoque insuficiente para \"{p.Name}\" (disponível: {p.StockQuantity}).");
+                return new CartSnapshot(cart, jogos, lines, 0, null, null, $"Keys insuficientes para \"{p.Name}\" (disponíveis: {p.StockQuantity}).");
             lines.Add(new PricingLine(p.Id, p.CategoryId, p.Sku, p.EffectivePrice, item.Quantity));
         }
 
@@ -84,23 +79,6 @@ public class CheckoutService : ICheckoutService
         return new CartSnapshot(cart, jogos, lines, discount, couponCode, couponId, null);
     }
 
-    private static List<ShippingPackageItem> ToPackage(CartSnapshot snap) =>
-        snap.Lines.Select(l =>
-        {
-            var p = snap.Jogos[l.JogoId];
-            return new ShippingPackageItem(p.Sku, l.Quantity, p.WeightKg, p.HeightCm, p.WidthCm, p.LengthCm, l.UnitPrice);
-        }).ToList();
-
-    public async Task<ShippingQuoteResult> QuoteShippingAsync(Guid userId, int addressId)
-    {
-        var address = await _db.Addresses.AsNoTracking().FirstOrDefaultAsync(a => a.Id == addressId && a.UserId == userId);
-        if (address == null) return ShippingQuoteResult.Fail("Endereço inválido.");
-        var snap = await LoadCartAsync(userId);
-        if (snap.Error != null) return ShippingQuoteResult.Fail(snap.Error);
-        var subtotal = PricingCalculator.Calculate(snap.Lines, snap.Discount, 0m);
-        return await _shipping.QuoteAsync(address.PostalCode, ToPackage(snap), subtotal.Subtotal - subtotal.Discount);
-    }
-
     public async Task<PlaceOrderResult> PlaceOrderAsync(PlaceOrderRequest req)
     {
         // 1) Idempotência: a mesma chave nunca gera dois pedidos.
@@ -114,19 +92,13 @@ public class CheckoutService : ICheckoutService
         if (user == null || !user.IsActive) return PlaceOrderResult.Fail("Conta indisponível.");
 
         var address = await _db.Addresses.AsNoTracking().FirstOrDefaultAsync(a => a.Id == req.AddressId && a.UserId == req.UserId);
-        if (address == null) return PlaceOrderResult.Fail("Selecione um endereço de entrega válido.");
+        if (address == null) return PlaceOrderResult.Fail("Selecione um endereço de cobrança válido.");
 
         // 2) Recalcula tudo no servidor a partir do banco.
         var snap = await LoadCartAsync(req.UserId);
         if (snap.Error != null) return PlaceOrderResult.Fail(snap.Error);
 
-        var preTotals = PricingCalculator.Calculate(snap.Lines, snap.Discount, 0m);
-        var quote = await _shipping.QuoteAsync(address.PostalCode, ToPackage(snap), preTotals.Subtotal - preTotals.Discount);
-        if (!quote.Success) return PlaceOrderResult.Fail(quote.Error ?? "Frete indisponível.");
-        var option = quote.Options.FirstOrDefault(o => o.Code == req.ShippingServiceCode);
-        if (option == null) return PlaceOrderResult.Fail("Modalidade de frete inválida ou indisponível. Recalcule o frete.");
-
-        var totals = PricingCalculator.Calculate(snap.Lines, snap.Discount, option.Price);
+        var totals = PricingCalculator.Calculate(snap.Lines, snap.Discount);
         var settings = await _store.GetAsync();
         var now = DateTime.UtcNow;
 
@@ -142,26 +114,19 @@ public class CheckoutService : ICheckoutService
             PaymentStatus = PaymentStatus.Pending,
             Subtotal = totals.Subtotal,
             DiscountTotal = totals.Discount,
-            ShippingTotal = totals.Shipping,
             Total = totals.Total,
             CouponCode = snap.CouponCode,
-            ShippingServiceCode = option.Code,
-            ShippingServiceName = option.Name,
-            ShippingCarrier = option.Carrier,
-            ShippingDeliveryDays = option.DeliveryDays,
-            ShippingIsSimulated = option.IsSimulated,
             CustomerName = string.IsNullOrWhiteSpace(user.FullName) ? address.RecipientName : user.FullName,
             CustomerEmail = user.Email ?? string.Empty,
             CustomerPhone = user.PhoneNumber ?? address.Phone,
             CustomerDocument = user.Document,
-            ShipRecipient = address.RecipientName,
-            ShipPostalCode = address.PostalCode,
-            ShipStreet = address.Street,
-            ShipNumber = address.Number,
-            ShipComplement = address.Complement,
-            ShipDistrict = address.District,
-            ShipCity = address.City,
-            ShipState = address.State,
+            BillingPostalCode = address.PostalCode,
+            BillingStreet = address.Street,
+            BillingNumber = address.Number,
+            BillingComplement = address.Complement,
+            BillingDistrict = address.District,
+            BillingCity = address.City,
+            BillingState = address.State,
             CustomerNotes = req.Notes.NullIfEmpty()?.Truncate(1000),
             CreatedAtUtc = now,
             UpdatedAtUtc = now,
@@ -189,7 +154,7 @@ public class CheckoutService : ICheckoutService
             ChangedByName = order.CustomerName
         });
 
-        // 3) Transação: pedido + baixa atômica de estoque + cupom + limpeza do carrinho.
+        // 3) Transação: pedido + reserva atômica das keys + cupom + limpeza do carrinho.
         await using var tx = await _db.Database.BeginTransactionAsync();
         try
         {
@@ -203,7 +168,7 @@ public class CheckoutService : ICheckoutService
                 {
                     await tx.RollbackAsync();
                     _db.ChangeTracker.Clear();
-                    return PlaceOrderResult.Fail($"Estoque insuficiente para \"{item.JogoName}\". Revise seu carrinho.");
+                    return PlaceOrderResult.Fail($"Keys insuficientes para \"{item.JogoName}\". Revise seu carrinho.");
                 }
             }
 

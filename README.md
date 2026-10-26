@@ -1,15 +1,19 @@
 # PortalGamerX
 
-Loja virtual de **jogos** (mídia física), com **uma instalação independente por cliente** (sem multi-tenancy).
+Loja virtual de **keys de ativação de jogos** (produto 100% digital, sem frete), com **uma instalação independente por cliente** (sem multi-tenancy).
 Stack: C# · ASP.NET Core MVC (.NET 10) · Razor · ASP.NET Core Identity · EF Core + Npgsql (PostgreSQL) · Bootstrap 5 · xUnit · Docker/Render.
 
 ## Funcionalidades
 
-**Loja:** home com banners/destaques, catálogo de jogos (busca, filtro por plataforma, ordenação, paginação), página de jogo com galeria, carrinho (cookie para anônimos, persistido para logados, mescla ao entrar), cupom, cálculo de frete por CEP, checkout autenticado com endereço, pagamento externo (Mercado Pago Checkout Pro) e área do cliente (pedidos, cancelamento, endereços, dados, senha).
+**Loja:** home com banners/destaques, catálogo de jogos (busca, filtro por plataforma, ordenação, paginação), página do jogo com galeria, loja de ativação (Steam, Epic, PlayStation Store...), região da key e passo a passo de ativação, carrinho (cookie para anônimos, persistido para logados, mescla ao entrar), cupom, checkout autenticado com endereço de cobrança, pagamento externo (Mercado Pago Checkout Pro) e área do cliente (pedidos **com as keys**, endereços, dados, senha). **Não há frete nem envio.**
 
-**Painel (`/admin`, somente papel Admin):** dashboard, jogos (plataforma, tipo de mídia, classificação indicativa, lançamento, imagens, SKU, GTIN, dados fiscais, promoção), categorias (gêneros), publicadoras, clientes, pedidos (máquina de estados, rastreio, reembolso, fiscal), estoque (movimentações com histórico), cupons, banners, auditoria e **Configurações** (empresa, identidade visual, gerais, pagamentos, frete, e-mail, fiscal).
+**Entrega automática das keys:** o pedido reserva as keys no checkout; quando o pagamento é **confirmado** (consulta à API do provedor), as keys passam a "Vendidas", o pedido vai para **Entregue** e o cliente recebe e-mail (sensível: o corpo é apagado do banco após o envio) e vê as keys em *Minha conta › Pedidos*. Pedido não pago expira e devolve as keys ao estoque; reembolso/estorno de pedido já entregue **invalida** as keys.
 
-**Integrações (interfaces + adaptadores):** `IPaymentProvider` → Mercado Pago · `IShippingProvider` → Melhor Envio (+ simulado só em desenvolvimento) · `IEmailProvider` → SMTP (MailKit, com fila/outbox) · `IFiscalProvider` → contrato de emissão para jogos (NF-e modelo 55) com dados fiscais prontos; **nenhum provedor fiscal implementado ainda**.
+**Painel (`/admin`, somente papel Admin):** dashboard, jogos (plataforma, loja de ativação, região, classificação indicativa, lançamento, instruções, imagens, SKU, promoção), categorias (gêneros), publicadoras, clientes, pedidos (cancelar, entregar keys, reembolso, NFS-e), **estoque de keys** (importação em lote, lista mascarada, revelar com auditoria, invalidar, histórico), cupons, banners, auditoria e **Configurações** (empresa, identidade visual, gerais, pagamentos, e-mail, fiscal).
+
+**Segurança das keys:** cifradas com ASP.NET Core Data Protection (as chaves do anel ficam no banco: **faça backup do banco inteiro**, senão as keys ficam ilegíveis), nunca aparecem em listas, hash SHA-256 impede cadastro duplicado, saldo do jogo = keys disponíveis, reserva atômica no Postgres (`FOR UPDATE SKIP LOCKED`) sem vender a mesma key duas vezes.
+
+**Integrações (interfaces + adaptadores):** `IPaymentProvider` → Mercado Pago · `IEmailProvider` → SMTP (MailKit, com fila/outbox) · `IFiscalProvider` → contrato de emissão de **NFS-e** com dados prontos; **nenhum provedor fiscal implementado ainda**.
 
 ## Estrutura
 
@@ -18,8 +22,8 @@ PortalGamerX.sln · global.json · Directory.Build.props · Dockerfile · render
 src/PortalGamerX.Web/
   Domain/            entidades, enums, regras puras (preço, cupom, estados, CPF/CNPJ)
   Data/              AppDbContext, DbInitializer, CLI (--migrate/--create-admin), resolução de DATABASE_URL
-  Services/          catálogo, carrinho, checkout, pedidos, pagamento, frete, e-mail, fiscal, estoque, auditoria
-  Integrations/      Payments/ Shipping/ Email/ Fiscal/
+  Services/          catálogo, carrinho, checkout, pedidos, pagamento, e-mail, fiscal, estoque de keys, auditoria
+  Integrations/      Payments/ Email/ Fiscal/
   Infrastructure/    DI, armazenamento de imagens, binder decimal, convenção de autorização do admin
   Controllers/       loja e conta        Areas/Admin/   painel (controllers + views)
   Views/ wwwroot/ ViewModels/
@@ -121,9 +125,8 @@ Cobrem: dinheiro/preços, cupons, máquina de estados, CPF/CNPJ/CEP/slug, valida
 | Integração | O que você precisa | Observação |
 |---|---|---|
 | Mercado Pago | Access Token, Public Key, **chave secreta do webhook** | Webhook: `https://SEU-DOMINIO/webhooks/mercadopago`. O pedido só vira "Pago" após o sistema **consultar o pagamento na API** do provedor. Teste primeiro em sandbox. |
-| Melhor Envio | Token, CEP de origem, e-mail técnico | Cotação apenas (não gera etiqueta/postagem). Em Development há frete **simulado**, rotulado como tal. |
 | E-mail (SMTP) | Servidor, porta, usuário, senha, remetente | Envio assíncrono por fila com tentativas; há "enviar teste" na tela. |
-| Fiscal | — | **Emissão não implementada** (falta o adaptador do provedor). Os dados fiscais dos jogos (NCM, CFOP, origem, CEST, GTIN) e as validações já estão prontos. |
+| Fiscal | — | **Emissão não implementada** (falta o adaptador do provedor). Os parâmetros de NFS-e (item LC 116, CNAE, alíquota de ISS, código municipal) e as validações já estão prontos. |
 
 Segredos são gravados **cifrados** (Data Protection, chaves persistidas no banco), nunca reexibidos e nunca registrados em log/auditoria. Campo em branco = manter o valor atual.
 
@@ -135,31 +138,32 @@ Veja `docs/RENDER.md` (blueprint `render.yaml`, disco persistente para imagens, 
 
 **Feito (estático, sem SDK):** balanceamento de chaves/parênteses em todos os 113 arquivos `.cs`; conferência automatizada de que toda view referenciada por controller existe, de que todo `@model` aponta para um tipo existente, de que todo `asp-controller/asp-action` aponta para uma action existente e de que todo construtor de serviço/controller tem dependência registrada; revisão manual de segurança (`docs/SEGURANCA.md`).
 
-**NÃO feito — precisa rodar na sua máquina:** compilação (`dotnet build`), execução dos testes, geração/aplicação das migrations, navegação real pelas telas, fluxo completo de pagamento (sandbox do Mercado Pago com webhook público), cotação real do Melhor Envio, envio real de SMTP, deploy no Render. **Não afirmamos que algo funciona até você ter rodado.**
+**NÃO feito — precisa rodar na sua máquina:** compilação (`dotnet build`), execução dos testes, geração/aplicação das migrations, navegação real pelas telas, fluxo completo de pagamento (sandbox do Mercado Pago com webhook público), envio real de SMTP, deploy no Render. **Não afirmamos que algo funciona até você ter rodado.**
 
 ## Limitações conhecidas
 
-Veja `docs/LIMITACOES.md` (sem variações de jogo, fiscal só contrato, Bootstrap via CDN sem SRI, imagens em disco local, etc.).
+Veja `docs/LIMITACOES.md` (sem variações de jogo, sem painel de keys por fornecedor, fiscal só contrato, Bootstrap via CDN sem SRI, imagens em disco local, etc.).
 
-## Jogos e dados fiscais
+## Keys digitais
 
-Cada jogo tem: plataforma (PC, PlayStation, Xbox, Nintendo Switch...), tipo de mídia (disco ou cartucho/game card), classificação indicativa, data de lançamento, publicadora e categoria (gênero).
+Fluxo do administrador: cadastre o jogo (plataforma, **loja de ativação**, **região**, instruções) → *Admin › Estoque de keys › Importar keys* (uma por linha, até 2.000 por lote; duplicadas são ignoradas) → o jogo fica disponível com o saldo de keys. Sem keys disponíveis o jogo aparece como indisponível.
 
-**NCM padrão** (usado quando o campo do jogo fica vazio; sempre confirme com o contador):
+Estados de uma key: **Disponível → Reservada** (pedido criado) **→ Vendida** (pagamento confirmado). Uma key pode ser **Invalidada** (defeituosa, já usada, reembolsada); invalidadas nunca voltam ao estoque. Se o pedido expirar/cancelar antes do pagamento, a key reservada volta a Disponível.
 
-| Tipo de mídia | NCM |
-|---|---|
-| Disco (Blu-ray/DVD) | `8523.49.90` |
-| Cartucho / game card | `9504.50.00` |
+Se um pedido ficar **Pago sem entrega** (falha transitória), a tarefa de fundo tenta de novo a cada ciclo e o admin tem o botão **Entregar keys** no pedido.
 
-**CFOP automático** (venda online a consumidor final não contribuinte): `5102` no mesmo estado da empresa, `6108` para outro estado. Também seguem para o provedor: origem da mercadoria, CEST (quando houver), GTIN/EAN, unidade `UN` e descrição "Jogo - Plataforma". Antes de emitir, o sistema valida CNPJ, IE, UF e CEP da empresa e os dados fiscais de cada jogo (`Domain/Rules/FiscalRules.cs`).
+## Fiscal (NFS-e)
 
-Licenças/chaves digitais não são tratadas (só mídia física).
+Venda de key de ativação é **licenciamento/cessão de direito de uso de programa de computação** (item **01.05** da lista de serviços da LC 116/2003): incide **ISS** e o documento é **NFS-e**, não NF-e de mercadoria (o STF, nas ADIs 1945 e 5659, afastou o ICMS nesse tipo de operação). O ISS desse item é devido, em regra, no domicílio do tomador, por isso o checkout coleta o **endereço de cobrança**.
 
-## Atualizando um banco que já existia (produtos → jogos)
+Em *Configurações › Fiscal* ficam: item da lista (padrão `01.05`), alíquota de ISS (0–5%), CNAE e código de tributação do município. O sistema valida CNPJ, inscrição municipal, cidade, UF e CEP da empresa e cidade/UF/CEP do cliente antes de pedir a emissão (`Domain/Rules/FiscalRules.cs`), e só permite pedir a nota de pedidos pagos e entregues. **Alíquota, códigos, regime e a transição da reforma tributária (IBS/CBS) variam por município e empresa: valide com o seu contador.**
 
-A migration `20261025130000_ProdutoParaJogo` renomeia as tabelas/colunas de produto para jogo preservando os dados e cria os novos campos (jogos antigos ficam com plataforma "Outra plataforma": ajuste no painel). Aplique com:
+## Atualizando um banco que já existia
+
+Duas migrations em sequência: `20261025130000_ProdutoParaJogo` (renomeia produto → jogo, preservando dados) e `20261026120000_LojaDeKeysDigitais` (cria o inventário `GameKeys`, remove campos de mídia física/frete e renomeia o endereço do pedido para cobrança). **A segunda descarta dados de frete/rastreio dos pedidos antigos e zera o saldo de estoque antigo** (as keys precisam ser importadas). **Faça backup antes.** Aplique com:
 
 ```powershell
 .\scripts\apply-migrations.ps1
 ```
+
+Pedidos antigos "Aguardando pagamento" não têm keys reservadas: cancele-os (ou deixe expirarem). Se um deles for pago, ficará "Pago" sem entrega e você verá um alerta no pedido.

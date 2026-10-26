@@ -9,8 +9,15 @@ namespace PortalGamerX.Services;
 
 public interface IOrderService
 {
-    /// <summary>Transição manual (administrador). "Pago" não é permitido aqui: só o fluxo de pagamento confirmado marca como pago.</summary>
-    Task<OperationResult> ChangeStatusAsync(Guid orderId, OrderStatus target, string? note, Actor actor, string? trackingCode = null);
+    /// <summary>Transição manual (administrador): apenas cancelar um pedido ainda não entregue. "Pago" e "Entregue" são automáticos.</summary>
+    Task<OperationResult> ChangeStatusAsync(Guid orderId, OrderStatus target, string? note, Actor actor);
+    /// <summary>
+    /// Entrega as keys de um pedido PAGO (Reservada → Vendida), muda o status para Entregue e envia o e-mail com as keys.
+    /// Idempotente: pode ser chamado de novo sem duplicar nada (reprocesso de webhook, botão do administrador, tarefa de fundo).
+    /// </summary>
+    Task<OperationResult> DeliverKeysAsync(Guid orderId, Actor actor);
+    /// <summary>Tenta entregar pedidos pagos que ficaram sem entrega (falha transitória). Retorna quantos foram entregues.</summary>
+    Task<int> DeliverPendingAsync();
     /// <summary>Aplica uma transição em um pedido já carregado (com Items). Uso interno do fluxo de pagamento.</summary>
     Task<OperationResult> ApplyTransitionAsync(Order order, OrderStatus target, string? note, Actor actor);
     Task<OperationResult> CancelByCustomerAsync(Guid orderId, Guid userId);
@@ -39,14 +46,14 @@ public class OrderService : IOrderService
     private Task<Order?> LoadAsync(Guid id) =>
         _db.Orders.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == id);
 
-    public async Task<OperationResult> ChangeStatusAsync(Guid orderId, OrderStatus target, string? note, Actor actor, string? trackingCode = null)
+    public async Task<OperationResult> ChangeStatusAsync(Guid orderId, OrderStatus target, string? note, Actor actor)
     {
         var order = await LoadAsync(orderId);
         if (order == null) return OperationResult.Fail("Pedido não encontrado.");
         if (target == OrderStatus.Paid) return OperationResult.Fail("O status \"Pago\" só é definido após a confirmação do pagamento pelo provedor.");
+        if (target == OrderStatus.Delivered) return OperationResult.Fail("A entrega é automática após o pagamento. Use \"Entregar keys\" se ela não ocorreu.");
         if (!OrderStateMachine.AdminTargets(order.Status).Contains(target))
             return OperationResult.Fail($"Transição não permitida: {order.Status.Label()} → {target.Label()}.");
-        if (target == OrderStatus.Shipped && !string.IsNullOrWhiteSpace(trackingCode)) order.TrackingCode = trackingCode.Trim().Truncate(60);
         return await ApplyTransitionAsync(order, target, note, actor);
     }
 
@@ -80,17 +87,84 @@ public class OrderService : IOrderService
             return OperationResult.Fail("O pedido foi alterado por outra operação. Recarregue a página e tente novamente.");
         }
 
-        if (target == OrderStatus.Cancelled) await ReleaseOrderResourcesAsync(order);
+        if (target == OrderStatus.Cancelled) await ReleaseOrderResourcesAsync(order, from);
 
         await TryNotifyAsync(order, target);
+
+        // Pagamento confirmado → entrega imediata das keys (produto digital).
+        if (target == OrderStatus.Paid)
+        {
+            var delivery = await DeliverKeysCoreAsync(order, actor);
+            if (!delivery.Success) _logger.LogError("Pedido {Order} pago, mas as keys não foram entregues: {Error}", order.Number, delivery.Error);
+        }
         return OperationResult.Ok();
     }
 
-    /// <summary>Devolve estoque e libera o uso do cupom de um pedido cancelado.</summary>
-    private async Task ReleaseOrderResourcesAsync(Order order)
+    public async Task<OperationResult> DeliverKeysAsync(Guid orderId, Actor actor)
     {
-        foreach (var item in order.Items)
-            await _stock.ReleaseAsync(item.JogoId, item.Quantity, order.Id, $"Cancelamento do pedido {order.Number}");
+        var order = await LoadAsync(orderId);
+        if (order == null) return OperationResult.Fail("Pedido não encontrado.");
+        if (order.Status == OrderStatus.Delivered) return OperationResult.Ok();
+        if (order.Status != OrderStatus.Paid) return OperationResult.Fail("Só é possível entregar as keys de um pedido pago.");
+        return await DeliverKeysCoreAsync(order, actor);
+    }
+
+    private async Task<OperationResult> DeliverKeysCoreAsync(Order order, Actor actor)
+    {
+        var expected = order.Items.Sum(i => i.Quantity);
+        var sold = await _stock.MarkSoldAsync(order.Id);
+        if (sold < expected)
+        {
+            var msg = $"ATENÇÃO: pedido pago, mas só {sold} de {expected} key(s) estão reservadas. Verifique o estoque de keys e cancele/reembolse se necessário.";
+            // A tarefa de fundo repete a tentativa: registra o alerta uma única vez.
+            if (!await _db.OrderStatusHistories.AnyAsync(h => h.OrderId == order.Id && h.Note == msg))
+            {
+                _db.OrderStatusHistories.Add(new OrderStatusHistory
+                {
+                    OrderId = order.Id, FromStatus = order.Status, ToStatus = order.Status, Note = msg, ChangedByName = "sistema"
+                });
+                await _db.SaveChangesAsync();
+            }
+            return OperationResult.Fail(msg);
+        }
+        return await ApplyTransitionAsync(order, OrderStatus.Delivered, "Keys liberadas ao cliente", actor);
+    }
+
+    public async Task<int> DeliverPendingAsync()
+    {
+        var cutoff = DateTime.UtcNow.AddMinutes(-2);
+        var ids = await _db.Orders
+            .Where(o => o.Status == OrderStatus.Paid && o.UpdatedAtUtc < cutoff)
+            .Select(o => o.Id).Take(25).ToListAsync();
+        var count = 0;
+        foreach (var id in ids)
+        {
+            var r = await DeliverKeysAsync(id, Actor.System);
+            if (r.Success) count++;
+            _db.ChangeTracker.Clear();
+        }
+        return count;
+    }
+
+    /// <summary>
+    /// Pedido cancelado: devolve ao estoque as keys ainda reservadas, invalida as keys já entregues (reembolso/estorno)
+    /// e libera o uso do cupom.
+    /// </summary>
+    private async Task ReleaseOrderResourcesAsync(Order order, OrderStatus from)
+    {
+        foreach (var jogoId in order.Items.Select(i => i.JogoId).Distinct())
+            await _stock.ReleaseAsync(jogoId, order.Id, $"Cancelamento do pedido {order.Number}");
+
+        var voided = await _stock.VoidSoldKeysAsync(order.Id, $"Pedido {order.Number} cancelado/reembolsado após a entrega");
+        if (voided > 0)
+        {
+            _db.OrderStatusHistories.Add(new OrderStatusHistory
+            {
+                OrderId = order.Id, FromStatus = order.Status, ToStatus = order.Status, ChangedByName = "sistema",
+                Note = $"{voided} key(s) já entregue(s) foram invalidadas. Se possível, bloqueie-as também na loja de origem."
+            });
+            await _db.SaveChangesAsync();
+        }
 
         var usages = await _db.CouponUsages.Where(u => u.OrderId == order.Id).ToListAsync();
         if (usages.Count > 0)
@@ -104,22 +178,53 @@ public class OrderService : IOrderService
     {
         try
         {
-            var vars = new Dictionary<string, string>
+            var link = _url.Absolute("/conta/pedidos/" + order.Id);
+            if (target == OrderStatus.Delivered)
+            {
+                var keys = await _stock.GetDeliveredKeysAsync(order.Id, includeCode: true);
+                var vars = new Dictionary<string, string>
+                {
+                    ["OrderNumber"] = order.Number,
+                    ["Link"] = link,
+                    ["KeysHtml"] = BuildKeysHtml(keys)
+                };
+                // sensitive = true: o corpo (com as keys) é apagado do banco depois do envio.
+                await _email.EnqueueAsync(EmailKinds.KeysDelivered, order.CustomerEmail, order.CustomerName, vars, sensitive: true);
+                return;
+            }
+
+            var common = new Dictionary<string, string>
             {
                 ["OrderNumber"] = order.Number,
                 ["Status"] = target.Label(),
                 ["Total"] = order.Total.ToBrl(),
-                ["Link"] = _url.Absolute("/conta/pedidos/" + order.Id),
-                ["Tracking"] = !string.IsNullOrWhiteSpace(order.TrackingCode) ? "Código de rastreio: " + order.TrackingCode : string.Empty
+                ["Link"] = link
             };
-            var kind = target == OrderStatus.Paid ? EmailKinds.PaymentUpdate : EmailKinds.ShippingUpdate;
-            if (target is OrderStatus.Paid or OrderStatus.Processing or OrderStatus.Shipped or OrderStatus.Delivered or OrderStatus.Cancelled)
-                await _email.EnqueueAsync(kind, order.CustomerEmail, order.CustomerName, vars);
+            if (target == OrderStatus.Paid) await _email.EnqueueAsync(EmailKinds.PaymentUpdate, order.CustomerEmail, order.CustomerName, common);
+            else if (target == OrderStatus.Cancelled) await _email.EnqueueAsync(EmailKinds.OrderUpdate, order.CustomerEmail, order.CustomerName, common);
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Falha ao enfileirar e-mail do pedido {Order}.", order.Number);
         }
+    }
+
+    /// <summary>HTML das keys para o e-mail. Todo texto é codificado aqui (a variável "KeysHtml" é inserida sem nova codificação).</summary>
+    public static string BuildKeysHtml(IEnumerable<DeliveredKey> keys)
+    {
+        var sb = new System.Text.StringBuilder();
+        foreach (var g in keys.GroupBy(k => k.JogoId))
+        {
+            var first = g.First();
+            sb.Append("<p><strong>").Append(System.Net.WebUtility.HtmlEncode(first.JogoName)).Append("</strong><br />")
+              .Append(System.Net.WebUtility.HtmlEncode($"Ativar em: {first.Store.Label()} · Região: {first.Region.Label()}")).Append("</p><ul>");
+            foreach (var k in g)
+                sb.Append("<li><code style=\"font-size:15px\">").Append(System.Net.WebUtility.HtmlEncode(k.Code ?? string.Empty)).Append("</code></li>");
+            sb.Append("</ul>");
+            if (!string.IsNullOrWhiteSpace(first.Instructions))
+                sb.Append("<p style=\"color:#555\">").Append(System.Net.WebUtility.HtmlEncode(first.Instructions).Replace("\n", "<br />")).Append("</p>");
+        }
+        return sb.ToString();
     }
 
     public async Task<OperationResult> CancelByCustomerAsync(Guid orderId, Guid userId)
@@ -188,7 +293,7 @@ public class OrderService : IOrderService
     }
 }
 
-/// <summary>Cancela pedidos não pagos após o prazo configurado, devolvendo o estoque reservado.</summary>
+/// <summary>Cancela pedidos não pagos após o prazo configurado (devolvendo as keys reservadas) e conclui entregas pendentes.</summary>
 public class OrderExpirationService : BackgroundService
 {
     private readonly IServiceScopeFactory _scopes;
@@ -211,6 +316,8 @@ public class OrderExpirationService : BackgroundService
                 var orders = scope.ServiceProvider.GetRequiredService<IOrderService>();
                 var n = await orders.CancelExpiredAsync();
                 if (n > 0) _logger.LogInformation("{Count} pedido(s) expirado(s) cancelado(s).", n);
+                var delivered = await orders.DeliverPendingAsync();
+                if (delivered > 0) _logger.LogInformation("{Count} pedido(s) pago(s) tiveram as keys entregues pela tarefa de fundo.", delivered);
             }
             catch (Exception ex) { _logger.LogError(ex, "Erro ao expirar pedidos."); }
 

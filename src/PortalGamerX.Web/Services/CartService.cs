@@ -3,7 +3,6 @@ using PortalGamerX.Data;
 using PortalGamerX.Domain.Entities;
 using PortalGamerX.Domain.Rules;
 using PortalGamerX.Infrastructure;
-using PortalGamerX.Integrations.Shipping;
 using PortalGamerX.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +18,6 @@ public interface ICartService
     Task<CartResult> ApplyCouponAsync(string code);
     Task RemoveCouponAsync();
     Task MergeAnonymousIntoUserAsync(Guid userId, string? anonymousToken);
-    /// <summary>Itens do carrinho atual (dimensões/peso do banco) e subtotal já com desconto, para estimar frete.</summary>
-    Task<(List<ShippingPackageItem> Items, decimal Subtotal)> GetShippingPackageAsync();
 }
 
 public class CartService : ICartService
@@ -116,8 +113,8 @@ public class CartService : ICartService
                 LineTotal = Money.Round(p.EffectivePrice * item.Quantity)
             };
             if (!p.IsActive || !p.IsAvailable) line.Issue = "Jogo indisponível no momento. Remova-o para continuar.";
-            else if (p.StockQuantity <= 0) line.Issue = "Jogo sem estoque. Remova-o para continuar.";
-            else if (item.Quantity > p.StockQuantity) line.Issue = $"Estoque insuficiente: restam {p.StockQuantity} unidade(s). Ajuste a quantidade.";
+            else if (p.StockQuantity <= 0) line.Issue = "Esgotado: sem keys disponíveis. Remova-o para continuar.";
+            else if (item.Quantity > p.StockQuantity) line.Issue = $"Keys insuficientes: restam {p.StockQuantity}. Ajuste a quantidade.";
             view.Lines.Add(line);
             pricing.Add(new PricingLine(p.Id, p.CategoryId, p.Sku, p.EffectivePrice, item.Quantity));
         }
@@ -130,7 +127,7 @@ public class CartService : ICartService
             else view.CouponError = eval.Error;
         }
 
-        var totals = PricingCalculator.Calculate(pricing, discount, 0m);
+        var totals = PricingCalculator.Calculate(pricing, discount);
         view.Subtotal = totals.Subtotal;
         view.Discount = totals.Discount;
         view.Total = totals.Total;
@@ -142,7 +139,7 @@ public class CartService : ICartService
         if (quantity < 1) return new CartResult(false, "Quantidade inválida.");
         var jogo = await _db.Jogos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == jogoId);
         if (jogo == null || !jogo.IsActive || !jogo.IsAvailable) return new CartResult(false, "Jogo indisponível.");
-        if (jogo.StockQuantity <= 0) return new CartResult(false, "Jogo sem estoque.");
+        if (jogo.StockQuantity <= 0) return new CartResult(false, "Jogo esgotado (sem keys disponíveis).");
 
         var settings = await _store.GetAsync();
         var cart = await FindCartAsync(true);
@@ -241,19 +238,5 @@ public class CartService : ICartService
             _db.Carts.Remove(anon);
         }
         await _db.SaveChangesAsync();
-    }
-
-    public async Task<(List<ShippingPackageItem> Items, decimal Subtotal)> GetShippingPackageAsync()
-    {
-        var view = await GetCartAsync();
-        if (view.IsEmpty) return (new List<ShippingPackageItem>(), 0m);
-        var ids = view.Lines.Select(l => l.JogoId).ToList();
-        var jogos = await _db.Jogos.AsNoTracking().Where(p => ids.Contains(p.Id)).ToDictionaryAsync(p => p.Id);
-        var items = view.Lines.Where(l => jogos.ContainsKey(l.JogoId)).Select(l =>
-        {
-            var p = jogos[l.JogoId];
-            return new ShippingPackageItem(p.Sku, l.Quantity, p.WeightKg, p.HeightCm, p.WidthCm, p.LengthCm, l.UnitPrice);
-        }).ToList();
-        return (items, view.Subtotal - view.Discount);
     }
 }

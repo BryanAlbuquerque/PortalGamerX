@@ -1,31 +1,31 @@
 namespace PortalGamerX.Integrations.Fiscal;
 
 /// <summary>
-/// Item da nota (jogo). Unit = unidade comercial; Origin = origem da mercadoria (tabela NF-e, 0 a 8);
-/// Cfop já resolvido (5102 / 6108); Gtin = código de barras EAN/GTIN do jogo, se houver; Cest só quando aplicável.
+/// Item da NFS-e (licença de uso de jogo). ServiceCode = item da lista de serviços (LC 116/2003, padrão 01.05);
+/// MunicipalTaxCode/Cnae/IssRatePercent vêm da configuração fiscal (podem variar por município).
 /// </summary>
 public record FiscalItem(
-    string Description, string Sku, string? Ncm, int Quantity, decimal UnitPrice,
-    string Cfop = "5102", int Origin = 0, string Unit = "UN", string? Cest = null, string? Gtin = null);
+    string Description, string Sku, int Quantity, decimal UnitPrice,
+    string ServiceCode, string? MunicipalTaxCode, string? Cnae, decimal IssRatePercent);
 
 public record FiscalIssueRequest(
     string OrderNumber,
     string DocumentType,
+    // ---- Tomador (cliente) ----
     string RecipientName,
     string? RecipientDocument,
     string RecipientEmail,
     string PostalCode, string Street, string Number, string? Complement, string District, string City, string State,
+    // ---- Serviço ----
     IReadOnlyList<FiscalItem> Items,
-    decimal ShippingTotal,
     decimal DiscountTotal,
     decimal Total,
-    // ---- Emitente e contexto da operação (venda online a consumidor final) ----
+    // ---- Prestador (empresa) ----
     string? IssuerCnpj = null,
-    string? IssuerStateRegistration = null,
+    string? IssuerMunicipalRegistration = null,
+    string? IssuerCity = null,
     string? IssuerState = null,
-    bool IsInterstate = false,
-    bool ConsumerFinal = true,       // indFinal = 1
-    int PresenceIndicator = 2);      // indPres = 2 (operação não presencial, pela Internet)
+    string? IssuerPostalCode = null);
 
 public record FiscalProviderResponse(
     string ExternalReference,
@@ -39,8 +39,9 @@ public record FiscalProviderResponse(
     string? Message);
 
 /// <summary>
-/// Contrato de emissão fiscal para a venda de jogos (mídia física, NF-e modelo 55). A emissão real depende de um provedor contratado (ex.: serviços de emissão de NF-e/NFC-e),
-/// certificado digital, credenciamento na SEFAZ e homologação. Nenhum adaptador real é distribuído nesta base.
+/// Contrato de emissão fiscal para a venda de keys de jogos (NFS-e). A emissão real depende de um provedor contratado
+/// (ou da integração direta com o município / NFS-e Nacional), certificado digital, cadastro municipal e homologação.
+/// Nenhum adaptador real é distribuído nesta base.
 /// </summary>
 public interface IFiscalProvider
 {

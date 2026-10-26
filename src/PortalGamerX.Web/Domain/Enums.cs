@@ -25,8 +25,44 @@ public enum GamePlatform
     Outro = 99
 }
 
-/// <summary>Tipo de mídia física. Define o NCM sugerido (disco óptico x cartucho/game card).</summary>
-public enum GameMediaType { Disc = 0, Cartridge = 1 }
+/// <summary>Loja/plataforma onde a key é ativada (resgatada). Valores fixos (gravados no banco): não reordene.</summary>
+public enum ActivationStore
+{
+    Steam = 0,
+    EpicGames = 1,
+    Gog = 2,
+    EaApp = 3,
+    UbisoftConnect = 4,
+    BattleNet = 5,
+    PlayStationStore = 6,
+    XboxMicrosoftStore = 7,
+    NintendoEshop = 8,
+    Outra = 99
+}
+
+/// <summary>Região em que a key pode ser ativada (keys têm trava regional).</summary>
+public enum KeyRegion
+{
+    Global = 0,
+    Brasil = 1,
+    AmericaLatina = 2,
+    AmericaDoNorte = 3,
+    Europa = 4,
+    Outra = 99
+}
+
+/// <summary>Situação de uma key no inventário. Valores fixos (gravados no banco).</summary>
+public enum GameKeyStatus
+{
+    /// <summary>Em estoque, livre para venda.</summary>
+    Available = 0,
+    /// <summary>Reservada para um pedido ainda não pago.</summary>
+    Reserved = 1,
+    /// <summary>Entregue ao cliente (pedido pago).</summary>
+    Sold = 2,
+    /// <summary>Invalidada pelo administrador (defeituosa, já usada, reembolsada...). Nunca volta ao estoque.</summary>
+    Void = 3
+}
 
 /// <summary>Classificação indicativa (ClassInd). O valor é a idade mínima; 0 = livre.</summary>
 public enum AgeRating { Livre = 0, Anos10 = 10, Anos12 = 12, Anos14 = 14, Anos16 = 16, Anos18 = 18 }
@@ -50,7 +86,7 @@ public static class EnumLabels
         OrderStatus.Paid => "Pago",
         OrderStatus.Processing => "Em preparação",
         OrderStatus.Shipped => "Enviado",
-        OrderStatus.Delivered => "Entregue",
+        OrderStatus.Delivered => "Entregue (keys liberadas)",
         OrderStatus.Cancelled => "Cancelado",
         _ => s.ToString()
     };
@@ -101,11 +137,39 @@ public static class EnumLabels
         _ => p.ToString()
     };
 
-    public static string Label(this GameMediaType t) => t switch
+    public static string Label(this ActivationStore t) => t switch
     {
-        GameMediaType.Disc => "Disco (Blu-ray/DVD)",
-        GameMediaType.Cartridge => "Cartucho / Game card",
+        ActivationStore.Steam => "Steam",
+        ActivationStore.EpicGames => "Epic Games Store",
+        ActivationStore.Gog => "GOG",
+        ActivationStore.EaApp => "EA app",
+        ActivationStore.UbisoftConnect => "Ubisoft Connect",
+        ActivationStore.BattleNet => "Battle.net",
+        ActivationStore.PlayStationStore => "PlayStation Store",
+        ActivationStore.XboxMicrosoftStore => "Xbox / Microsoft Store",
+        ActivationStore.NintendoEshop => "Nintendo eShop",
+        ActivationStore.Outra => "Outra loja",
         _ => t.ToString()
+    };
+
+    public static string Label(this KeyRegion r) => r switch
+    {
+        KeyRegion.Global => "Global",
+        KeyRegion.Brasil => "Brasil",
+        KeyRegion.AmericaLatina => "América Latina",
+        KeyRegion.AmericaDoNorte => "América do Norte",
+        KeyRegion.Europa => "Europa",
+        KeyRegion.Outra => "Outra região",
+        _ => r.ToString()
+    };
+
+    public static string Label(this GameKeyStatus s) => s switch
+    {
+        GameKeyStatus.Available => "Disponível",
+        GameKeyStatus.Reserved => "Reservada",
+        GameKeyStatus.Sold => "Vendida",
+        GameKeyStatus.Void => "Invalidada",
+        _ => s.ToString()
     };
 
     public static string Label(this AgeRating a) => a == AgeRating.Livre ? "Livre" : $"{(int)a} anos";

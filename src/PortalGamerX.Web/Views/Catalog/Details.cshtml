@@ -32,11 +32,12 @@
         <h1 class="h3">@p.Name</h1>
         <div class="mb-2">
             <span class="badge text-bg-dark">@p.Platform.Label()</span>
-            <span class="badge text-bg-secondary">@p.MediaType.Label()</span>
+            <span class="badge text-bg-secondary" title="Loja onde a key é ativada">Ativa em: @p.ActivationStore.Label()</span>
+            <span class="badge text-bg-info" title="Região em que a key funciona">Região: @p.Region.Label()</span>
             <span class="badge @(p.AgeRating == AgeRating.Livre ? "text-bg-success" : "text-bg-warning")" title="Classificação indicativa">@p.AgeRating.Label()</span>
         </div>
         <div class="text-muted small mb-2">
-            SKU: @p.Sku
+            Key digital · SKU @p.Sku
             @if (p.Brand != null) { <text> · Publicadora: @p.Brand.Name</text> }
             @if (p.ReleaseDate.HasValue) { <text> · Lançamento: @p.ReleaseDate.Value.ToString("dd/MM/yyyy")</text> }
         </div>
@@ -49,7 +50,7 @@
 
         @if (p.IsPurchasable)
         {
-            <p class="text-success small mb-2">@(p.StockQuantity <= 5 ? $"Últimas {p.StockQuantity} unidade(s)!" : "Em estoque")</p>
+            <p class="text-success small mb-2">@(p.StockQuantity <= 5 ? $"Últimas {p.StockQuantity} key(s)!" : "Disponível") · entrega digital imediata após o pagamento</p>
             <form asp-antiforgery="true" method="post" action="/carrinho/adicionar" class="d-flex gap-2 align-items-end">
                 <input type="hidden" name="jogoId" value="@p.Id" />
                 <input type="hidden" name="returnUrl" value="/jogo/@p.Slug" />
@@ -62,7 +63,7 @@
         }
         else
         {
-            <div class="alert alert-secondary mt-3">Jogo indisponível no momento.</div>
+            <div class="alert alert-secondary mt-3">Jogo indisponível no momento (sem keys em estoque).</div>
         }
     </div>
 </div>
@@ -72,6 +73,14 @@
     <h4 class="section-title">Descrição</h4>
     <div class="bg-white p-3 rounded shadow-sm text-pre">@p.Description</div>
 }
+@if (!string.IsNullOrWhiteSpace(p.ActivationInstructions))
+{
+    <h4 class="section-title">Como ativar</h4>
+    <div class="bg-white p-3 rounded shadow-sm text-pre">@p.ActivationInstructions</div>
+}
+<div class="alert alert-light border mt-3 small">
+    <strong>Atenção:</strong> esta é uma <strong>key de ativação</strong>, não uma mídia física. Ela só funciona em <strong>@p.ActivationStore.Label()</strong>, na região <strong>@p.Region.Label()</strong>, e pode ser usada uma única vez. Confira a plataforma antes de comprar.
+</div>
 @if (Model.Related.Count > 0)
 {
     <h4 class="section-title">Jogos relacionados</h4>

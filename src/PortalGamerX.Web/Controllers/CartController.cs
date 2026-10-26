@@ -1,7 +1,6 @@
 using PortalGamerX.Infrastructure;
 using PortalGamerX.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 
 namespace PortalGamerX.Controllers;
 
@@ -9,13 +8,8 @@ namespace PortalGamerX.Controllers;
 public class CartController : Controller
 {
     private readonly ICartService _cart;
-    private readonly IShippingService _shipping;
 
-    public CartController(ICartService cart, IShippingService shipping)
-    {
-        _cart = cart;
-        _shipping = shipping;
-    }
+    public CartController(ICartService cart) => _cart = cart;
 
     [HttpGet("")]
     public async Task<IActionResult> Index() => View(await _cart.GetCartAsync());
@@ -61,16 +55,5 @@ public class CartController : Controller
     {
         await _cart.RemoveCouponAsync();
         return RedirectToAction(nameof(Index));
-    }
-
-    /// <summary>Estimativa de frete por CEP (informativa). O valor final é recalculado no servidor ao finalizar o pedido.</summary>
-    [HttpPost("frete")]
-    [EnableRateLimiting("shipping")]
-    public async Task<IActionResult> EstimateShipping(string postalCode)
-    {
-        var (items, subtotal) = await _cart.GetShippingPackageAsync();
-        if (items.Count == 0) return Json(new { success = false, error = "Carrinho vazio." });
-        var q = await _shipping.QuoteAsync(postalCode ?? string.Empty, items, subtotal);
-        return Json(ShippingJson.From(q));
     }
 }

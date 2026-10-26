@@ -34,7 +34,7 @@ public class HomeController : Controller
         {
             "termos" => new TextPageVm { Title = "Termos de uso", Text = s.TermsText },
             "privacidade" => new TextPageVm { Title = "Política de privacidade", Text = s.PrivacyText },
-            "entrega" => new TextPageVm { Title = "Política de entrega", Text = s.ShippingPolicyText },
+            "entrega" => new TextPageVm { Title = "Política de entrega digital", Text = s.DeliveryPolicyText },
             "trocas" => new TextPageVm { Title = "Trocas e devoluções", Text = s.ReturnPolicyText },
             _ => null
         };

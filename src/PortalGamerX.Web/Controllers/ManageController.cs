@@ -23,16 +23,18 @@ public class ManageController : Controller
     private readonly IAddressService _addresses;
     private readonly IOrderService _orders;
     private readonly IPaymentService _payments;
+    private readonly IStockService _stock;
     private readonly AppDbContext _db;
 
     public ManageController(UserManager<ApplicationUser> users, SignInManager<ApplicationUser> signIn, IAddressService addresses,
-        IOrderService orders, IPaymentService payments, AppDbContext db)
+        IOrderService orders, IPaymentService payments, IStockService stock, AppDbContext db)
     {
         _users = users;
         _signIn = signIn;
         _addresses = addresses;
         _orders = orders;
         _payments = payments;
+        _stock = stock;
         _db = db;
     }
 
@@ -178,6 +180,12 @@ public class ManageController : Controller
             .FirstOrDefaultAsync(o => o.Id == id && o.UserId == UserId);
         if (order == null) return NotFound();
         ViewBag.PaymentEnabled = await _payments.IsEnabledAsync();
+        if (order.Status == OrderStatus.Delivered)
+        {
+            // Só o dono do pedido (filtro acima) vê as keys; a página nunca deve ficar em cache.
+            ViewBag.Keys = await _stock.GetDeliveredKeysAsync(order.Id, includeCode: true);
+            Response.Headers.CacheControl = "no-store";
+        }
         return View(order);
     }
 
@@ -193,7 +201,7 @@ public class ManageController : Controller
     public async Task<IActionResult> RequestCancellation(Guid id)
     {
         var r = await _orders.RequestCancellationAsync(id, UserId);
-        if (r.Success) TempData["Success"] = "Solicitação enviada. A loja analisará o cancelamento."; else TempData["Error"] = r.Error;
+        if (r.Success) TempData["Success"] = "Solicitação enviada. A loja analisará o pedido."; else TempData["Error"] = r.Error;
         return RedirectToAction(nameof(OrderDetails), new { id });
     }
 

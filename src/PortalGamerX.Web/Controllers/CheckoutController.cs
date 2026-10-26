@@ -3,7 +3,6 @@ using PortalGamerX.Services;
 using PortalGamerX.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 
 namespace PortalGamerX.Controllers;
 
@@ -43,21 +42,12 @@ public class CheckoutController : Controller
         });
     }
 
-    /// <summary>Opções de frete para o endereço (recalculadas no servidor com o carrinho atual).</summary>
-    [HttpGet("frete")]
-    [EnableRateLimiting("shipping")]
-    public async Task<IActionResult> Shipping(int addressId)
-    {
-        var q = await _checkout.QuoteShippingAsync(UserId, addressId);
-        return Json(ShippingJson.From(q));
-    }
-
     [HttpPost("")]
     public async Task<IActionResult> Place(CheckoutInput input)
     {
         if (!ModelState.IsValid || input.IdempotencyKey == Guid.Empty)
         {
-            TempData["Error"] = "Preencha o endereço e a modalidade de frete.";
+            TempData["Error"] = "Selecione o endereço de cobrança.";
             return RedirectToAction(nameof(Index));
         }
         if (!await _payments.IsEnabledAsync())
@@ -66,7 +56,7 @@ public class CheckoutController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        var result = await _checkout.PlaceOrderAsync(new PlaceOrderRequest(UserId, input.IdempotencyKey, input.AddressId, input.ShippingServiceCode, input.Notes));
+        var result = await _checkout.PlaceOrderAsync(new PlaceOrderRequest(UserId, input.IdempotencyKey, input.AddressId, input.Notes));
         if (!result.Success || result.OrderId == null)
         {
             TempData["Error"] = result.Error;

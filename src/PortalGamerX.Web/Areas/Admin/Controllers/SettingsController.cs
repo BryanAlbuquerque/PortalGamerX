@@ -19,12 +19,11 @@ public class SettingsController : AdminBaseController
     private readonly IAuditService _audit;
     private readonly IPublicUrl _url;
     private readonly IPaymentService _payments;
-    private readonly IShippingService _shipping;
     private readonly IEmailService _email;
     private readonly IFiscalService _fiscal;
 
     public SettingsController(IStoreSettingsService store, IIntegrationSettings cfg, IFileStorage storage, IAuditService audit, IPublicUrl url,
-        IPaymentService payments, IShippingService shipping, IEmailService email, IFiscalService fiscal)
+        IPaymentService payments, IEmailService email, IFiscalService fiscal)
     {
         _store = store;
         _cfg = cfg;
@@ -32,7 +31,6 @@ public class SettingsController : AdminBaseController
         _audit = audit;
         _url = url;
         _payments = payments;
-        _shipping = shipping;
         _email = email;
         _fiscal = fiscal;
     }
@@ -92,7 +90,7 @@ public class SettingsController : AdminBaseController
         return View(new VisualSettingsForm
         {
             PrimaryColor = s.PrimaryColor, SecondaryColor = s.SecondaryColor, AccentColor = s.AccentColor, FooterText = s.FooterText,
-            AboutText = s.AboutText, TermsText = s.TermsText, PrivacyText = s.PrivacyText, ShippingPolicyText = s.ShippingPolicyText,
+            AboutText = s.AboutText, TermsText = s.TermsText, PrivacyText = s.PrivacyText, DeliveryPolicyText = s.DeliveryPolicyText,
             ReturnPolicyText = s.ReturnPolicyText, LogoPath = s.LogoPath, FaviconPath = s.FaviconPath
         });
     }
@@ -130,7 +128,7 @@ public class SettingsController : AdminBaseController
             s.AboutText = f.AboutText.NullIfEmpty();
             s.TermsText = f.TermsText.NullIfEmpty();
             s.PrivacyText = f.PrivacyText.NullIfEmpty();
-            s.ShippingPolicyText = f.ShippingPolicyText.NullIfEmpty();
+            s.DeliveryPolicyText = f.DeliveryPolicyText.NullIfEmpty();
             s.ReturnPolicyText = f.ReturnPolicyText.NullIfEmpty();
             if (newLogo != null) s.LogoPath = newLogo; else if (f.RemoveLogo) s.LogoPath = null;
             if (newFavicon != null) s.FaviconPath = newFavicon; else if (f.RemoveFavicon) s.FaviconPath = null;
@@ -221,57 +219,6 @@ public class SettingsController : AdminBaseController
         return RedirectToAction(nameof(Payments));
     }
 
-    // ================= Frete =================
-    public async Task<IActionResult> Shipping() => View(await BuildShippingAsync());
-
-    private async Task<ShippingSettingsForm> BuildShippingAsync()
-    {
-        FlexibleDecimalModelBinder.TryParse(await _cfg.GetAsync(SettingKeys.ShippingFreeMinimum), out var free);
-        return new ShippingSettingsForm
-        {
-            Provider = await _cfg.GetOrDefaultAsync(SettingKeys.ShippingProvider, "None"),
-            OriginZip = Documents.FormatPostalCode(await _cfg.GetAsync(SettingKeys.ShippingOriginZip)),
-            FreeMinimum = free > 0 ? free : null,
-            HandlingDays = int.TryParse(await _cfg.GetAsync(SettingKeys.ShippingHandlingDays), out var h) ? h : 0,
-            MeEnvironment = await _cfg.GetOrDefaultAsync(SettingKeys.ShippingMeEnvironment, "sandbox"),
-            MeServices = await _cfg.GetAsync(SettingKeys.ShippingMeServices),
-            MeContactEmail = await _cfg.GetAsync(SettingKeys.ShippingMeContactEmail),
-            HasMeToken = await _cfg.HasValueAsync(SettingKeys.ShippingMeToken)
-        };
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Shipping(ShippingSettingsForm f)
-    {
-        if (f.Provider is not ("None" or "MelhorEnvio" or "Development")) ModelState.AddModelError(nameof(f.Provider), "Provedor inválido.");
-        if (!string.IsNullOrWhiteSpace(f.OriginZip) && !Documents.IsValidPostalCode(f.OriginZip)) ModelState.AddModelError(nameof(f.OriginZip), "CEP inválido.");
-        if (f.Provider != "None" && string.IsNullOrWhiteSpace(f.OriginZip)) ModelState.AddModelError(nameof(f.OriginZip), "Informe o CEP de origem.");
-        if (f.MeEnvironment is not ("sandbox" or "production")) ModelState.AddModelError(nameof(f.MeEnvironment), "Ambiente inválido.");
-        if (!string.IsNullOrWhiteSpace(f.MeServices) && !f.MeServices.All(c => char.IsDigit(c) || c == ',')) ModelState.AddModelError(nameof(f.MeServices), "Use apenas números separados por vírgula.");
-        if (!ModelState.IsValid) { f.HasMeToken = await _cfg.HasValueAsync(SettingKeys.ShippingMeToken); return View(f); }
-
-        var by = CurrentUserName;
-        await _cfg.SetAsync(SettingKeys.ShippingProvider, f.Provider, by);
-        await _cfg.SetAsync(SettingKeys.ShippingOriginZip, Documents.OnlyDigits(f.OriginZip), by);
-        await _cfg.SetAsync(SettingKeys.ShippingFreeMinimum, f.FreeMinimum?.ToString(System.Globalization.CultureInfo.InvariantCulture), by);
-        await _cfg.SetAsync(SettingKeys.ShippingHandlingDays, f.HandlingDays.ToString(), by);
-        await _cfg.SetAsync(SettingKeys.ShippingMeEnvironment, f.MeEnvironment, by);
-        await _cfg.SetAsync(SettingKeys.ShippingMeServices, f.MeServices, by);
-        await _cfg.SetAsync(SettingKeys.ShippingMeContactEmail, f.MeContactEmail, by);
-        await _cfg.SetAsync(SettingKeys.ShippingMeToken, f.MeToken, by);
-        await _audit.LogAsync("settings.shipping", details: $"provedor={f.Provider}; token alterado={!string.IsNullOrWhiteSpace(f.MeToken)}");
-        TempData["Success"] = "Configurações de frete salvas.";
-        return RedirectToAction(nameof(Shipping));
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> TestShipping()
-    {
-        var r = await _shipping.TestConnectionAsync();
-        if (r.Success) TempData["Success"] = r.Value; else TempData["Error"] = r.Error;
-        return RedirectToAction(nameof(Shipping));
-    }
-
     // ================= E-mail =================
     public async Task<IActionResult> Email() => View(await BuildEmailAsync());
 
@@ -352,9 +299,13 @@ public class SettingsController : AdminBaseController
     {
         Provider = await _cfg.GetOrDefaultAsync(SettingKeys.FiscalProvider, "None"),
         Environment = await _cfg.GetOrDefaultAsync(SettingKeys.FiscalEnvironment, "homologacao"),
-        DocumentType = await _cfg.GetOrDefaultAsync(SettingKeys.FiscalDocumentType, "NFe"),
+        DocumentType = FiscalRules.DocumentTypeNfse,
         TaxRegime = await _cfg.GetAsync(SettingKeys.FiscalTaxRegime),
         Series = await _cfg.GetAsync(SettingKeys.FiscalSeries),
+        ServiceCode = await _cfg.GetOrDefaultAsync(SettingKeys.FiscalServiceCode, FiscalRules.DefaultServiceCode),
+        MunicipalTaxCode = await _cfg.GetAsync(SettingKeys.FiscalMunicipalTaxCode),
+        Cnae = await _cfg.GetAsync(SettingKeys.FiscalCnae),
+        IssRate = FlexibleDecimalModelBinder.TryParse(await _cfg.GetAsync(SettingKeys.FiscalIssRate), out var iss) ? iss : 0m,
         HasToken = await _cfg.HasValueAsync(SettingKeys.FiscalToken),
         HasCertificatePassword = await _cfg.HasValueAsync(SettingKeys.FiscalCertificatePassword),
         ProviderConfigured = await _fiscal.IsConfiguredAsync()
@@ -364,7 +315,10 @@ public class SettingsController : AdminBaseController
     public async Task<IActionResult> Fiscal(FiscalSettingsForm f)
     {
         if (f.Environment is not ("homologacao" or "producao")) ModelState.AddModelError(nameof(f.Environment), "Ambiente inválido.");
-        if (f.DocumentType is not ("NFe" or "NFCe")) ModelState.AddModelError(nameof(f.DocumentType), "Tipo inválido.");
+        if (f.DocumentType != FiscalRules.DocumentTypeNfse) ModelState.AddModelError(nameof(f.DocumentType), "Venda de keys (licenciamento de software) usa NFS-e.");
+        if (!FiscalRules.IsValidServiceCode(f.ServiceCode)) ModelState.AddModelError(nameof(f.ServiceCode), "Use o formato 00.00 (ex.: 01.05).");
+        if (!FiscalRules.IsValidCnae(f.Cnae)) ModelState.AddModelError(nameof(f.Cnae), "O CNAE possui 7 dígitos.");
+        if (!FiscalRules.IsValidIssRate(f.IssRate)) ModelState.AddModelError(nameof(f.IssRate), "A alíquota de ISS vai de 0% a 5%.");
         if (f.Provider != "None") ModelState.AddModelError(nameof(f.Provider), "Nenhum adaptador fiscal está implementado nesta versão: mantenha \"Nenhum\".");
         if (!ModelState.IsValid)
         {
@@ -378,6 +332,10 @@ public class SettingsController : AdminBaseController
         await _cfg.SetAsync(SettingKeys.FiscalDocumentType, f.DocumentType, by);
         await _cfg.SetAsync(SettingKeys.FiscalTaxRegime, f.TaxRegime, by);
         await _cfg.SetAsync(SettingKeys.FiscalSeries, f.Series, by);
+        await _cfg.SetAsync(SettingKeys.FiscalServiceCode, f.ServiceCode, by);
+        await _cfg.SetAsync(SettingKeys.FiscalMunicipalTaxCode, f.MunicipalTaxCode, by);
+        await _cfg.SetAsync(SettingKeys.FiscalCnae, Documents.OnlyDigits(f.Cnae), by);
+        await _cfg.SetAsync(SettingKeys.FiscalIssRate, f.IssRate.ToString(System.Globalization.CultureInfo.InvariantCulture), by);
         await _cfg.SetAsync(SettingKeys.FiscalToken, f.Token, by);
         await _cfg.SetAsync(SettingKeys.FiscalCertificatePassword, f.CertificatePassword, by);
         await _audit.LogAsync("settings.fiscal", details: $"ambiente={f.Environment}; documento={f.DocumentType}");

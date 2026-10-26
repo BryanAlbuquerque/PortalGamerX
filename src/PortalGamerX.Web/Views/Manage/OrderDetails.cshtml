@@ -27,9 +27,34 @@
                 </span>
             </div>
         }
-        @if (Model.CancellationRequested && Model.Status != OrderStatus.Cancelled)
+        @if (Model.Status == OrderStatus.Paid)
         {
-            <div class="alert alert-info">Você solicitou o cancelamento deste pedido. Ele está em análise pela loja.</div>
+            <div class="alert alert-info">Pagamento aprovado! Estamos liberando as suas keys; atualize esta página em instantes.</div>
+        }
+        @if (Model.Status == OrderStatus.Delivered && ViewBag.Keys is List<DeliveredKey> keys)
+        {
+            <div class="bg-white rounded shadow-sm p-3 mb-3 border border-success">
+                <h5 class="mb-1">Suas keys</h5>
+                <p class="small text-muted">Guarde com segurança e não compartilhe. Cada key só pode ser ativada uma vez, na loja e região indicadas. Uma cópia também foi enviada ao seu e-mail.</p>
+                @foreach (var g in keys.GroupBy(k => k.JogoId))
+                {
+                    var first = g.First();
+                    <div class="mb-3">
+                        <div class="fw-semibold">@first.JogoName</div>
+                        <div class="small text-muted mb-1">Ativar em: <strong>@first.Store.Label()</strong> · Região: <strong>@first.Region.Label()</strong></div>
+                        @foreach (var k in g)
+                        {
+                            <div class="font-monospace fs-5 user-select-all border rounded px-2 py-1 mb-1 bg-light">@k.Code</div>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(first.Instructions)) { <div class="small text-pre mt-1">@first.Instructions</div> }
+                    </div>
+                }
+                @if (keys.Count == 0) { <p class="text-muted mb-0">Nenhuma key encontrada. Entre em contato com o suporte informando o número do pedido.</p> }
+            </div>
+        }
+        @if (Model.Status == OrderStatus.Cancelled && Model.PaymentStatus is PaymentStatus.Refunded or PaymentStatus.ChargedBack)
+        {
+            <div class="alert alert-secondary">Pedido cancelado e pagamento devolvido. As keys deste pedido foram invalidadas.</div>
         }
 
         <div class="row g-3">
@@ -47,7 +72,6 @@
                     <hr />
                     <div class="d-flex justify-content-between"><span>Subtotal</span><span>@Model.Subtotal.ToBrl()</span></div>
                     @if (Model.DiscountTotal > 0) { <div class="d-flex justify-content-between text-success"><span>Desconto @Model.CouponCode</span><span>- @Model.DiscountTotal.ToBrl()</span></div> }
-                    <div class="d-flex justify-content-between"><span>Frete</span><span>@(Model.ShippingTotal == 0 ? "Grátis" : Model.ShippingTotal.ToBrl())</span></div>
                     <div class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span>@Model.Total.ToBrl()</span></div>
                 </div>
                 <div class="bg-white rounded shadow-sm p-3">
@@ -62,19 +86,15 @@
             </div>
             <div class="col-lg-5">
                 <div class="bg-white rounded shadow-sm p-3 mb-3">
-                    <h6>Entrega</h6>
-                    <div class="small">
-                        @Model.ShipRecipient<br />
-                        @Model.ShipStreet, @Model.ShipNumber@(string.IsNullOrWhiteSpace(Model.ShipComplement) ? "" : " - " + Model.ShipComplement)<br />
-                        @Model.ShipDistrict · @Model.ShipCity/@Model.ShipState<br />
-                        CEP @Documents.FormatPostalCode(Model.ShipPostalCode)
-                    </div>
+                    <h6>Entrega digital</h6>
+                    <div class="small text-muted">Sem frete e sem envio: as keys são liberadas aqui e por e-mail assim que o pagamento é aprovado.</div>
                     <hr />
+                    <h6>Dados de cobrança</h6>
                     <div class="small">
-                        <div>Modalidade: @Model.ShippingServiceName @(string.IsNullOrWhiteSpace(Model.ShippingCarrier) ? "" : "(" + Model.ShippingCarrier + ")")</div>
-                        @if (Model.ShippingDeliveryDays.HasValue) { <div>Prazo estimado: @Model.ShippingDeliveryDays dia(s) úteis após o envio</div> }
-                        @if (!string.IsNullOrWhiteSpace(Model.TrackingCode)) { <div>Rastreio: <strong>@Model.TrackingCode</strong></div> }
-                        @if (Model.ShippingIsSimulated) { <div class="text-warning">Frete simulado (modo de desenvolvimento).</div> }
+                        @Model.CustomerName<br />
+                        @Model.BillingStreet, @Model.BillingNumber@(string.IsNullOrWhiteSpace(Model.BillingComplement) ? "" : " - " + Model.BillingComplement)<br />
+                        @Model.BillingDistrict · @Model.BillingCity/@Model.BillingState<br />
+                        CEP @Documents.FormatPostalCode(Model.BillingPostalCode)
                     </div>
                 </div>
                 <div class="bg-white rounded shadow-sm p-3 mb-3">
@@ -89,12 +109,6 @@
                         </div>
                     }
                 </div>
-                @if (OrderStateMachine.CustomerCanRequestCancellation(Model.Status) && !Model.CancellationRequested)
-                {
-                    <form asp-antiforgery="true" method="post" action="/conta/pedidos/@Model.Id/solicitar-cancelamento" data-confirm="Solicitar o cancelamento deste pedido?">
-                        <button class="btn btn-outline-danger btn-sm w-100" type="submit">Solicitar cancelamento</button>
-                    </form>
-                }
             </div>
         </div>
     </div>

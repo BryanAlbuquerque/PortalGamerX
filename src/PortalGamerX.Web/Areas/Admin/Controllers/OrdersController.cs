@@ -17,9 +17,11 @@ public class OrdersController : AdminBaseController
     private readonly IPaymentService _payments;
     private readonly IFiscalService _fiscal;
     private readonly IAuditService _audit;
+    private readonly IStockService _stock;
 
-    public OrdersController(AppDbContext db, IOrderService orders, IPaymentService payments, IFiscalService fiscal, IAuditService audit)
+    public OrdersController(AppDbContext db, IOrderService orders, IPaymentService payments, IFiscalService fiscal, IAuditService audit, IStockService stock)
     {
+        _stock = stock;
         _db = db;
         _orders = orders;
         _payments = payments;
@@ -57,6 +59,7 @@ public class OrdersController : AdminBaseController
             Order = order,
             FiscalDocuments = fiscalDocs,
             FiscalConfigured = await _fiscal.IsConfiguredAsync(),
+            Keys = await _stock.GetDeliveredKeysAsync(id, includeCode: false),
             AllowedTargets = OrderStateMachine.AdminTargets(order.Status).ToList(),
             CanRefund = order.Payments.Any(p => p.Status == PaymentStatus.Approved && !string.IsNullOrEmpty(p.ExternalPaymentId))
         });
@@ -66,7 +69,7 @@ public class OrdersController : AdminBaseController
     public async Task<IActionResult> ChangeStatus(ChangeStatusInput input)
     {
         if (!ModelState.IsValid) { TempData["Error"] = "Dados inválidos."; return RedirectToAction(nameof(Details), new { id = input.Id }); }
-        var r = await _orders.ChangeStatusAsync(input.Id, input.Target, input.Note, new Actor(CurrentUserId, CurrentUserName), input.TrackingCode);
+        var r = await _orders.ChangeStatusAsync(input.Id, input.Target, input.Note, new Actor(CurrentUserId, CurrentUserName));
         if (r.Success)
         {
             await _audit.LogAsync("order.status", "Order", input.Id.ToString(), $"-> {input.Target}");
@@ -74,6 +77,16 @@ public class OrdersController : AdminBaseController
         }
         else TempData["Error"] = r.Error;
         return RedirectToAction(nameof(Details), new { id = input.Id });
+    }
+
+    /// <summary>Entrega as keys de um pedido pago que ficou sem entrega (idempotente).</summary>
+    [HttpPost]
+    public async Task<IActionResult> DeliverKeys(Guid id)
+    {
+        var r = await _orders.DeliverKeysAsync(id, new Actor(CurrentUserId, CurrentUserName));
+        await _audit.LogAsync("order.deliverkeys", "Order", id.ToString(), r.Success ? "ok" : "falhou");
+        if (r.Success) TempData["Success"] = "Keys entregues ao cliente."; else TempData["Error"] = r.Error;
+        return RedirectToAction(nameof(Details), new { id });
     }
 
     [HttpPost]

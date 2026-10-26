@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using PortalGamerX.Domain.Rules;
 
 namespace PortalGamerX.Domain.Entities;
 
@@ -37,34 +36,27 @@ public class Jogo
     public decimal? PromotionalPrice { get; set; }
 
     [MaxLength(60)] public string Sku { get; set; } = string.Empty;
-    [MaxLength(60)] public string? Barcode { get; set; }
 
-    // ---- Dados do jogo ----
+    // ---- Dados do jogo / da key ----
     public GamePlatform Platform { get; set; } = GamePlatform.Outro;
-    public GameMediaType MediaType { get; set; } = GameMediaType.Disc;
+    /// <summary>Loja onde o cliente resgata a key (Steam, Epic, PlayStation Store...).</summary>
+    public ActivationStore ActivationStore { get; set; } = ActivationStore.Steam;
+    public KeyRegion Region { get; set; } = KeyRegion.Global;
     public AgeRating AgeRating { get; set; } = AgeRating.Livre;
     public DateOnly? ReleaseDate { get; set; }
-
-    // ---- Dados fiscais ----
-    /// <summary>NCM (8 dígitos). Vazio = usa o NCM padrão do tipo de mídia (<see cref="EffectiveNcm"/>).</summary>
-    [MaxLength(8)] public string? Ncm { get; set; }
-    /// <summary>CEST (7 dígitos), quando o item estiver sujeito a substituição tributária no estado.</summary>
-    [MaxLength(7)] public string? Cest { get; set; }
-    /// <summary>Origem da mercadoria (tabela da NF-e: 0 = nacional, 1 = estrangeira importação direta, 2 = estrangeira adquirida no mercado interno...).</summary>
-    public int OriginCode { get; set; }
+    /// <summary>Passo a passo de ativação exibido ao cliente junto com a key (texto simples).</summary>
+    [MaxLength(2000)] public string? ActivationInstructions { get; set; }
 
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
     public int? BrandId { get; set; }
     public Brand? Brand { get; set; }
 
+    /// <summary>
+    /// Quantidade de keys DISPONÍVEIS. É um contador mantido junto com o inventário (<see cref="GameKey"/>):
+    /// só muda ao importar, reservar, liberar ou invalidar keys.
+    /// </summary>
     public int StockQuantity { get; set; }
-
-    /// <summary>Peso em kg.</summary>
-    public decimal WeightKg { get; set; }
-    public decimal HeightCm { get; set; }
-    public decimal WidthCm { get; set; }
-    public decimal LengthCm { get; set; }
 
     public bool IsActive { get; set; } = true;
     public bool IsFeatured { get; set; }
@@ -83,9 +75,6 @@ public class Jogo
             : Price;
 
     public bool IsOnSale => EffectivePrice < Price;
-
-    /// <summary>NCM usado na emissão: o informado ou o padrão do tipo de mídia.</summary>
-    public string EffectiveNcm => string.IsNullOrWhiteSpace(Ncm) ? FiscalRules.DefaultNcm(MediaType) : Ncm;
 
     public bool IsPurchasable => IsActive && IsAvailable && StockQuantity > 0;
 }
@@ -129,4 +118,29 @@ public class StockMovement
     public Guid? UserId { get; set; }
     [MaxLength(150)] public string? UserName { get; set; }
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+/// <summary>
+/// Key de ativação (inventário). O código é CIFRADO (Data Protection); CodeHash (SHA-256) impede cadastro duplicado;
+/// CodeHint guarda só os 4 últimos caracteres para identificação no painel.
+/// </summary>
+public class GameKey
+{
+    public long Id { get; set; }
+    public int JogoId { get; set; }
+    public Jogo? Jogo { get; set; }
+
+    public string CodeEncrypted { get; set; } = string.Empty;
+    [MaxLength(64)] public string CodeHash { get; set; } = string.Empty;
+    [MaxLength(8)] public string CodeHint { get; set; } = string.Empty;
+
+    public GameKeyStatus Status { get; set; } = GameKeyStatus.Available;
+    /// <summary>Pedido ao qual a key está reservada/vendida.</summary>
+    public Guid? OrderId { get; set; }
+
+    [MaxLength(300)] public string? Note { get; set; }
+    [MaxLength(150)] public string? CreatedByName { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime? ReservedAtUtc { get; set; }
+    public DateTime? SoldAtUtc { get; set; }
 }

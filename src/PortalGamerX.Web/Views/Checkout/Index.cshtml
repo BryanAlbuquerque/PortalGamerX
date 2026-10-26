@@ -1,26 +1,24 @@
 @model CheckoutVm
 @{
     ViewData["Title"] = "Finalizar compra";
-    var baseTotal = (Model.Cart.Subtotal - Model.Cart.Discount).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
 }
 <h1 class="h3 mb-3">Finalizar compra</h1>
 @if (!Model.PaymentEnabled)
 {
     <div class="alert alert-warning">O pagamento online não está disponível no momento. Entre em contato com a loja.</div>
 }
-<form asp-antiforgery="true" method="post" action="/checkout" data-checkout data-shipping-url="/checkout/frete" data-base-total="@baseTotal" data-payment-enabled="@(Model.PaymentEnabled ? "true" : "false")">
+<form asp-antiforgery="true" method="post" action="/checkout" data-checkout data-payment-enabled="@(Model.PaymentEnabled ? "true" : "false")">
     <input type="hidden" name="IdempotencyKey" value="@Model.IdempotencyKey" />
-    <input type="hidden" name="ShippingServiceCode" value="" />
     <div class="row g-4">
         <div class="col-lg-8">
             <div class="bg-white rounded shadow-sm p-3 mb-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">1. Endereço de entrega</h5>
+                    <h5 class="mb-0">1. Dados de cobrança</h5>
                     <a href="/conta/enderecos/novo?returnUrl=/checkout" class="btn btn-outline-secondary btn-sm">Novo endereço</a>
                 </div>
                 @if (Model.Addresses.Count == 0)
                 {
-                    <p class="mt-3 mb-0 text-muted">Você ainda não tem endereços. <a href="/conta/enderecos/novo?returnUrl=/checkout">Cadastre um endereço</a> para continuar.</p>
+                    <p class="mt-3 mb-0 text-muted">Você ainda não tem endereços. <a href="/conta/enderecos/novo?returnUrl=/checkout">Cadastre o endereço de cobrança</a> para continuar. Ele é usado apenas para a nota fiscal: não há entrega física.</p>
                 }
                 else
                 {
@@ -39,8 +37,9 @@
                 }
             </div>
             <div class="bg-white rounded shadow-sm p-3 mb-3">
-                <h5>2. Frete</h5>
-                <div class="list-group" data-shipping-options><span class="text-muted">Selecione um endereço.</span></div>
+                <h5>2. Entrega digital</h5>
+                <p class="mb-1">Produto digital: <strong>não há frete nem envio</strong>. Assim que o pagamento for aprovado, suas keys de ativação aparecem em <em>Minha conta › Pedidos</em> e são enviadas para o seu e-mail.</p>
+                <p class="small text-muted mb-0">Confira a plataforma, a loja de ativação e a região de cada jogo antes de comprar: keys só funcionam na loja e na região indicadas.</p>
             </div>
             <div class="bg-white rounded shadow-sm p-3 mb-3">
                 <h5>3. Pagamento</h5>
@@ -65,8 +64,7 @@
                 {
                     <div class="d-flex justify-content-between text-success"><span>Desconto</span><span>- @Model.Cart.Discount.ToBrl()</span></div>
                 }
-                <div class="d-flex justify-content-between"><span>Frete</span><span data-shipping-total>a calcular</span></div>
-                <div class="d-flex justify-content-between fw-bold fs-5 mt-2"><span>Total</span><span data-total>@((Model.Cart.Subtotal - Model.Cart.Discount).ToBrl())</span></div>
+                <div class="d-flex justify-content-between fw-bold fs-5 mt-2"><span>Total</span><span>@((Model.Cart.Subtotal - Model.Cart.Discount).ToBrl())</span></div>
                 <div class="small text-muted mb-3">O valor final é recalculado e confirmado pelo servidor ao enviar o pedido.</div>
                 <button type="submit" class="btn btn-brand w-100 btn-lg" data-checkout-submit disabled>Pagar com Mercado Pago</button>
             </div>

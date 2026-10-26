@@ -1,28 +1,83 @@
 using PortalGamerX.Data;
 using PortalGamerX.Domain;
 using PortalGamerX.Domain.Entities;
+using PortalGamerX.Domain.Rules;
 using Microsoft.EntityFrameworkCore;
 
 namespace PortalGamerX.Services;
 
 public record StockResult(bool Success, string? Error, int? NewBalance = null);
 
+public record KeyImportResult(bool Success, string? Error, int Imported, int Duplicates, int Invalid, int RepeatedInText, int NewBalance)
+{
+    public static KeyImportResult Fail(string error) => new(false, error, 0, 0, 0, 0, 0);
+}
+
+/// <summary>Key entregue ao cliente, já decifrada, com os dados necessários para ativá-la.</summary>
+public record DeliveredKey(long KeyId, int JogoId, string JogoName, ActivationStore Store, KeyRegion Region, string? Instructions, string? Code);
+
+/// <summary>
+/// Estoque de KEYS. O saldo do jogo (<see cref="Jogo.StockQuantity"/>) é o número de keys disponíveis e só muda junto com o
+/// inventário (<see cref="GameKey"/>): importar (+), reservar (-), liberar (+) e invalidar uma key disponível (-).
+/// </summary>
 public interface IStockService
 {
-    /// <summary>Baixa atômica: só decrementa se houver saldo (UPDATE ... WHERE estoque &gt;= qtd). Deve rodar dentro de transação do pedido.</summary>
+    /// <summary>
+    /// Reserva <paramref name="quantity"/> keys para o pedido (Disponível → Reservada) de forma atômica.
+    /// Deve rodar dentro da transação do pedido; se retornar false, o chamador faz rollback.
+    /// </summary>
     Task<bool> TryReserveAsync(int jogoId, int quantity, Guid orderId, string reason);
-    Task ReleaseAsync(int jogoId, int quantity, Guid orderId, string reason);
-    Task<StockResult> AdminMoveAsync(int jogoId, StockMovementType type, int quantity, string reason, Guid? userId, string? userName);
+
+    /// <summary>Devolve ao estoque as keys ainda RESERVADAS do pedido (pedido cancelado/expirado).</summary>
+    Task ReleaseAsync(int jogoId, Guid orderId, string reason);
+
+    /// <summary>Pagamento confirmado: Reservada → Vendida. Retorna quantas keys do pedido estão vendidas (idempotente).</summary>
+    Task<int> MarkSoldAsync(Guid orderId);
+
+    /// <summary>Pedido já entregue foi reembolsado/estornado: invalida as keys vendidas (não voltam ao estoque).</summary>
+    Task<int> VoidSoldKeysAsync(Guid orderId, string reason);
+
+    /// <summary>Keys vendidas do pedido, decifradas (só para o dono do pedido ou administrador).</summary>
+    Task<List<DeliveredKey>> GetDeliveredKeysAsync(Guid orderId, bool includeCode);
+
+    Task<KeyImportResult> ImportKeysAsync(int jogoId, string? text, string? note, Guid? userId, string? userName);
+    Task<StockResult> VoidKeyAsync(long keyId, string reason, Guid? userId, string? userName);
+
+    /// <summary>Recalcula o saldo do jogo a partir das keys disponíveis (correção de divergência).</summary>
+    Task<int> RecalculateAsync(int jogoId);
 }
 
 public class StockService : IStockService
 {
     private readonly AppDbContext _db;
-    public StockService(AppDbContext db) => _db = db;
+    private readonly IKeyVault _vault;
+    private readonly ILogger<StockService> _logger;
+
+    public StockService(AppDbContext db, IKeyVault vault, ILogger<StockService> logger)
+    {
+        _db = db;
+        _vault = vault;
+        _logger = logger;
+    }
+
+    private Task<int> BalanceAsync(int jogoId) =>
+        _db.Jogos.Where(p => p.Id == jogoId).Select(p => p.StockQuantity).FirstAsync();
+
+    private Task AddMovementAsync(int jogoId, StockMovementType type, int delta, int balance, string? reason, Guid? orderId, Guid? userId, string? userName)
+    {
+        _db.StockMovements.Add(new StockMovement
+        {
+            JogoId = jogoId, Type = type, Quantity = delta, BalanceAfter = balance,
+            Reason = reason, OrderId = orderId, UserId = userId, UserName = userName ?? "sistema"
+        });
+        return _db.SaveChangesAsync();
+    }
 
     public async Task<bool> TryReserveAsync(int jogoId, int quantity, Guid orderId, string reason)
     {
         if (quantity <= 0) return false;
+
+        // 1) Baixa atômica do saldo (impede vender mais do que há em estoque, mesmo com concorrência).
         var affected = await _db.Jogos
             .Where(p => p.Id == jogoId && p.IsActive && p.IsAvailable && p.StockQuantity >= quantity)
             .ExecuteUpdateAsync(s => s
@@ -30,92 +85,178 @@ public class StockService : IStockService
                 .SetProperty(p => p.UpdatedAtUtc, DateTime.UtcNow));
         if (affected == 0) return false;
 
-        var balance = await _db.Jogos.Where(p => p.Id == jogoId).Select(p => p.StockQuantity).FirstAsync();
-        _db.StockMovements.Add(new StockMovement
+        // 2) Reserva as keys específicas (as mais antigas primeiro). SKIP LOCKED evita disputa por linhas bloqueadas.
+        var now = DateTime.UtcNow;
+        var available = (int)GameKeyStatus.Available;
+        var reserved = (int)GameKeyStatus.Reserved;
+        var count = await _db.Database.ExecuteSqlInterpolatedAsync($@"
+            UPDATE ""GameKeys""
+               SET ""Status"" = {reserved}, ""OrderId"" = {orderId}, ""ReservedAtUtc"" = {now}
+             WHERE ""Id"" IN (SELECT ""Id"" FROM ""GameKeys""
+                               WHERE ""JogoId"" = {jogoId} AND ""Status"" = {available}
+                               ORDER BY ""Id"" LIMIT {quantity}
+                               FOR UPDATE SKIP LOCKED)");
+        if (count != quantity)
         {
-            JogoId = jogoId,
-            Type = StockMovementType.OrderReservation,
-            Quantity = -quantity,
-            BalanceAfter = balance,
-            Reason = reason,
-            OrderId = orderId,
-            UserName = "sistema"
-        });
-        await _db.SaveChangesAsync();
+            // Contador e inventário divergiram: o chamador desfaz a transação inteira.
+            _logger.LogError("Divergência de estoque no jogo {Jogo}: saldo permitia {Qty} keys, mas só {Found} puderam ser reservadas.", jogoId, quantity, count);
+            return false;
+        }
+
+        var balance = await BalanceAsync(jogoId);
+        await AddMovementAsync(jogoId, StockMovementType.OrderReservation, -quantity, balance, reason, orderId, null, null);
         return true;
     }
 
-    public async Task ReleaseAsync(int jogoId, int quantity, Guid orderId, string reason)
+    public async Task ReleaseAsync(int jogoId, Guid orderId, string reason)
     {
-        if (quantity <= 0) return;
+        var n = await _db.GameKeys
+            .Where(k => k.OrderId == orderId && k.JogoId == jogoId && k.Status == GameKeyStatus.Reserved)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(k => k.Status, GameKeyStatus.Available)
+                .SetProperty(k => k.OrderId, (Guid?)null)
+                .SetProperty(k => k.ReservedAtUtc, (DateTime?)null));
+        if (n == 0) return;
+
         await _db.Jogos.Where(p => p.Id == jogoId)
             .ExecuteUpdateAsync(s => s
-                .SetProperty(p => p.StockQuantity, p => p.StockQuantity + quantity)
+                .SetProperty(p => p.StockQuantity, p => p.StockQuantity + n)
                 .SetProperty(p => p.UpdatedAtUtc, DateTime.UtcNow));
-        var balance = await _db.Jogos.Where(p => p.Id == jogoId).Select(p => p.StockQuantity).FirstAsync();
-        _db.StockMovements.Add(new StockMovement
-        {
-            JogoId = jogoId,
-            Type = StockMovementType.OrderRelease,
-            Quantity = quantity,
-            BalanceAfter = balance,
-            Reason = reason,
-            OrderId = orderId,
-            UserName = "sistema"
-        });
-        await _db.SaveChangesAsync();
+        var balance = await BalanceAsync(jogoId);
+        await AddMovementAsync(jogoId, StockMovementType.OrderRelease, n, balance, reason, orderId, null, null);
     }
 
-    /// <summary>
-    /// Entrada/Saída: <paramref name="quantity"/> é sempre positiva (o tipo define o sinal).
-    /// Ajuste: <paramref name="quantity"/> é o NOVO saldo absoluto (&gt;= 0). Motivo é obrigatório.
-    /// </summary>
-    public async Task<StockResult> AdminMoveAsync(int jogoId, StockMovementType type, int quantity, string reason, Guid? userId, string? userName)
+    public async Task<int> MarkSoldAsync(Guid orderId)
     {
-        if (string.IsNullOrWhiteSpace(reason)) return new StockResult(false, "Informe o motivo da movimentação.");
-        if (type is StockMovementType.OrderReservation or StockMovementType.OrderRelease)
-            return new StockResult(false, "Tipo de movimentação inválido.");
-
-        var current = await _db.Jogos.Where(p => p.Id == jogoId).Select(p => (int?)p.StockQuantity).FirstOrDefaultAsync();
-        if (current == null) return new StockResult(false, "Jogo não encontrado.");
-
-        int delta;
-        switch (type)
-        {
-            case StockMovementType.Entry:
-                if (quantity <= 0) return new StockResult(false, "A quantidade de entrada deve ser maior que zero.");
-                delta = quantity;
-                break;
-            case StockMovementType.Exit:
-                if (quantity <= 0) return new StockResult(false, "A quantidade de saída deve ser maior que zero.");
-                delta = -quantity;
-                break;
-            default:
-                if (quantity < 0) return new StockResult(false, "O novo saldo não pode ser negativo.");
-                delta = quantity - current.Value;
-                break;
-        }
-
-        // Atualização atômica: impede saldo negativo mesmo com concorrência.
-        var affected = await _db.Jogos
-            .Where(p => p.Id == jogoId && p.StockQuantity + delta >= 0)
+        var now = DateTime.UtcNow;
+        await _db.GameKeys
+            .Where(k => k.OrderId == orderId && k.Status == GameKeyStatus.Reserved)
             .ExecuteUpdateAsync(s => s
-                .SetProperty(p => p.StockQuantity, p => p.StockQuantity + delta)
-                .SetProperty(p => p.UpdatedAtUtc, DateTime.UtcNow));
-        if (affected == 0) return new StockResult(false, "Estoque insuficiente para esta saída.");
+                .SetProperty(k => k.Status, GameKeyStatus.Sold)
+                .SetProperty(k => k.SoldAtUtc, (DateTime?)now));
+        return await _db.GameKeys.CountAsync(k => k.OrderId == orderId && k.Status == GameKeyStatus.Sold);
+    }
 
-        var balance = await _db.Jogos.Where(p => p.Id == jogoId).Select(p => p.StockQuantity).FirstAsync();
-        _db.StockMovements.Add(new StockMovement
+    public Task<int> VoidSoldKeysAsync(Guid orderId, string reason)
+    {
+        var note = reason.Length > 300 ? reason.Substring(0, 300) : reason; // fora da expression tree (sem operador de intervalo)
+        return _db.GameKeys
+            .Where(k => k.OrderId == orderId && k.Status == GameKeyStatus.Sold)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(k => k.Status, GameKeyStatus.Void)
+                .SetProperty(k => k.Note, note));
+    }
+
+    public async Task<List<DeliveredKey>> GetDeliveredKeysAsync(Guid orderId, bool includeCode)
+    {
+        var rows = await _db.GameKeys.AsNoTracking()
+            .Where(k => k.OrderId == orderId && k.Status == GameKeyStatus.Sold)
+            .OrderBy(k => k.JogoId).ThenBy(k => k.Id)
+            .Select(k => new
+            {
+                k.Id, k.JogoId, JogoName = k.Jogo!.Name, k.Jogo.ActivationStore, k.Jogo.Region, k.Jogo.ActivationInstructions, k.CodeEncrypted
+            })
+            .ToListAsync();
+
+        return rows.Select(r => new DeliveredKey(
+            r.Id, r.JogoId, r.JogoName, r.ActivationStore, r.Region, r.ActivationInstructions,
+            includeCode ? (_vault.Unprotect(r.CodeEncrypted) ?? "[indisponível: contate o suporte]") : null)).ToList();
+    }
+
+    public async Task<KeyImportResult> ImportKeysAsync(int jogoId, string? text, string? note, Guid? userId, string? userName)
+    {
+        if (!await _db.Jogos.AnyAsync(p => p.Id == jogoId)) return KeyImportResult.Fail("Jogo não encontrado.");
+
+        var (codes, invalid, repeated) = KeyRules.Parse(text);
+        if (codes.Count == 0)
+            return KeyImportResult.Fail(invalid > 0
+                ? $"Nenhuma key válida encontrada ({invalid} linha(s) inválida(s): use 4 a {KeyRules.MaxLength} caracteres, sem espaços)."
+                : "Cole ao menos uma key (uma por linha).");
+        if (codes.Count > KeyRules.MaxPerImport)
+            return KeyImportResult.Fail($"Limite de {KeyRules.MaxPerImport} keys por importação. Divida em lotes.");
+
+        var hashes = codes.Select(KeyRules.Hash).ToList();
+        var existing = (await _db.GameKeys.AsNoTracking().Where(k => hashes.Contains(k.CodeHash)).Select(k => k.CodeHash).ToListAsync()).ToHashSet();
+
+        var cleanNote = string.IsNullOrWhiteSpace(note) ? null : (note.Trim().Length > 300 ? note.Trim()[..300] : note.Trim());
+        var toAdd = new List<GameKey>();
+        for (var i = 0; i < codes.Count; i++)
         {
-            JogoId = jogoId,
-            Type = type,
-            Quantity = delta,
-            BalanceAfter = balance,
-            Reason = reason.Trim(),
-            UserId = userId,
-            UserName = userName
-        });
-        await _db.SaveChangesAsync();
+            if (existing.Contains(hashes[i])) continue;
+            toAdd.Add(new GameKey
+            {
+                JogoId = jogoId,
+                CodeEncrypted = _vault.Protect(codes[i]),
+                CodeHash = hashes[i],
+                CodeHint = KeyRules.Hint(codes[i]),
+                Status = GameKeyStatus.Available,
+                Note = cleanNote,
+                CreatedByName = userName
+            });
+        }
+        var duplicates = codes.Count - toAdd.Count;
+        if (toAdd.Count == 0)
+            return new KeyImportResult(false, "Todas as keys informadas já estão cadastradas.", 0, duplicates, invalid, repeated, await BalanceAsync(jogoId));
+
+        await using var tx = await _db.Database.BeginTransactionAsync();
+        try
+        {
+            _db.GameKeys.AddRange(toAdd);
+            await _db.SaveChangesAsync();
+
+            await _db.Jogos.Where(p => p.Id == jogoId)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(p => p.StockQuantity, p => p.StockQuantity + toAdd.Count)
+                    .SetProperty(p => p.UpdatedAtUtc, DateTime.UtcNow));
+            var balance = await BalanceAsync(jogoId);
+            await AddMovementAsync(jogoId, StockMovementType.Entry, toAdd.Count, balance,
+                cleanNote == null ? "Importação de keys" : "Importação de keys: " + cleanNote, null, userId, userName);
+            await tx.CommitAsync();
+            return new KeyImportResult(true, null, toAdd.Count, duplicates, invalid, repeated, balance);
+        }
+        catch (DbUpdateException ex)
+        {
+            await tx.RollbackAsync();
+            _db.ChangeTracker.Clear();
+            _logger.LogWarning(ex, "Falha ao importar keys do jogo {Jogo} (provável duplicidade concorrente).", jogoId);
+            return KeyImportResult.Fail("Não foi possível importar (alguma key pode ter sido cadastrada ao mesmo tempo). Tente novamente.");
+        }
+    }
+
+    public async Task<StockResult> VoidKeyAsync(long keyId, string reason, Guid? userId, string? userName)
+    {
+        if (string.IsNullOrWhiteSpace(reason)) return new StockResult(false, "Informe o motivo da invalidação.");
+        var note = reason.Trim().Length > 300 ? reason.Trim()[..300] : reason.Trim();
+
+        var key = await _db.GameKeys.AsNoTracking().Where(k => k.Id == keyId).Select(k => new { k.Id, k.JogoId, k.Status }).FirstOrDefaultAsync();
+        if (key == null) return new StockResult(false, "Key não encontrada.");
+        if (key.Status is GameKeyStatus.Reserved) return new StockResult(false, "A key está reservada para um pedido em andamento.");
+        if (key.Status is GameKeyStatus.Void) return new StockResult(false, "A key já está invalidada.");
+
+        var wasAvailable = key.Status == GameKeyStatus.Available;
+        var n = await _db.GameKeys.Where(k => k.Id == keyId && k.Status == key.Status)
+            .ExecuteUpdateAsync(s => s.SetProperty(k => k.Status, GameKeyStatus.Void).SetProperty(k => k.Note, note));
+        if (n == 0) return new StockResult(false, "A key mudou de situação. Recarregue a página.");
+
+        int balance;
+        if (wasAvailable)
+        {
+            await _db.Jogos.Where(p => p.Id == key.JogoId)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(p => p.StockQuantity, p => p.StockQuantity - 1)
+                    .SetProperty(p => p.UpdatedAtUtc, DateTime.UtcNow));
+            balance = await BalanceAsync(key.JogoId);
+            await AddMovementAsync(key.JogoId, StockMovementType.Exit, -1, balance, "Key invalidada: " + note, null, userId, userName);
+        }
+        else balance = await BalanceAsync(key.JogoId);
         return new StockResult(true, null, balance);
+    }
+
+    public async Task<int> RecalculateAsync(int jogoId)
+    {
+        var count = await _db.GameKeys.CountAsync(k => k.JogoId == jogoId && k.Status == GameKeyStatus.Available);
+        await _db.Jogos.Where(p => p.Id == jogoId)
+            .ExecuteUpdateAsync(s => s.SetProperty(p => p.StockQuantity, count).SetProperty(p => p.UpdatedAtUtc, DateTime.UtcNow));
+        return count;
     }
 }

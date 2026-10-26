@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using PortalGamerX.Domain;
 using PortalGamerX.Domain.Entities;
+using PortalGamerX.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PortalGamerX.ViewModels;
@@ -32,15 +33,14 @@ public class JogoForm : IValidatableObject
     [Display(Name = "SKU")]
     public string Sku { get; set; } = string.Empty;
 
-    [StringLength(60)]
-    [Display(Name = "Código de barras (GTIN/EAN)")]
-    public string? Barcode { get; set; }
-
     [Display(Name = "Plataforma")]
     public GamePlatform Platform { get; set; } = GamePlatform.Outro;
 
-    [Display(Name = "Tipo de mídia")]
-    public GameMediaType MediaType { get; set; } = GameMediaType.Disc;
+    [Display(Name = "Loja de ativação da key")]
+    public ActivationStore ActivationStore { get; set; } = ActivationStore.Steam;
+
+    [Display(Name = "Região da key")]
+    public KeyRegion Region { get; set; } = KeyRegion.Global;
 
     [Display(Name = "Classificação indicativa")]
     public AgeRating AgeRating { get; set; } = AgeRating.Livre;
@@ -48,17 +48,9 @@ public class JogoForm : IValidatableObject
     [Display(Name = "Data de lançamento")]
     public DateOnly? ReleaseDate { get; set; }
 
-    [StringLength(8, MinimumLength = 8, ErrorMessage = "O NCM possui 8 dígitos.")]
-    [Display(Name = "NCM (fiscal)")]
-    public string? Ncm { get; set; }
-
-    [StringLength(7, MinimumLength = 7, ErrorMessage = "O CEST possui 7 dígitos.")]
-    [Display(Name = "CEST (se houver ST)")]
-    public string? Cest { get; set; }
-
-    [Range(0, 8, ErrorMessage = "Origem inválida (0 a 8).")]
-    [Display(Name = "Origem da mercadoria")]
-    public int OriginCode { get; set; }
+    [StringLength(2000)]
+    [Display(Name = "Como ativar (passo a passo exibido ao cliente)")]
+    public string? ActivationInstructions { get; set; }
 
     [Range(1, int.MaxValue, ErrorMessage = "Selecione a categoria.")]
     [Display(Name = "Categoria")]
@@ -66,15 +58,6 @@ public class JogoForm : IValidatableObject
 
     [Display(Name = "Publicadora")]
     public int? BrandId { get; set; }
-
-    [Range(0, 1000000, ErrorMessage = "Estoque inválido.")]
-    [Display(Name = "Estoque inicial")]
-    public int StockQuantity { get; set; }
-
-    [Range(0, 100000)] [Display(Name = "Peso (kg)")] public decimal WeightKg { get; set; }
-    [Range(0, 100000)] [Display(Name = "Altura (cm)")] public decimal HeightCm { get; set; }
-    [Range(0, 100000)] [Display(Name = "Largura (cm)")] public decimal WidthCm { get; set; }
-    [Range(0, 100000)] [Display(Name = "Comprimento (cm)")] public decimal LengthCm { get; set; }
 
     [Display(Name = "Ativo")] public bool IsActive { get; set; } = true;
     [Display(Name = "Destaque na home")] public bool IsFeatured { get; set; }
@@ -89,14 +72,12 @@ public class JogoForm : IValidatableObject
     {
         if (PromotionalPrice.HasValue && (PromotionalPrice.Value <= 0 || PromotionalPrice.Value >= Price))
             yield return new ValidationResult("O preço promocional deve ser maior que zero e menor que o preço normal.", new[] { nameof(PromotionalPrice) });
-        if (!string.IsNullOrEmpty(Ncm) && !Ncm.All(char.IsDigit))
-            yield return new ValidationResult("O NCM deve conter apenas dígitos.", new[] { nameof(Ncm) });
-        if (!string.IsNullOrEmpty(Cest) && !Cest.All(char.IsDigit))
-            yield return new ValidationResult("O CEST deve conter apenas dígitos.", new[] { nameof(Cest) });
         if (!Enum.IsDefined(Platform))
             yield return new ValidationResult("Plataforma inválida.", new[] { nameof(Platform) });
-        if (!Enum.IsDefined(MediaType))
-            yield return new ValidationResult("Tipo de mídia inválido.", new[] { nameof(MediaType) });
+        if (!Enum.IsDefined(ActivationStore))
+            yield return new ValidationResult("Loja de ativação inválida.", new[] { nameof(ActivationStore) });
+        if (!Enum.IsDefined(Region))
+            yield return new ValidationResult("Região inválida.", new[] { nameof(Region) });
         if (!Enum.IsDefined(AgeRating))
             yield return new ValidationResult("Classificação indicativa inválida.", new[] { nameof(AgeRating) });
     }
@@ -149,13 +130,14 @@ public class AdminOrderVm
     public bool FiscalConfigured { get; set; }
     public List<OrderStatus> AllowedTargets { get; set; } = new();
     public bool CanRefund { get; set; }
+    /// <summary>Keys vendidas do pedido, SEM o código (o código só é exibido por ação auditada).</summary>
+    public List<DeliveredKey> Keys { get; set; } = new();
 }
 
 public class ChangeStatusInput
 {
     public Guid Id { get; set; }
     [Required] public OrderStatus Target { get; set; }
-    [StringLength(60)] public string? TrackingCode { get; set; }
     [StringLength(500)] public string? Note { get; set; }
 }
 
@@ -197,23 +179,38 @@ public class StockListVm
     public int TotalPages { get; set; } = 1;
 }
 
-public class StockMoveForm
+public class KeyImportForm
 {
     public int JogoId { get; set; }
     public string JogoName { get; set; } = string.Empty;
     public int CurrentStock { get; set; }
 
-    [Required(ErrorMessage = "Selecione o tipo.")]
-    [Display(Name = "Tipo")]
-    public StockMovementType Type { get; set; } = StockMovementType.Entry;
+    [Required(ErrorMessage = "Cole as keys (uma por linha).")]
+    [StringLength(300000, ErrorMessage = "Texto muito grande. Divida em lotes.")]
+    [Display(Name = "Keys (uma por linha)")]
+    public string Keys { get; set; } = string.Empty;
 
-    [Range(0, 1000000, ErrorMessage = "Quantidade inválida.")]
-    [Display(Name = "Quantidade (para Ajuste: novo saldo)")]
-    public int Quantity { get; set; }
+    [StringLength(300)]
+    [Display(Name = "Observação do lote (fornecedor, nota de compra...)")]
+    public string? Note { get; set; }
+}
 
-    [Required(ErrorMessage = "Informe o motivo."), StringLength(300)]
-    [Display(Name = "Motivo")]
-    public string Reason { get; set; } = string.Empty;
+public class KeyListVm
+{
+    public Jogo Jogo { get; set; } = null!;
+    public List<GameKey> Items { get; set; } = new();
+    public GameKeyStatus? Status { get; set; }
+    public Dictionary<GameKeyStatus, int> Counts { get; set; } = new();
+    public int Page { get; set; } = 1;
+    public int TotalPages { get; set; } = 1;
+}
+
+public class KeyRevealVm
+{
+    public Jogo Jogo { get; set; } = null!;
+    public long KeyId { get; set; }
+    public string Code { get; set; } = string.Empty;
+    public Guid? OrderId { get; set; }
 }
 
 public class StockHistoryVm

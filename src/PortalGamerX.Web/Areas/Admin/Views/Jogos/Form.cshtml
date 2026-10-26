@@ -18,53 +18,43 @@
                 <div class="col-12"><label asp-for="Description" class="form-label"></label><textarea asp-for="Description" class="form-control" rows="6"></textarea><div class="form-text">Texto simples. Será exibido com escape (sem HTML).</div></div>
                 <div class="col-md-6"><label asp-for="Price" class="form-label"></label><input asp-for="Price" type="text" inputmode="decimal" class="form-control" value="@Model.Price.Dec()" /><span asp-validation-for="Price" class="text-danger small"></span></div>
                 <div class="col-md-6"><label asp-for="PromotionalPrice" class="form-label"></label><input asp-for="PromotionalPrice" type="text" inputmode="decimal" class="form-control" value="@Model.PromotionalPrice.Dec()" /><span asp-validation-for="PromotionalPrice" class="text-danger small"></span></div>
-                <div class="col-12"><hr class="my-1" /><h2 class="h6 text-muted">Dados do jogo</h2></div>
+                <div class="col-12"><hr class="my-1" /><h2 class="h6 text-muted">Dados do jogo e da key</h2></div>
                 <div class="col-md-4"><label asp-for="Platform" class="form-label"></label>
                     <select asp-for="Platform" class="form-select">
                         @foreach (var v in Enum.GetValues<GamePlatform>()) { <option value="@((int)v)" selected="@(Model.Platform == v)">@v.Label()</option> }
                     </select><span asp-validation-for="Platform" class="text-danger small"></span></div>
-                <div class="col-md-4"><label asp-for="MediaType" class="form-label"></label>
-                    <select asp-for="MediaType" class="form-select" data-media-type>
-                        @foreach (var v in Enum.GetValues<GameMediaType>()) { <option value="@((int)v)" selected="@(Model.MediaType == v)">@v.Label()</option> }
-                    </select></div>
+                <div class="col-md-4"><label asp-for="ActivationStore" class="form-label"></label>
+                    <select asp-for="ActivationStore" class="form-select">
+                        @foreach (var v in Enum.GetValues<ActivationStore>()) { <option value="@((int)v)" selected="@(Model.ActivationStore == v)">@v.Label()</option> }
+                    </select><span asp-validation-for="ActivationStore" class="text-danger small"></span></div>
+                <div class="col-md-4"><label asp-for="Region" class="form-label"></label>
+                    <select asp-for="Region" class="form-select">
+                        @foreach (var v in Enum.GetValues<KeyRegion>()) { <option value="@((int)v)" selected="@(Model.Region == v)">@v.Label()</option> }
+                    </select><span asp-validation-for="Region" class="text-danger small"></span></div>
                 <div class="col-md-4"><label asp-for="AgeRating" class="form-label"></label>
                     <select asp-for="AgeRating" class="form-select">
                         @foreach (var v in Enum.GetValues<AgeRating>()) { <option value="@((int)v)" selected="@(Model.AgeRating == v)">@v.Label()</option> }
                     </select></div>
                 <div class="col-md-4"><label asp-for="ReleaseDate" class="form-label"></label><input asp-for="ReleaseDate" type="date" class="form-control" value="@(Model.ReleaseDate?.ToString("yyyy-MM-dd"))" /><span asp-validation-for="ReleaseDate" class="text-danger small"></span></div>
                 <div class="col-md-4"><label asp-for="Sku" class="form-label"></label><input asp-for="Sku" class="form-control" maxlength="60" /><span asp-validation-for="Sku" class="text-danger small"></span></div>
-                <div class="col-md-4"><label asp-for="Barcode" class="form-label"></label><input asp-for="Barcode" class="form-control" maxlength="60" inputmode="numeric" /></div>
-                <div class="col-12"><hr class="my-1" /><h2 class="h6 text-muted">Dados fiscais</h2></div>
-                <div class="col-md-4"><label asp-for="Ncm" class="form-label"></label>
-                    <input asp-for="Ncm" class="form-control" maxlength="8" inputmode="numeric" data-ncm-input data-ncm-disc="@FiscalRules.NcmOpticalDisc" data-ncm-cartridge="@FiscalRules.NcmGameCartridge" placeholder="@FiscalRules.DefaultNcm(Model.MediaType)" />
-                    <span asp-validation-for="Ncm" class="text-danger small"></span>
-                    <div class="form-text">Vazio = padrão do tipo de mídia: disco <code>8523.49.90</code>, cartucho/game card <code>9504.50.00</code>. Confirme com seu contador.</div></div>
-                <div class="col-md-4"><label asp-for="Cest" class="form-label"></label><input asp-for="Cest" class="form-control" maxlength="7" inputmode="numeric" /><span asp-validation-for="Cest" class="text-danger small"></span>
-                    <div class="form-text">Somente se o item estiver sujeito a substituição tributária.</div></div>
-                <div class="col-md-4"><label asp-for="OriginCode" class="form-label"></label>
-                    <select asp-for="OriginCode" class="form-select">
-                        @for (var o = 0; o <= 8; o++) { <option value="@o" selected="@(Model.OriginCode == o)">@FiscalRules.OriginLabel(o)</option> }
-                    </select><span asp-validation-for="OriginCode" class="text-danger small"></span></div>
+                <div class="col-12"><label asp-for="ActivationInstructions" class="form-label"></label><textarea asp-for="ActivationInstructions" class="form-control" rows="4" maxlength="2000"></textarea>
+                    <div class="form-text">Texto simples. Aparece ao cliente junto com a key (no pedido e no e-mail). Ex.: "Abra o Steam › Jogos › Ativar um produto na Steam e cole a key."</div></div>
                 <div class="col-12"><hr class="my-1" /></div>
                 <div class="col-md-6"><label asp-for="CategoryId" class="form-label"></label>
                     <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories"><option value="0">Selecione...</option></select>
                     <span asp-validation-for="CategoryId" class="text-danger small"></span></div>
                 <div class="col-md-6"><label asp-for="BrandId" class="form-label"></label>
                     <select asp-for="BrandId" class="form-select" asp-items="Model.Brands"><option value="">Sem publicadora</option></select></div>
-                @if (!editing)
+                @if (editing)
                 {
-                    <div class="col-md-4"><label asp-for="StockQuantity" class="form-label"></label><input asp-for="StockQuantity" type="number" min="0" class="form-control" /><span asp-validation-for="StockQuantity" class="text-danger small"></span></div>
+                    <div class="col-md-6"><label class="form-label">Keys disponíveis</label>
+                        <div class="form-control-plaintext"><strong>@Model.CurrentStock</strong> — <a asp-controller="Stock" asp-action="Keys" asp-route-id="@Model.Id">gerenciar keys</a> · <a asp-controller="Stock" asp-action="Import" asp-route-id="@Model.Id">importar keys</a></div>
+                        <div class="form-text">O estoque é o número de keys disponíveis: só muda ao importar, vender ou invalidar keys.</div></div>
                 }
                 else
                 {
-                    <div class="col-md-4"><label class="form-label">Estoque atual</label>
-                        <div class="form-control-plaintext"><strong>@Model.CurrentStock</strong> — <a asp-controller="Stock" asp-action="Move" asp-route-id="@Model.Id">movimentar</a></div>
-                        <div class="form-text">O estoque só muda por movimentações registradas.</div></div>
+                    <div class="col-12"><div class="form-text">Depois de salvar, importe as keys em <em>Estoque de keys</em>: sem keys disponíveis o jogo fica indisponível para compra.</div></div>
                 }
-                <div class="col-md-2"><label asp-for="WeightKg" class="form-label"></label><input asp-for="WeightKg" type="text" inputmode="decimal" class="form-control" value="@Model.WeightKg.Dec()" /></div>
-                <div class="col-md-2"><label asp-for="HeightCm" class="form-label"></label><input asp-for="HeightCm" type="text" inputmode="decimal" class="form-control" value="@Model.HeightCm.Dec()" /></div>
-                <div class="col-md-2"><label asp-for="WidthCm" class="form-label"></label><input asp-for="WidthCm" type="text" inputmode="decimal" class="form-control" value="@Model.WidthCm.Dec()" /></div>
-                <div class="col-md-2"><label asp-for="LengthCm" class="form-label"></label><input asp-for="LengthCm" type="text" inputmode="decimal" class="form-control" value="@Model.LengthCm.Dec()" /></div>
                 <div class="col-12 d-flex flex-wrap gap-4">
                     <div class="form-check"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label"></label></div>
                     <div class="form-check"><input asp-for="IsAvailable" class="form-check-input" /><label asp-for="IsAvailable" class="form-check-label"></label></div>
@@ -109,15 +99,3 @@
         }
     </div>
 </div>
-@section Scripts {
-<script>
-(function () {
-  var media = document.querySelector('[data-media-type]');
-  var ncm = document.querySelector('[data-ncm-input]');
-  if (!media || !ncm) return;
-  media.addEventListener('change', function () {
-    ncm.placeholder = media.value === '1' ? ncm.dataset.ncmCartridge : ncm.dataset.ncmDisc;
-  });
-})();
-</script>
-}

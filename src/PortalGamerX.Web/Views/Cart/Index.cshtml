@@ -21,7 +21,7 @@ else
                         @if (!string.IsNullOrEmpty(l.ImagePath)) { <img class="cart-thumb" src="@l.ImagePath" alt="@l.Name" /> } else { <div class="cart-thumb"></div> }
                         <div class="flex-grow-1">
                             <a href="/jogo/@l.Slug" class="fw-semibold text-decoration-none">@l.Name</a>
-                            <div class="small text-muted">SKU @l.Sku · @l.UnitPrice.ToBrl() cada</div>
+                            <div class="small text-muted">@l.UnitPrice.ToBrl() cada · key digital</div>
                             @if (l.Issue != null) { <div class="small text-danger">@l.Issue</div> }
                         </div>
                         <form asp-antiforgery="true" method="post" action="/carrinho/atualizar" class="d-flex gap-1">
@@ -47,7 +47,7 @@ else
                     <div class="d-flex justify-content-between text-success"><span>Desconto (@Model.CouponCode)</span><span>- @Model.Discount.ToBrl()</span></div>
                 }
                 <div class="d-flex justify-content-between fw-bold fs-5 mt-2"><span>Total</span><span>@Model.Total.ToBrl()</span></div>
-                <div class="small text-muted">Frete calculado no checkout.</div>
+                <div class="small text-muted">Produto digital: sem frete. As keys são liberadas após o pagamento.</div>
                 <hr />
                 @if (!string.IsNullOrEmpty(Model.CouponError)) { <div class="alert alert-warning py-1 small">@Model.CouponError</div> }
                 @if (!string.IsNullOrEmpty(Model.CouponCode))
@@ -63,14 +63,6 @@ else
                         <button class="btn btn-outline-secondary" type="submit">Aplicar</button>
                     </form>
                 }
-                <form asp-antiforgery="true" method="post" action="/carrinho/frete" data-shipping-estimate class="mb-3">
-                    <label class="form-label small" for="postalCode">Estimar frete</label>
-                    <div class="input-group input-group-sm">
-                        <input id="postalCode" name="postalCode" data-mask="cep" class="form-control" placeholder="CEP" maxlength="9" inputmode="numeric" />
-                        <button class="btn btn-outline-secondary" type="submit">Calcular</button>
-                    </div>
-                    <div data-shipping-result class="mt-2"></div>
-                </form>
                 @if (Model.HasIssues)
                 {
                     <div class="alert alert-danger small">Corrija os itens com problema para continuar.</div>

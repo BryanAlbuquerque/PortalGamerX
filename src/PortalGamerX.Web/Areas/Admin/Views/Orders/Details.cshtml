@@ -8,9 +8,12 @@
     <h1 class="h3 mb-0">Pedido @o.Number</h1>
     <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
 </div>
-@if (o.CancellationRequested && o.Status != OrderStatus.Cancelled)
+@if (o.Status == OrderStatus.Paid)
 {
-    <div class="alert alert-danger">O cliente solicitou o cancelamento em @Store.Fmt(o.CancellationRequestedAtUtc, st). Analise e, se for o caso, cancele o pedido e reembolse o pagamento.</div>
+    <div class="alert alert-warning d-flex justify-content-between align-items-center">
+        <span>Pedido pago, mas as keys ainda <strong>não foram entregues</strong> (veja o histórico). Corrija o estoque de keys, se preciso, e tente novamente.</span>
+        <form asp-action="DeliverKeys" asp-route-id="@o.Id" method="post"><button class="btn btn-sm btn-warning">Entregar keys</button></form>
+    </div>
 }
 @if (o.Status == OrderStatus.Cancelled && o.PaymentStatus == PaymentStatus.Approved)
 {
@@ -36,12 +39,37 @@
                 <tfoot>
                     <tr><td colspan="4" class="text-end">Subtotal</td><td class="text-end">@o.Subtotal.ToBrl()</td></tr>
                     @if (o.DiscountTotal > 0) { <tr><td colspan="4" class="text-end">Desconto @(string.IsNullOrEmpty(o.CouponCode) ? "" : "(" + o.CouponCode + ")")</td><td class="text-end">- @o.DiscountTotal.ToBrl()</td></tr> }
-                    <tr><td colspan="4" class="text-end">Frete @(string.IsNullOrEmpty(o.ShippingServiceName) ? "" : "(" + o.ShippingCarrier + " " + o.ShippingServiceName + ")")</td><td class="text-end">@o.ShippingTotal.ToBrl()</td></tr>
                     <tr class="fw-bold"><td colspan="4" class="text-end">Total</td><td class="text-end">@o.Total.ToBrl()</td></tr>
                 </tfoot>
             </table></div>
-            @if (o.ShippingIsSimulated) { <div class="alert alert-warning small mb-0">Frete SIMULADO (ambiente de desenvolvimento): não representa uma cotação real.</div> }
         </div></div>
+
+        @if (o.Status is OrderStatus.Delivered or OrderStatus.Paid || Model.Keys.Count > 0)
+        {
+        <div class="card stat-card mb-3"><div class="card-body">
+            <h2 class="h6">Keys entregues</h2>
+            @if (Model.Keys.Count == 0) { <p class="text-muted small mb-0">Nenhuma key vendida neste pedido.</p> }
+            else
+            {
+                <div class="table-responsive"><table class="table table-sm align-middle mb-0">
+                    <thead><tr><th>Jogo</th><th>Ativação</th><th>Key</th></tr></thead>
+                    <tbody>
+                    @foreach (var k in Model.Keys)
+                    {
+                        <tr>
+                            <td>@k.JogoName</td>
+                            <td class="small">@k.Store.Label() · @k.Region.Label()</td>
+                            <td>
+                                <form asp-controller="Stock" asp-action="Reveal" method="post" data-confirm="Revelar esta key? A ação fica registrada na auditoria.">
+                                    <input type="hidden" name="keyId" value="@k.KeyId" /><button class="btn btn-sm btn-outline-secondary">Revelar key #@k.KeyId</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    </tbody></table></div>
+            }
+        </div></div>
+        }
 
         <div class="card stat-card mb-3"><div class="card-body">
             <h2 class="h6">Pagamentos</h2>
@@ -69,7 +97,7 @@
             <h2 class="h6">Documento fiscal</h2>
             @if (!Model.FiscalConfigured)
             {
-                <div class="alert alert-secondary small">A integração fiscal <strong>não está configurada</strong>: nenhum documento fiscal é emitido por este sistema. Veja Configurações &rsaquo; Fiscal.</div>
+                <div class="alert alert-secondary small">A integração fiscal <strong>não está configurada</strong>: nenhuma NFS-e é emitida por este sistema. Veja Configurações &rsaquo; Fiscal.</div>
             }
             @foreach (var d in Model.FiscalDocuments)
             {
@@ -110,10 +138,9 @@
                         <select name="Target" id="Target" class="form-select">
                             @foreach (var t in Model.AllowedTargets) { <option value="@t">@t.Label()</option> }
                         </select></div>
-                    <div class="mb-2"><label class="form-label small" for="TrackingCode">Código de rastreio (ao enviar)</label><input name="TrackingCode" id="TrackingCode" class="form-control" maxlength="60" value="@o.TrackingCode" /></div>
                     <div class="mb-2"><label class="form-label small" for="Note">Observação</label><input name="Note" id="Note" class="form-control" maxlength="500" /></div>
                     <button class="btn btn-primary btn-sm">Atualizar</button>
-                    <div class="form-text">"Pago" só é definido pela confirmação do provedor de pagamento. Cancelar devolve o estoque.</div>
+                    <div class="form-text">"Pago" e "Entregue" são automáticos após a confirmação do pagamento. Cancelar devolve as keys reservadas ao estoque.</div>
                 </form>
             }
         </div></div>
@@ -126,9 +153,9 @@
             @if (!string.IsNullOrEmpty(o.CustomerDocument)) { <div class="small">Documento: @o.CustomerDocument</div> }
             <a class="small" asp-controller="Customers" asp-action="Details" asp-route-id="@o.UserId">Ver cliente</a>
             <hr />
-            <h2 class="h6">Entrega</h2>
-            <div class="small">@o.ShipRecipient<br />@o.ShipStreet, @o.ShipNumber @o.ShipComplement<br />@o.ShipDistrict - @o.ShipCity/@o.ShipState<br />CEP @Documents.FormatPostalCode(o.ShipPostalCode)</div>
-            @if (!string.IsNullOrEmpty(o.TrackingCode)) { <div class="small mt-2">Rastreio: <strong>@o.TrackingCode</strong></div> }
+            <h2 class="h6">Cobrança (nota fiscal)</h2>
+            <div class="small">@o.BillingStreet, @o.BillingNumber @o.BillingComplement<br />@o.BillingDistrict - @o.BillingCity/@o.BillingState<br />CEP @Documents.FormatPostalCode(o.BillingPostalCode)</div>
+            <div class="small text-muted mt-1">Produto digital: sem envio.</div>
             @if (!string.IsNullOrEmpty(o.CustomerNotes)) { <hr /><h2 class="h6">Observação do cliente</h2><div class="small text-pre">@o.CustomerNotes</div> }
         </div></div>
 

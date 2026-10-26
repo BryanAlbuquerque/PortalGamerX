@@ -1,0 +1,16 @@
+@model KeyImportForm
+@{ ViewData["Title"] = "Importar keys"; }
+<h1 class="h3 mb-1">Importar keys</h1>
+<p class="text-muted">@Model.JogoName — keys disponíveis: <strong>@Model.CurrentStock</strong></p>
+<form method="post" class="card stat-card" style="max-width:720px" autocomplete="off"><div class="card-body">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="JogoId" />
+    <input type="hidden" asp-for="JogoName" />
+    <input type="hidden" asp-for="CurrentStock" />
+    <div class="mb-3"><label asp-for="Keys" class="form-label"></label>
+        <textarea asp-for="Keys" class="form-control font-monospace" rows="12" spellcheck="false" autocomplete="off" placeholder="XXXXX-XXXXX-XXXXX&#10;YYYYY-YYYYY-YYYYY"></textarea>
+        <div class="form-text">Uma key por linha (vírgula e ponto e vírgula também separam). Entre 4 e @PortalGamerX.Domain.Rules.KeyRules.MaxLength caracteres, sem espaços. Máximo de @PortalGamerX.Domain.Rules.KeyRules.MaxPerImport por importação. Keys repetidas são ignoradas (ignora maiúsculas/minúsculas e hífens).</div></div>
+    <div class="mb-3"><label asp-for="Note" class="form-label"></label><input asp-for="Note" class="form-control" maxlength="300" /></div>
+    <div class="alert alert-light border small">As keys são <strong>cifradas</strong> antes de serem gravadas e nunca aparecem em listas. Só ficam visíveis ao cliente que comprou e, de forma auditada, a administradores.</div>
+    <button class="btn btn-primary">Importar</button> <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</div></form>

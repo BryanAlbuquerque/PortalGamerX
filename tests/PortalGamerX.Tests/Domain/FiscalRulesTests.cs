@@ -6,89 +6,80 @@ namespace PortalGamerX.Tests.Domain;
 
 public class FiscalRulesTests
 {
-    [Fact]
-    public void DefaultNcm_DiscoUsa85234990()
-        => Assert.Equal("85234990", FiscalRules.DefaultNcm(GameMediaType.Disc));
+    private static readonly FiscalServiceParams Ok = new("01.05", "0105", "6209100", 2m);
 
-    [Fact]
-    public void DefaultNcm_CartuchoUsa95045000()
-        => Assert.Equal("95045000", FiscalRules.DefaultNcm(GameMediaType.Cartridge));
+    private static StoreSettings CompleteStore() => new()
+    {
+        Cnpj = "11222333000181", MunicipalRegistration = "123456", City = "São Paulo", State = "SP", PostalCode = "01001000"
+    };
 
     [Theory]
-    [InlineData("85234990", true)]
-    [InlineData("9504500", false)]
-    [InlineData("950450000", false)]
-    [InlineData("9504500A", false)]
+    [InlineData("01.05", true)]
+    [InlineData("1.05", false)]
+    [InlineData("0105", false)]
+    [InlineData("01.5", false)]
     [InlineData("", false)]
     [InlineData(null, false)]
-    public void IsValidNcm(string? ncm, bool expected) => Assert.Equal(expected, FiscalRules.IsValidNcm(ncm));
+    public void IsValidServiceCode(string? code, bool expected) => Assert.Equal(expected, FiscalRules.IsValidServiceCode(code));
 
     [Theory]
     [InlineData(null, true)]
     [InlineData("", true)]
-    [InlineData("2106400", true)]
-    [InlineData("210640", false)]
-    [InlineData("21064AB", false)]
-    public void IsValidCest(string? cest, bool expected) => Assert.Equal(expected, FiscalRules.IsValidCest(cest));
+    [InlineData("6209100", true)]
+    [InlineData("6209-1/00", true)]
+    [InlineData("62091", false)]
+    public void IsValidCnae(string? cnae, bool expected) => Assert.Equal(expected, FiscalRules.IsValidCnae(cnae));
 
     [Theory]
     [InlineData(0, true)]
-    [InlineData(8, true)]
+    [InlineData(2, true)]
+    [InlineData(5, true)]
+    [InlineData(5.01, false)]
     [InlineData(-1, false)]
-    [InlineData(9, false)]
-    public void IsValidOrigin(int origin, bool expected) => Assert.Equal(expected, FiscalRules.IsValidOrigin(origin));
-
-    [Theory]
-    [InlineData("SP", "SP", "5102")]
-    [InlineData("sp", "SP", "5102")]
-    [InlineData("SP", "RJ", "6108")]
-    [InlineData("MG", "BA", "6108")]
-    public void Cfop_VendaOnlineAConsumidorFinal(string emitente, string destino, string esperado)
-        => Assert.Equal(esperado, FiscalRules.Cfop(emitente, destino));
-
-    [Theory]
-    [InlineData(null, "SP")]
-    [InlineData("SP", null)]
-    [InlineData("", "SP")]
-    public void Cfop_SemUf_RetornaNulo(string? emitente, string? destino)
-        => Assert.Null(FiscalRules.Cfop(emitente, destino));
+    public void IsValidIssRate(double rate, bool expected) => Assert.Equal(expected, FiscalRules.IsValidIssRate((decimal)rate));
 
     [Fact]
-    public void ItemDescription_IncluiPlataforma()
+    public void IssAmount_arredonda_em_centavos()
     {
-        Assert.Equal("Jogo X - PlayStation 5", FiscalRules.ItemDescription("Jogo X", GamePlatform.PlayStation5));
-        Assert.Equal("Jogo X", FiscalRules.ItemDescription("Jogo X", GamePlatform.Outro));
+        Assert.Equal(2.00m, FiscalRules.IssAmount(100m, 2m));
+        Assert.Equal(1.67m, FiscalRules.IssAmount(83.33m, 2m));
+        Assert.Equal(0m, FiscalRules.IssAmount(-10m, 5m));
     }
 
     [Fact]
-    public void Jogo_EffectiveNcm_UsaPadraoQuandoVazio()
+    public void ItemDescription_informa_licenca_plataforma_e_loja()
     {
-        var disco = new Jogo { MediaType = GameMediaType.Disc };
-        var cartucho = new Jogo { MediaType = GameMediaType.Cartridge };
-        var manual = new Jogo { MediaType = GameMediaType.Disc, Ncm = "95045000" };
-        Assert.Equal("85234990", disco.EffectiveNcm);
-        Assert.Equal("95045000", cartucho.EffectiveNcm);
-        Assert.Equal("95045000", manual.EffectiveNcm);
+        var d = FiscalRules.ItemDescription("Jogo X", GamePlatform.PlayStation5, ActivationStore.PlayStationStore);
+        Assert.Contains("Licença de uso", d);
+        Assert.Contains("Jogo X", d);
+        Assert.Contains("PlayStation 5", d);
+        Assert.Contains("PlayStation Store", d);
+        Assert.DoesNotContain("Outra", FiscalRules.ItemDescription("Jogo X", GamePlatform.Outro, ActivationStore.Steam));
     }
 
     [Fact]
     public void CheckIssuer_ApontaPendencias()
     {
-        var vazio = FiscalRules.CheckIssuer(new StoreSettings());
-        Assert.Equal(4, vazio.Count);
-
-        var completo = FiscalRules.CheckIssuer(new StoreSettings
-        {
-            Cnpj = "11222333000181", StateRegistration = "123456789", State = "SP", PostalCode = "01001000"
-        });
-        Assert.Empty(completo);
+        var vazio = FiscalRules.CheckIssuer(new StoreSettings(), Ok);
+        Assert.Equal(5, vazio.Count); // CNPJ, IM, cidade, UF e CEP
+        Assert.Empty(FiscalRules.CheckIssuer(CompleteStore(), Ok));
     }
 
     [Fact]
-    public void CheckItem_NcmInvalido_GeraPendencia()
+    public void CheckIssuer_valida_parametros_do_servico()
     {
-        var g = new Jogo { Name = "Jogo", Ncm = "123" };
-        Assert.Single(FiscalRules.CheckItem(g), p => p.Contains("NCM"));
-        Assert.Empty(FiscalRules.CheckItem(new Jogo { Name = "Jogo" }));
+        var p = FiscalRules.CheckIssuer(CompleteStore(), new FiscalServiceParams("105", null, "12", 9m));
+        Assert.Equal(3, p.Count);
+    }
+
+    [Fact]
+    public void CheckCustomer_exige_cidade_uf_e_cep()
+    {
+        Assert.NotEmpty(FiscalRules.CheckCustomer(new Order()));
+        Assert.Empty(FiscalRules.CheckCustomer(new Order { BillingCity = "Rio de Janeiro", BillingState = "RJ", BillingPostalCode = "20040020" }));
+        Assert.Contains(FiscalRules.CheckCustomer(new Order
+        {
+            BillingCity = "Rio", BillingState = "RJ", BillingPostalCode = "20040020", CustomerDocument = "123"
+        }), x => x.Contains("CPF/CNPJ"));
     }
 }

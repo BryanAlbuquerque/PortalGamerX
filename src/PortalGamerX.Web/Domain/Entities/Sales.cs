@@ -65,30 +65,22 @@ public class Order
 
     public decimal Subtotal { get; set; }
     public decimal DiscountTotal { get; set; }
-    public decimal ShippingTotal { get; set; }
     public decimal Total { get; set; }
     [MaxLength(50)] public string? CouponCode { get; set; }
-
-    [MaxLength(60)] public string? ShippingServiceCode { get; set; }
-    [MaxLength(120)] public string? ShippingServiceName { get; set; }
-    [MaxLength(120)] public string? ShippingCarrier { get; set; }
-    public int? ShippingDeliveryDays { get; set; }
-    public bool ShippingIsSimulated { get; set; }
-    [MaxLength(60)] public string? TrackingCode { get; set; }
 
     [MaxLength(150)] public string CustomerName { get; set; } = string.Empty;
     [MaxLength(256)] public string CustomerEmail { get; set; } = string.Empty;
     [MaxLength(30)] public string? CustomerPhone { get; set; }
     [MaxLength(20)] public string? CustomerDocument { get; set; }
 
-    [MaxLength(150)] public string ShipRecipient { get; set; } = string.Empty;
-    [MaxLength(8)] public string ShipPostalCode { get; set; } = string.Empty;
-    [MaxLength(200)] public string ShipStreet { get; set; } = string.Empty;
-    [MaxLength(20)] public string ShipNumber { get; set; } = string.Empty;
-    [MaxLength(100)] public string? ShipComplement { get; set; }
-    [MaxLength(100)] public string ShipDistrict { get; set; } = string.Empty;
-    [MaxLength(100)] public string ShipCity { get; set; } = string.Empty;
-    [MaxLength(2)] public string ShipState { get; set; } = string.Empty;
+    // Endereço de cobrança (necessário para o documento fiscal: o ISS de licenciamento de software é devido no domicílio do tomador).
+    [MaxLength(8)] public string BillingPostalCode { get; set; } = string.Empty;
+    [MaxLength(200)] public string BillingStreet { get; set; } = string.Empty;
+    [MaxLength(20)] public string BillingNumber { get; set; } = string.Empty;
+    [MaxLength(100)] public string? BillingComplement { get; set; }
+    [MaxLength(100)] public string BillingDistrict { get; set; } = string.Empty;
+    [MaxLength(100)] public string BillingCity { get; set; } = string.Empty;
+    [MaxLength(2)] public string BillingState { get; set; } = string.Empty;
 
     [MaxLength(1000)] public string? CustomerNotes { get; set; }
     [MaxLength(2000)] public string? AdminNotes { get; set; }

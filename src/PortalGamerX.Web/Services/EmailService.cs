@@ -13,12 +13,14 @@ public static class EmailKinds
     public const string ResetPassword = "ResetPassword";
     public const string OrderConfirmation = "OrderConfirmation";
     public const string PaymentUpdate = "PaymentUpdate";
-    public const string ShippingUpdate = "ShippingUpdate";
+    public const string OrderUpdate = "OrderUpdate";
+    /// <summary>E-mail com as keys compradas. Obrigatório (não pode ser desligado) e marcado como sensível.</summary>
+    public const string KeysDelivered = "KeysDelivered";
     public const string AdminNewOrder = "AdminNewOrder";
 
     /// <summary>Tipos que o administrador pode ligar/desligar.</summary>
-    public static readonly string[] Optional = { OrderConfirmation, PaymentUpdate, ShippingUpdate, AdminNewOrder };
-    public static readonly string[] All = { ConfirmEmail, ResetPassword, OrderConfirmation, PaymentUpdate, ShippingUpdate, AdminNewOrder };
+    public static readonly string[] Optional = { OrderConfirmation, PaymentUpdate, OrderUpdate, AdminNewOrder };
+    public static readonly string[] All = { ConfirmEmail, ResetPassword, OrderConfirmation, PaymentUpdate, OrderUpdate, KeysDelivered, AdminNewOrder };
 
     public static string Label(string kind) => kind switch
     {
@@ -26,7 +28,8 @@ public static class EmailKinds
         ResetPassword => "Recuperação de senha",
         OrderConfirmation => "Confirmação de pedido",
         PaymentUpdate => "Atualização de pagamento",
-        ShippingUpdate => "Atualização de envio",
+        OrderUpdate => "Atualização do pedido",
+        KeysDelivered => "Entrega das keys",
         AdminNewOrder => "Aviso de novo pedido (administrador)",
         _ => kind
     };
@@ -44,19 +47,26 @@ public static class EmailTemplates
             "<p>Olá, {{CustomerName}}!</p><p>Recebemos seu pedido <strong>{{OrderNumber}}</strong> no valor de <strong>{{Total}}</strong>.</p><p>Acompanhe em: <a href=\"{{Link}}\">{{Link}}</a></p><p>O pedido só é confirmado após a aprovação do pagamento.</p>"),
         EmailKinds.PaymentUpdate => ("Pagamento do pedido {{OrderNumber}}: {{Status}}",
             "<p>Olá, {{CustomerName}}!</p><p>O pagamento do pedido <strong>{{OrderNumber}}</strong> está: <strong>{{Status}}</strong>.</p><p><a href=\"{{Link}}\">Ver pedido</a></p>"),
-        EmailKinds.ShippingUpdate => ("Atualização do pedido {{OrderNumber}}: {{Status}}",
-            "<p>Olá, {{CustomerName}}!</p><p>Seu pedido <strong>{{OrderNumber}}</strong> agora está: <strong>{{Status}}</strong>.</p><p>{{Tracking}}</p><p><a href=\"{{Link}}\">Ver pedido</a></p>"),
+        EmailKinds.OrderUpdate => ("Atualização do pedido {{OrderNumber}}: {{Status}}",
+            "<p>Olá, {{CustomerName}}!</p><p>Seu pedido <strong>{{OrderNumber}}</strong> agora está: <strong>{{Status}}</strong>.</p><p><a href=\"{{Link}}\">Ver pedido</a></p>"),
+        EmailKinds.KeysDelivered => ("Suas keys do pedido {{OrderNumber}} - {{StoreName}}",
+            "<p>Olá, {{CustomerName}}!</p><p>Pagamento aprovado! Aqui estão as keys do pedido <strong>{{OrderNumber}}</strong>:</p>{{KeysHtml}}<p>Elas também ficam disponíveis em <a href=\"{{Link}}\">Minha conta › Pedidos</a>.</p><p><strong>Guarde suas keys com segurança e não as compartilhe.</strong> Cada key só pode ser ativada uma vez, na loja e região indicadas.</p>"),
         EmailKinds.AdminNewOrder => ("Novo pedido {{OrderNumber}} ({{Total}})",
             "<p>Novo pedido <strong>{{OrderNumber}}</strong> de {{CustomerName}} no valor de {{Total}}.</p><p><a href=\"{{Link}}\">Abrir no painel</a></p>"),
         _ => ("{{StoreName}}", "<p>{{Message}}</p>")
     };
 
-    /// <summary>Substitui {{Chave}} por valores HTML-codificados. Valores desconhecidos viram vazio.</summary>
+    /// <summary>
+    /// Substitui {{Chave}} por valores HTML-codificados. Valores desconhecidos viram vazio.
+    /// Exceção: variáveis cujo nome termina em "Html" são inseridas como estão e só podem ser montadas pelo servidor
+    /// (já com cada parte codificada); nunca com texto vindo do usuário sem codificar.
+    /// </summary>
     public static string Render(string template, IReadOnlyDictionary<string, string> vars)
     {
         var result = template;
         foreach (var kv in vars)
-            result = result.Replace("{{" + kv.Key + "}}", WebUtility.HtmlEncode(kv.Value));
+            result = result.Replace("{{" + kv.Key + "}}",
+                kv.Key.EndsWith("Html", StringComparison.Ordinal) ? kv.Value : WebUtility.HtmlEncode(kv.Value));
         return System.Text.RegularExpressions.Regex.Replace(result, @"\{\{[A-Za-z]+\}\}", string.Empty);
     }
 }

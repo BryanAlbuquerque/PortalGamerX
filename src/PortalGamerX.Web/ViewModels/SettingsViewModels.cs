@@ -33,7 +33,7 @@ public class VisualSettingsForm
     [Display(Name = "Sobre nós")] public string? AboutText { get; set; }
     [Display(Name = "Termos de uso")] public string? TermsText { get; set; }
     [Display(Name = "Política de privacidade")] public string? PrivacyText { get; set; }
-    [Display(Name = "Política de entrega")] public string? ShippingPolicyText { get; set; }
+    [Display(Name = "Política de entrega digital")] public string? DeliveryPolicyText { get; set; }
     [Display(Name = "Trocas e devoluções")] public string? ReturnPolicyText { get; set; }
 
     public IFormFile? LogoFile { get; set; }
@@ -67,19 +67,6 @@ public class PaymentSettingsForm
     public string WebhookUrl { get; set; } = string.Empty;
 }
 
-public class ShippingSettingsForm
-{
-    [Display(Name = "Provedor de frete")] public string Provider { get; set; } = "None";
-    [StringLength(9)] [Display(Name = "CEP de origem")] public string? OriginZip { get; set; }
-    [Display(Name = "Frete grátis a partir de (R$) - vazio desativa")] public decimal? FreeMinimum { get; set; }
-    [Range(0, 60)] [Display(Name = "Prazo de manuseio (dias)")] public int HandlingDays { get; set; }
-    [Display(Name = "Ambiente do Melhor Envio")] public string MeEnvironment { get; set; } = "sandbox";
-    [StringLength(2000)] [Display(Name = "Token do Melhor Envio (deixe em branco para manter)")] public string? MeToken { get; set; }
-    [StringLength(100)] [Display(Name = "Serviços habilitados (IDs separados por vírgula, vazio = todos)")] public string? MeServices { get; set; }
-    [EmailAddress] [StringLength(200)] [Display(Name = "E-mail técnico de contato (exigido pelo Melhor Envio)")] public string? MeContactEmail { get; set; }
-    public bool HasMeToken { get; set; }
-}
-
 public class EmailTemplateForm
 {
     public string Kind { get; set; } = string.Empty;
@@ -107,9 +94,13 @@ public class FiscalSettingsForm
 {
     [Display(Name = "Provedor fiscal")] public string Provider { get; set; } = "None";
     [Display(Name = "Ambiente")] public string Environment { get; set; } = "homologacao";
-    [Display(Name = "Tipo de documento")] public string DocumentType { get; set; } = "NFe";
+    [Display(Name = "Tipo de documento")] public string DocumentType { get; set; } = "NFSe";
     [StringLength(60)] [Display(Name = "Regime tributário")] public string? TaxRegime { get; set; }
     [StringLength(10)] [Display(Name = "Série")] public string? Series { get; set; }
+    [Required, StringLength(5)] [Display(Name = "Item da lista de serviços (LC 116)")] public string ServiceCode { get; set; } = "01.05";
+    [StringLength(20)] [Display(Name = "Código de tributação do município")] public string? MunicipalTaxCode { get; set; }
+    [StringLength(10)] [Display(Name = "CNAE da atividade")] public string? Cnae { get; set; }
+    [Range(0, 5)] [Display(Name = "Alíquota de ISS (%)")] public decimal IssRate { get; set; }
     [StringLength(500)] [Display(Name = "Token/credencial do provedor (deixe em branco para manter)")] public string? Token { get; set; }
     [StringLength(500)] [Display(Name = "Senha do certificado (deixe em branco para manter)")] public string? CertificatePassword { get; set; }
     public bool HasToken { get; set; }

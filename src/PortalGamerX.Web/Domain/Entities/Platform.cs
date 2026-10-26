@@ -46,7 +46,7 @@ public class StoreSettings
     public string? AboutText { get; set; }
     public string? TermsText { get; set; }
     public string? PrivacyText { get; set; }
-    public string? ShippingPolicyText { get; set; }
+    public string? DeliveryPolicyText { get; set; }
     public string? ReturnPolicyText { get; set; }
 
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
@@ -86,7 +86,7 @@ public class FiscalDocument
     public int Id { get; set; }
     public Guid OrderId { get; set; }
     public Order? Order { get; set; }
-    [MaxLength(10)] public string DocumentType { get; set; } = "NFe";
+    [MaxLength(10)] public string DocumentType { get; set; } = "NFSe";
     public FiscalStatus Status { get; set; } = FiscalStatus.NotRequested;
     [MaxLength(60)] public string? Provider { get; set; }
     [MaxLength(100)] public string? ExternalReference { get; set; }

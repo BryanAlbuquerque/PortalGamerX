@@ -17,12 +17,8 @@ public class CheckoutInput
 {
     public Guid IdempotencyKey { get; set; }
 
-    [Required(ErrorMessage = "Selecione o endereço de entrega.")]
+    [Required(ErrorMessage = "Selecione o endereço de cobrança.")]
     public int AddressId { get; set; }
-
-    [Required(ErrorMessage = "Selecione a modalidade de frete.")]
-    [StringLength(60)]
-    public string ShippingServiceCode { get; set; } = string.Empty;
 
     [StringLength(1000)]
     public string? Notes { get; set; }

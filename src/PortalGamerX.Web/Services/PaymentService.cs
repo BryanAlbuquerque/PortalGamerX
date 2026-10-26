@@ -254,6 +254,9 @@ public class PaymentService : IPaymentService
             case PaymentStatus.Approved:
                 if (order.Status == OrderStatus.PendingPayment)
                     await TransitionAsync(order, OrderStatus.Paid, $"Pagamento aprovado ({providerName} #{pp.ExternalId})");
+                else if (order.Status == OrderStatus.Paid)
+                    // Já pago mas sem entrega (falha transitória na tentativa anterior): reprocessa de forma idempotente.
+                    await _orders.DeliverKeysAsync(order.Id, Actor.System);
                 else if (order.Status == OrderStatus.Cancelled && previous != PaymentStatus.Approved)
                 {
                     _logger.LogWarning("Pagamento aprovado após cancelamento do pedido {Order}.", order.Number);
@@ -265,7 +268,7 @@ public class PaymentService : IPaymentService
             case PaymentStatus.ChargedBack:
                 if (previous != pp.Status)
                 {
-                    if (order.Status is OrderStatus.Paid or OrderStatus.Processing or OrderStatus.PendingPayment)
+                    if (order.Status is OrderStatus.Paid or OrderStatus.Processing or OrderStatus.Delivered or OrderStatus.PendingPayment)
                         await TransitionAsync(order, OrderStatus.Cancelled, $"Pagamento {pp.Status.Label().ToLowerInvariant()}");
                     else
                         await AddNoteAsync(order, $"Pagamento {pp.Status.Label().ToLowerInvariant()} com o pedido já {order.Status.Label().ToLowerInvariant()}.");

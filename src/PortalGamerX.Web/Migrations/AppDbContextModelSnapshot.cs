@@ -816,66 +816,39 @@ namespace PortalGamerX.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
-                    b.Property<string>("ShipCity")
+                    b.Property<string>("BillingCity")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("ShipComplement")
+                    b.Property<string>("BillingComplement")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("ShipDistrict")
+                    b.Property<string>("BillingDistrict")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("ShipNumber")
+                    b.Property<string>("BillingNumber")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<string>("ShipPostalCode")
+                    b.Property<string>("BillingPostalCode")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("character varying(8)");
 
-                    b.Property<string>("ShipRecipient")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.Property<string>("ShipState")
+                    b.Property<string>("BillingState")
                         .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("character varying(2)");
 
-                    b.Property<string>("ShipStreet")
+                    b.Property<string>("BillingStreet")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
-
-                    b.Property<string>("ShippingCarrier")
-                        .HasMaxLength(120)
-                        .HasColumnType("character varying(120)");
-
-                    b.Property<int?>("ShippingDeliveryDays")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("ShippingIsSimulated")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("ShippingServiceCode")
-                        .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
-
-                    b.Property<string>("ShippingServiceName")
-                        .HasMaxLength(120)
-                        .HasColumnType("character varying(120)");
-
-                    b.Property<decimal>("ShippingTotal")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -889,10 +862,6 @@ namespace PortalGamerX.Migrations
                     b.Property<decimal>("Total")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)");
-
-                    b.Property<string>("TrackingCode")
-                        .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
 
                     b.Property<DateTime>("UpdatedAtUtc")
                         .HasColumnType("timestamp with time zone");
@@ -1137,6 +1106,66 @@ namespace PortalGamerX.Migrations
                     b.ToTable("PaymentTransactions");
                 });
 
+            modelBuilder.Entity("PortalGamerX.Domain.Entities.GameKey", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("CodeEncrypted")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CodeHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("CodeHint")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedByName")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<int>("JogoId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ReservedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("SoldAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CodeHash")
+                        .IsUnique();
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("JogoId", "Status");
+
+                    b.ToTable("GameKeys");
+                });
+
             modelBuilder.Entity("PortalGamerX.Domain.Entities.Jogo", b =>
                 {
                     b.Property<int>("Id")
@@ -1145,12 +1174,15 @@ namespace PortalGamerX.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AgeRating")
+                    b.Property<string>("ActivationInstructions")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<int>("ActivationStore")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Barcode")
-                        .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
+                    b.Property<int>("AgeRating")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("BrandId")
                         .HasColumnType("integer");
@@ -1161,16 +1193,8 @@ namespace PortalGamerX.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Cest")
-                        .HasMaxLength(7)
-                        .HasColumnType("character varying(7)");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
-
-                    b.Property<decimal>("HeightCm")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -1181,24 +1205,10 @@ namespace PortalGamerX.Migrations
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("boolean");
 
-                    b.Property<decimal>("LengthCm")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<int>("MediaType")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
-
-                    b.Property<string>("Ncm")
-                        .HasMaxLength(8)
-                        .HasColumnType("character varying(8)");
-
-                    b.Property<int>("OriginCode")
-                        .HasColumnType("integer");
 
                     b.Property<int>("Platform")
                         .HasColumnType("integer");
@@ -1210,6 +1220,9 @@ namespace PortalGamerX.Migrations
                     b.Property<decimal?>("PromotionalPrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)");
+
+                    b.Property<int>("Region")
+                        .HasColumnType("integer");
 
                     b.Property<DateOnly?>("ReleaseDate")
                         .HasColumnType("date");
@@ -1233,14 +1246,6 @@ namespace PortalGamerX.Migrations
 
                     b.Property<DateTime>("UpdatedAtUtc")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("WeightKg")
-                        .HasPrecision(10, 3)
-                        .HasColumnType("numeric(10,3)");
-
-                    b.Property<decimal>("WidthCm")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
 
                     b.HasKey("Id");
 
@@ -1444,7 +1449,7 @@ namespace PortalGamerX.Migrations
                         .HasMaxLength(7)
                         .HasColumnType("character varying(7)");
 
-                    b.Property<string>("ShippingPolicyText")
+                    b.Property<string>("DeliveryPolicyText")
                         .HasColumnType("text");
 
                     b.Property<string>("State")
@@ -1796,6 +1801,17 @@ namespace PortalGamerX.Migrations
                         .WithMany("Images")
                         .HasForeignKey("JogoId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Jogo");
+                });
+
+            modelBuilder.Entity("PortalGamerX.Domain.Entities.GameKey", b =>
+                {
+                    b.HasOne("PortalGamerX.Domain.Entities.Jogo", "Jogo")
+                        .WithMany()
+                        .HasForeignKey("JogoId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Jogo");

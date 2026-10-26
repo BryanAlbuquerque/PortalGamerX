@@ -5,7 +5,6 @@ using PortalGamerX.Domain.Entities;
 using PortalGamerX.Integrations.Email;
 using PortalGamerX.Integrations.Fiscal;
 using PortalGamerX.Integrations.Payments;
-using PortalGamerX.Integrations.Shipping;
 using PortalGamerX.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
@@ -82,9 +81,6 @@ public static class ServiceRegistration
             o.AddPolicy("auth", ctx => RateLimitPartition.GetFixedWindowLimiter(
                 ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown",
                 _ => new FixedWindowRateLimiterOptions { PermitLimit = 10, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
-            o.AddPolicy("shipping", ctx => RateLimitPartition.GetFixedWindowLimiter(
-                ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-                _ => new FixedWindowRateLimiterOptions { PermitLimit = 30, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
             o.AddPolicy("webhook", ctx => RateLimitPartition.GetFixedWindowLimiter(
                 ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown",
                 _ => new FixedWindowRateLimiterOptions { PermitLimit = 120, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
@@ -103,6 +99,7 @@ public static class ServiceRegistration
         services.AddScoped<IIntegrationSettings, IntegrationSettingsService>();
         services.AddScoped<IStoreSettingsService, StoreSettingsService>();
         services.AddScoped<IAuditService, AuditService>();
+        services.AddSingleton<IKeyVault, KeyVault>();
         services.AddScoped<IStockService, StockService>();
         services.AddScoped<ICouponService, CouponService>();
         services.AddScoped<ICartService, CartService>();
@@ -110,7 +107,6 @@ public static class ServiceRegistration
         services.AddScoped<ICheckoutService, CheckoutService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IPaymentService, PaymentService>();
-        services.AddScoped<IShippingService, ShippingService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IFiscalService, FiscalService>();
         services.AddScoped<ICatalogService, CatalogService>();
@@ -118,8 +114,6 @@ public static class ServiceRegistration
 
         // Integrações (contratos substituíveis)
         services.AddScoped<IPaymentProvider, MercadoPagoProvider>();
-        services.AddScoped<IShippingProvider, MelhorEnvioProvider>();
-        services.AddScoped<IShippingProvider, DevelopmentShippingProvider>();
         services.AddScoped<IEmailProvider, SmtpEmailProvider>();
         services.AddScoped<IFiscalProvider, NotConfiguredFiscalProvider>();
 
@@ -128,7 +122,6 @@ public static class ServiceRegistration
             c.BaseAddress = new Uri("https://api.mercadopago.com/");
             c.Timeout = TimeSpan.FromSeconds(20);
         });
-        services.AddHttpClient(MelhorEnvioProvider.HttpClientName, c => c.Timeout = TimeSpan.FromSeconds(20));
 
         services.AddHostedService<EmailDispatcherService>();
         services.AddHostedService<OrderExpirationService>();

@@ -64,15 +64,15 @@
     </div>
     <div class="col-lg-5">
         <div class="card stat-card h-100"><div class="card-body">
-            <h2 class="h6">Estoque baixo (até @Model.LowStockThreshold un.)</h2>
-            @if (Model.LowStock.Count == 0) { <p class="text-muted mb-0">Nenhum jogo com estoque baixo.</p> }
+            <h2 class="h6">Estoque de keys baixo (até @Model.LowStockThreshold)</h2>
+            @if (Model.LowStock.Count == 0) { <p class="text-muted mb-0">Nenhum jogo com poucas keys.</p> }
             else
             {
                 <ul class="list-group list-group-flush">
                 @foreach (var p in Model.LowStock)
                 {
                     <li class="list-group-item d-flex justify-content-between px-0">
-                        <a asp-controller="Stock" asp-action="Move" asp-route-id="@p.Id">@p.Name</a>
+                        <a asp-controller="Stock" asp-action="Import" asp-route-id="@p.Id">@p.Name</a>
                         <span class="badge text-bg-@(p.StockQuantity <= 0 ? "danger" : "warning")">@p.StockQuantity</span>
                     </li>
                 }

@@ -22,6 +22,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<JogoImage> JogoImages => Set<JogoImage>();
     public DbSet<Banner> Banners => Set<Banner>();
     public DbSet<StockMovement> StockMovements => Set<StockMovement>();
+    public DbSet<GameKey> GameKeys => Set<GameKey>();
 
     public DbSet<Cart> Carts => Set<Cart>();
     public DbSet<CartItem> CartItems => Set<CartItem>();
@@ -95,10 +96,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
             e.HasIndex(p => new { p.IsActive, p.IsFeatured });
             e.HasIndex(p => p.CategoryId);
             e.HasIndex(p => p.Platform);
-            e.Property(p => p.WeightKg).HasPrecision(10, 3);
-            e.Property(p => p.HeightCm).HasPrecision(10, 2);
-            e.Property(p => p.WidthCm).HasPrecision(10, 2);
-            e.Property(p => p.LengthCm).HasPrecision(10, 2);
             e.HasOne(p => p.Category).WithMany(c => c.Jogos).HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.Restrict);
             e.HasOne(p => p.Brand).WithMany().HasForeignKey(p => p.BrandId).OnDelete(DeleteBehavior.SetNull);
             e.ToTable(t =>
@@ -111,6 +108,15 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
         m.Entity<JogoImage>(e =>
         {
             e.HasOne(i => i.Jogo).WithMany(p => p.Images).HasForeignKey(i => i.JogoId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        m.Entity<GameKey>(e =>
+        {
+            // Restrict: nunca apagar keys em cascata (inventário e keys já entregues são registros sensíveis).
+            e.HasOne(k => k.Jogo).WithMany().HasForeignKey(k => k.JogoId).OnDelete(DeleteBehavior.Restrict);
+            e.HasIndex(k => k.CodeHash).IsUnique();
+            e.HasIndex(k => new { k.JogoId, k.Status });
+            e.HasIndex(k => k.OrderId);
         });
 
         m.Entity<StockMovement>(e =>

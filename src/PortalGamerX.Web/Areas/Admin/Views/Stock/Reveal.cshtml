@@ -1,0 +1,10 @@
+@model KeyRevealVm
+@{ ViewData["Title"] = "Key revelada"; }
+<h1 class="h3 mb-3">Key revelada</h1>
+<div class="card stat-card" style="max-width:560px"><div class="card-body">
+    <p class="mb-1 text-muted">@Model.Jogo.Name</p>
+    <p class="fs-4 font-monospace user-select-all mb-3">@Model.Code</p>
+    <div class="alert alert-warning small">Esta consulta foi registrada na auditoria. Não compartilhe a key.</div>
+    <a asp-action="Keys" asp-route-id="@Model.Jogo.Id" class="btn btn-outline-secondary">Voltar</a>
+    @if (Model.OrderId.HasValue) { <a asp-controller="Orders" asp-action="Details" asp-route-id="@Model.OrderId" class="btn btn-outline-secondary">Ver pedido</a> }
+</div></div>

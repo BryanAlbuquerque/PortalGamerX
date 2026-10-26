@@ -72,15 +72,12 @@ public class JogosController : AdminBaseController
         var slug = await UniqueSlugAsync(f.Name, null);
         var j = new Jogo { Slug = slug };
         Apply(j, f);
-        j.StockQuantity = 0;
+        j.StockQuantity = 0; // o estoque nasce das keys importadas
         _db.Jogos.Add(j);
         await _db.SaveChangesAsync();
 
-        if (f.StockQuantity > 0)
-            await _stock.AdminMoveAsync(j.Id, StockMovementType.Entry, f.StockQuantity, "Estoque inicial do cadastro", CurrentUserId, CurrentUserName);
-
         await _audit.LogAsync("jogo.create", "Jogo", j.Id.ToString(), $"{j.Sku} - {j.Name}");
-        TempData["Success"] = "Jogo criado. Agora você pode enviar as imagens.";
+        TempData["Success"] = "Jogo criado. Agora envie as imagens e importe as keys no Estoque de keys.";
         return RedirectToAction(nameof(Edit), new { id = j.Id });
     }
 
@@ -110,7 +107,7 @@ public class JogosController : AdminBaseController
 
         var oldPrice = j.Price;
         var oldPromo = j.PromotionalPrice;
-        Apply(j, f); // estoque NÃO é alterado aqui (apenas por movimentações)
+        Apply(j, f); // o estoque NÃO é alterado aqui (só por importação/venda de keys)
         await _db.SaveChangesAsync();
         await _audit.LogAsync("jogo.update", "Jogo", j.Id.ToString(),
             oldPrice != j.Price || oldPromo != j.PromotionalPrice
@@ -188,10 +185,11 @@ public class JogosController : AdminBaseController
     private static JogoForm ToForm(Jogo p) => new()
     {
         Id = p.Id, Name = p.Name, ShortDescription = p.ShortDescription, Description = p.Description, Price = p.Price,
-        PromotionalPrice = p.PromotionalPrice, Sku = p.Sku, Barcode = p.Barcode, Ncm = p.Ncm, Cest = p.Cest, OriginCode = p.OriginCode,
-        Platform = p.Platform, MediaType = p.MediaType, AgeRating = p.AgeRating, ReleaseDate = p.ReleaseDate, CategoryId = p.CategoryId, BrandId = p.BrandId,
-        StockQuantity = p.StockQuantity, CurrentStock = p.StockQuantity, WeightKg = p.WeightKg, HeightCm = p.HeightCm, WidthCm = p.WidthCm,
-        LengthCm = p.LengthCm, IsActive = p.IsActive, IsFeatured = p.IsFeatured, IsAvailable = p.IsAvailable,
+        PromotionalPrice = p.PromotionalPrice, Sku = p.Sku,
+        Platform = p.Platform, ActivationStore = p.ActivationStore, Region = p.Region, AgeRating = p.AgeRating,
+        ReleaseDate = p.ReleaseDate, ActivationInstructions = p.ActivationInstructions,
+        CategoryId = p.CategoryId, BrandId = p.BrandId, CurrentStock = p.StockQuantity,
+        IsActive = p.IsActive, IsFeatured = p.IsFeatured, IsAvailable = p.IsAvailable,
         Images = p.Images.OrderBy(i => i.SortOrder).ToList()
     };
 
@@ -204,20 +202,14 @@ public class JogosController : AdminBaseController
         p.Price = Money.Round(f.Price);
         p.PromotionalPrice = f.PromotionalPrice.HasValue ? Money.Round(f.PromotionalPrice.Value) : null;
         p.Sku = f.Sku.Trim();
-        p.Barcode = f.Barcode.NullIfEmpty();
-        p.Ncm = f.Ncm.NullIfEmpty(); // vazio = NCM padrão do tipo de mídia (Jogo.EffectiveNcm)
-        p.Cest = f.Cest.NullIfEmpty();
-        p.OriginCode = f.OriginCode;
         p.Platform = f.Platform;
-        p.MediaType = f.MediaType;
+        p.ActivationStore = f.ActivationStore;
+        p.Region = f.Region;
         p.AgeRating = f.AgeRating;
         p.ReleaseDate = f.ReleaseDate;
+        p.ActivationInstructions = f.ActivationInstructions.NullIfEmpty();
         p.CategoryId = f.CategoryId;
         p.BrandId = f.BrandId;
-        p.WeightKg = f.WeightKg;
-        p.HeightCm = f.HeightCm;
-        p.WidthCm = f.WidthCm;
-        p.LengthCm = f.LengthCm;
         p.IsActive = f.IsActive;
         p.IsFeatured = f.IsFeatured;
         p.IsAvailable = f.IsAvailable;
